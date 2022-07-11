@@ -8,7 +8,7 @@ function(GenerateArm="false",GFPIR="IRA")
     "type": "DatasetReference",
     "parameters": {
         "Host": {
-            "value": "@pipeline().parameters.TaskObject.SystemServer",
+            "value": "@pipeline().parameters.TaskObject.Source.System.SystemServer",
             "type": "Expression"
         },
         "Port": {
@@ -28,7 +28,7 @@ function(GenerateArm="false",GFPIR="IRA")
             "type": "Expression"
         },
         "Secret": {
-            "value": "@pipeline().parameters.TaskObject.SystemSecretName",
+            "value": "@pipeline().parameters.TaskObject..Source.System.SystemSecretName",
             "type": "Expression"
         },
         "TableSchema": {

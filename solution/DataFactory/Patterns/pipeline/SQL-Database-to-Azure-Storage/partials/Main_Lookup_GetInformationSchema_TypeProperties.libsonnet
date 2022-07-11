@@ -106,7 +106,7 @@ else if (SourceType=="OracleServerTable") then
     "type": "DatasetReference",
     "parameters": {
         "Host": {
-            "value": "@pipeline().parameters.TaskObject.SystemServer",
+            "value": "@pipeline().parameters.TaskObject.Source.System.SystemServer",
             "type": "Expression"
         },
         "Port": {
@@ -126,7 +126,7 @@ else if (SourceType=="OracleServerTable") then
             "type": "Expression"
         },
         "Secret": {
-            "value": "@pipeline().parameters.TaskObject.SystemSecretName",
+            "value": "@pipeline().parameters.TaskObject.Source.System.SystemSecretName",
             "type": "Expression"
         },
         "TableSchema": {

@@ -54,4 +54,6 @@ inputs = {
   synapse_git_repository_root_folder = "/Synapse"
   synapse_git_use_pat = false
   synapse_git_pat = ""
+
+  
 } 

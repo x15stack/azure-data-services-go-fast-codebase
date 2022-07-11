@@ -67,6 +67,9 @@ namespace FunctionApp.Functions
         private readonly IAzureAuthenticationProvider _authProvider;
         private readonly DataFactoryClientFactory _dataFactoryClientFactory;
         private readonly AzureSynapseService _azureSynapseService;
+        private readonly MicrosoftAzureServicesAppAuthenticationProvider _microsoftAzureServicesAppAuthenticationProvider;
+        private readonly KeyVaultService _keyVaultService;
+        private readonly PowerBIService _powerBIService;
         public string HeartBeatFolder { get; set; }
 
 
@@ -75,7 +78,10 @@ namespace FunctionApp.Functions
             IOptions<ApplicationOptions> options, 
             IAzureAuthenticationProvider authProvider, 
             DataFactoryClientFactory dataFactoryClientFactory,
-            AzureSynapseService azureSynapseService)
+            AzureSynapseService azureSynapseService,
+            MicrosoftAzureServicesAppAuthenticationProvider microsoftAzureServicesAppAuthenticationProvider,
+            KeyVaultService keyVaultService,
+            PowerBIService powerBIService)
         {
             _sap = sap;
             _taskMetaDataDatabase = taskMetaDataDatabase;
@@ -83,6 +89,9 @@ namespace FunctionApp.Functions
             _authProvider = authProvider;
             _dataFactoryClientFactory = dataFactoryClientFactory;
             _azureSynapseService = azureSynapseService;
+            _microsoftAzureServicesAppAuthenticationProvider = microsoftAzureServicesAppAuthenticationProvider;
+            _keyVaultService = keyVaultService;
+            _powerBIService = powerBIService;
         }
 
         [FunctionName("RunFrameworkTasksHttpTrigger")]
@@ -215,6 +224,36 @@ namespace FunctionApp.Functions
                                         var synapseSQLPoolName = task["TMOptionals"]["SQLPoolName"].ToString();
                                         var poolOperation = task["TMOptionals"]["SQLPoolOperation"].ToString();
                                         await _azureSynapseService.StartStopSynapseSqlPool(subscriptionId, resourceGroup, synapseWorkspaceName, synapseSQLPoolName, poolOperation, logging);
+                                        if (completeCheck)
+                                        {
+                                            var completemsg = $"Sucessfully completed {pipelineName} and SynapseSQLPool {synapseSQLPoolName} has been {poolOperation}";
+                                            await _taskMetaDataDatabase.LogTaskInstanceCompletion(System.Convert.ToInt64(taskInstanceId), logging.DefaultActivityLogItem.ExecutionUid.Value, TaskInstance.TaskStatus.Complete, System.Guid.Empty, completemsg);
+                                        }
+                                        break;
+                                    case bool _ when Regex.IsMatch(pipelineName, @"PowerBI_Dataflow_Refresh.*"):
+                                        //Secret name - Source
+                                        //Secret ID - Source
+                                        //Tenant ID  - able to get from function app or Source
+                                        //Dataflow ID - TaskMaster
+                                        //Workspace ID - TaskMaster
+                                        var ClientId = task["Source"]["System"]["ClientId"].ToString();
+                                        var ClientSecretName = task["Source"]["System"]["ClientSecretName"].ToString();
+                                        var TenantId = "";
+                                        //if it exists then we insert our value otherwise pass empty string value that is replaced by TenantId within function app.
+                                        if (task["Source"]?["System"]?["TenantId"] != null)
+                                        {
+                                            TenantId = task["Source"]["System"]["TenantId"].ToString();
+                                        }
+                                        var DataflowName = task["TMOptionals"]["DataflowName"].ToString();
+                                        var WorkspaceId = task["TMOptionals"]["WorkspaceId"].ToString();
+                                        var KeyVaultURL = task["KeyVaultBaseUrl"].ToString();
+
+                                        await _powerBIService.RefreshDataflow(ClientId, ClientSecretName, TenantId, DataflowName, WorkspaceId, KeyVaultURL, logging);
+                                        if (completeCheck)
+                                        {
+                                            var completemsg = $"Sucessfully completed {pipelineName} and {DataflowName} in the workspace {WorkspaceId} has been refreshed";
+                                            await _taskMetaDataDatabase.LogTaskInstanceCompletion(System.Convert.ToInt64(taskInstanceId), logging.DefaultActivityLogItem.ExecutionUid.Value, TaskInstance.TaskStatus.Complete, System.Guid.Empty, completemsg);
+                                        }
                                         break;
                                     default:
                                         var msg = $"Could not find execution path for Task Type of {pipelineName} and Execution Type of {task["TaskExecutionType"]}";
@@ -223,11 +262,7 @@ namespace FunctionApp.Functions
                                         completeCheck = false;
                                         break;
                                 }
-                                if (completeCheck)
-                                {
-                                    var completemsg = $"Sucessfully completed {pipelineName} and Execution Type of {task["TaskExecutionType"]}";
-                                    await _taskMetaDataDatabase.LogTaskInstanceCompletion(System.Convert.ToInt64(taskInstanceId), logging.DefaultActivityLogItem.ExecutionUid.Value, TaskInstance.TaskStatus.Complete, System.Guid.Empty, completemsg);
-                                }
+
                             }
                         }
                         catch (Exception taskException)
