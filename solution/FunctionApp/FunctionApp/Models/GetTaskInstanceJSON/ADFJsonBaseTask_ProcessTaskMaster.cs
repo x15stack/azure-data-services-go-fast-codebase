@@ -239,7 +239,7 @@ namespace FunctionApp.Models.GetTaskInstanceJSON
             }
             var _instance = Extraction["Instance"];
 
-            string sourceType = Extraction["SourceType"].ToString();
+            string sourceType = Extraction["System"]["Type"].ToString();
             string templateFile = "";
 
             Dictionary<string, string> sqlParams = new Dictionary<string, string>
@@ -362,7 +362,7 @@ namespace FunctionApp.Models.GetTaskInstanceJSON
             JToken chunkField = (string)Extraction["ChunkField"];
             JToken tableSchema = Extraction["TableSchema"];
             JToken tableName = Extraction["TableName"];
-            string sourceType = Extraction["SourceType"].ToString();
+            string sourceType = Extraction["System"]["Type"].ToString();
 
             string extractionSql = JsonHelpers.GetStringValueFromJson(_logging, "ExtractionSQL", Extraction, "", false);
             string templateFile = "";
@@ -499,7 +499,7 @@ namespace FunctionApp.Models.GetTaskInstanceJSON
             }
         sqlStatement = GenerateSqlStatementTemplates.GetSql(System.IO.Path.Combine(EnvironmentHelper.GetWorkingFolder(), _appOptions.LocalPaths.SQLTemplateLocation), "CreateSQLStatement_" + templateFile + "_" + SqlTemplateLanguage, sqlParams);
         EndOfSQLStatementSet:
-            return sqlStatement;
+        return sqlStatement;
         }
 
 

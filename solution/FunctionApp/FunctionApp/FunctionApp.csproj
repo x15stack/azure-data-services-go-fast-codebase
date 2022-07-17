@@ -103,6 +103,72 @@
     <None Update="DataAccess\KqlTemplates\GetSynapsePipelineRuns.kql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="DataAccess\SqlTemplates\CreateIncrementalSQLStatement_WatermarkDateTime_Chunk_OracleServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateIncrementalSQLStatement_WatermarkDateTime_OracleServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateIncrementalSQLStatement_WatermarkDateTime_Chunk_SqlServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateIncrementalSQLStatement_Watermark_OracleServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateIncrementalSQLStatement_Watermark_Chunk_OracleServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateIncrementalSQLStatement_WatermarkDateTime_SqlServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateIncrementalSQLStatement_Watermark_SqlServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateIncrementalSQLStatement_Watermark_Chunk_SqlServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateIncrementalSQLStatement_Full_Chunk_SqlServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateSQLStatement_Full_Chunk_OracleServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateSQLStatement_Full_Chunk_SqlServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateIncrementalSQLStatement_Full_Chunk_OracleServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateSQLStatement_WatermarkBigInt_Chunk_OracleServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateSQLStatement_WatermarkBigInt_Chunk_SqlServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateSQLStatement_WatermarkBigInt_SqlServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateSQLStatement_WatermarkBigInt_OracleServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateSQLStatement_WatermarkDateTime_Chunk_OracleServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateSQLStatement_WatermarkDateTime_Chunk_SqlServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateSQLStatement_WatermarkDateTime_SqlServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateSQLStatement_WatermarkDateTime_OracleServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateSQLStatement_Full_SqlServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataAccess\SqlTemplates\CreateSQLStatement_Full_OracleServer.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="DataAccess\SqlTemplates\GetInformationSchema_SqlServer.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

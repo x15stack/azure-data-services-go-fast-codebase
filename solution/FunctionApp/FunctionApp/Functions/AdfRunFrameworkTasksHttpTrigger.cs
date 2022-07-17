@@ -489,7 +489,7 @@ namespace FunctionApp.Functions
                     logging.DefaultActivityLogItem.TaskInstanceId = taskInstanceJson.TaskInstanceId;
                     logging.DefaultActivityLogItem.TaskMasterId = taskInstanceJson.TaskMasterId;
 
-                    AdfJsonBaseTask T =  new AdfJsonBaseTask(taskInstanceJson, logging);
+                    AdfJsonBaseTask T =  new AdfJsonBaseTask(taskInstanceJson, logging, _options);
                     //Set the base properties using data stored in non-json columns of the database
                     T.CreateJsonObjectForAdf(ExecutionUid);
                     JObject root = await T.ProcessRoot(ttMappingProvider, systemSchemas, engineSchemas);

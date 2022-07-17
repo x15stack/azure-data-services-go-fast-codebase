@@ -12,7 +12,8 @@ using FunctionApp.Helpers;
 using FunctionApp.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
+using Microsoft.Extensions.Options;
+using FunctionApp.Models.Options;
 namespace FunctionApp.Models.GetTaskInstanceJSON
 {
    
@@ -33,9 +34,10 @@ namespace FunctionApp.Models.GetTaskInstanceJSON
 
         public bool TaskIsValid { get; private set; }
 
-        public AdfJsonBaseTask(GetTaskInstanceJsonResult T, Logging.Logging logging)
+        public AdfJsonBaseTask(GetTaskInstanceJsonResult T, Logging.Logging logging, IOptions<ApplicationOptions> appOptions)
         {
             this._logging = logging;
+            this._appOptions = appOptions.Value;
             foreach (PropertyInfo sourcePropertyInfo in T.GetType()
                                 .GetProperties(
                                         BindingFlags.Public
