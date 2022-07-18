@@ -172,8 +172,8 @@ namespace FunctionApp.Models.GetTaskInstanceJSON
                 ["SystemServer"] = this.SourceSystemServer,
                 ["AuthenticationType"] = this.SourceSystemAuthType,
                 ["Type"] = this.SourceSystemType,
-                ["Username"] = this.SourceSystemUserName
-
+                ["Username"] = this.SourceSystemUserName,
+                ["SecretName"] = this.SourceSystemSecretName
             };
 
             //Validate SourceSystemJson based on JSON Schema
@@ -213,8 +213,8 @@ namespace FunctionApp.Models.GetTaskInstanceJSON
                 ["SystemServer"] = this.TargetSystemServer,
                 ["AuthenticationType"] = this.TargetSystemAuthType,
                 ["Type"] = this.TargetSystemType,
-                ["Username"] = this.SourceSystemUserName
-
+                ["Username"] = this.TargetSystemUserName,
+                ["SecretName"] = this.TargetSystemSecretName
             };
 
             //Validate TargetSystemJson based on JSON Schema

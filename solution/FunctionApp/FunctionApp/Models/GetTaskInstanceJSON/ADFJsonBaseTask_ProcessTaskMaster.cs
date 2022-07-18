@@ -371,8 +371,8 @@ namespace FunctionApp.Models.GetTaskInstanceJSON
             string templateFile = "";
             Dictionary<string, string> sqlParams = new Dictionary<string, string>
             {
-                { "tableName", tableSchema.ToString() },
-                { "tableSchema", tableName.ToString() },
+                { "tableName", tableName.ToString() },
+                { "tableSchema", tableSchema.ToString() },
                 { "incrementalField", incrementalField.ToString() }
             };
 

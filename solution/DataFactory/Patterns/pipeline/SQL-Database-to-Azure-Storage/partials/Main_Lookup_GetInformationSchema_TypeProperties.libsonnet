@@ -118,7 +118,7 @@ else if (SourceType=="OracleServerTable") then
             "type": "Expression"
         },
         "UserName": {
-            "value": "@pipeline().parameters.TaskObject.UserName",
+            "value": "@pipeline().parameters.TaskObject.Source.System.Username",
             "type": "Expression"
         },
         "KeyVaultBaseUrl": {
@@ -126,7 +126,7 @@ else if (SourceType=="OracleServerTable") then
             "type": "Expression"
         },
         "Secret": {
-            "value": "@pipeline().parameters.TaskObject.Source.System.SystemSecretName",
+            "value": "@pipeline().parameters.TaskObject.Source.System.SecretName",
             "type": "Expression"
         },
         "TableSchema": {

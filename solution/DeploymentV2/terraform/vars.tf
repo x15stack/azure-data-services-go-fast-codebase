@@ -354,7 +354,17 @@ variable "publish_web_app_addcurrentuserasadmin" {
   type        = bool
 }
 
+variable "publish_sif_database" {
+  description = "Feature toggle for Publishing SIF Database"
+  default     = false
+  type        = bool
+}
 
+variable "sif_database_name" {
+  description = "SIF DataMart Name"
+  default     = "sif"
+  type        = string
+}
 
 #---------------------------------------------------------------
 # Naming Prefix Settings
@@ -668,7 +678,7 @@ variable "synapse_spark_min_node_count" {
 
 variable "synapse_spark_max_node_count" {
   description = "The maximum number of spark nodes in the autoscale pool"
-  default     = 3
+  default     = 12
   type        = number
 }
 

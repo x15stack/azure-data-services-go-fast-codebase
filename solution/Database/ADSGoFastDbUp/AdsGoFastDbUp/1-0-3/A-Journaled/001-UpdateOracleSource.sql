@@ -19,7 +19,7 @@ UPDATE [dbo].[SourceAndTargetSystems]
 
 SET SystemServer = 'localhost'
 	,SystemKeyVaultBaseUrl = 'https://$KeyVaultName$.vault.azure.net/'
-	,SystemJSON = '{  "ServiceName" : "orcltest.igh42ivyqpoujg1qj3le2itzzf.px.internal.cloudapp.net" , "Port" : "1521"  , "PasswordKeyVaultSecretName":"oracleserverpword"   }'
+	,SystemJSON = '{  "ServiceName" : "orcltest.igh42ivyqpoujg1qj3le2itzzf.px.internal.cloudapp.net" , "Port" : "1521"    }'
 	,SystemUserName = 'testuser'
 	,SystemSecretName = 'oracleserverpword'
 WHERE SystemId = '-13'

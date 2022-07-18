@@ -175,7 +175,7 @@ namespace FunctionApp.Functions
                             if (task["TaskExecutionType"].ToString() == "ADF")
                             {
                                 //The "SystemType" is used for calling the appropriate execution engine to manage the pipeline as required. This is to future proof any future execution engines that microsoft may add. Allows for expansion and contraction as required.
-                                switch(task["ExecutionEngine"]["SystemType"].ToString())
+                                switch (task["ExecutionEngine"]["SystemType"].ToString())
                                 {
                                     case "Datafactory":
                                         await RunAzureDataFactoryPipeline(logging, pipelineName, pipelineParams, task);
@@ -213,57 +213,10 @@ namespace FunctionApp.Functions
                             }
                             else if (task["TaskExecutionType"].ToString() == "DLL")
                             {
-                                var completeCheck = true;
-                                switch (true)
-                                {
-                                    //We want to check whether the pipelineName matches, however it can include several different IR's as subsequent value on the pipeline name. Regex allows to ignore the end of the string for the checking.
-                                    case bool _ when Regex.IsMatch(pipelineName, @"Synapse_SQLPool_Start_Stop.*"):
-                                        var subscriptionId = task["ExecutionEngine"]["SubscriptionId"].ToString();
-                                        var resourceGroup = task["ExecutionEngine"]["ResourceGroup"].ToString();
-                                        var synapseWorkspaceName = task["Target"]["System"]["Workspace"].ToString();
-                                        var synapseSQLPoolName = task["TMOptionals"]["SQLPoolName"].ToString();
-                                        var poolOperation = task["TMOptionals"]["SQLPoolOperation"].ToString();
-                                        await _azureSynapseService.StartStopSynapseSqlPool(subscriptionId, resourceGroup, synapseWorkspaceName, synapseSQLPoolName, poolOperation, logging);
-                                        if (completeCheck)
-                                        {
-                                            var completemsg = $"Sucessfully completed {pipelineName} and SynapseSQLPool {synapseSQLPoolName} has been {poolOperation}";
-                                            await _taskMetaDataDatabase.LogTaskInstanceCompletion(System.Convert.ToInt64(taskInstanceId), logging.DefaultActivityLogItem.ExecutionUid.Value, TaskInstance.TaskStatus.Complete, System.Guid.Empty, completemsg);
-                                        }
-                                        break;
-                                    case bool _ when Regex.IsMatch(pipelineName, @"PowerBI_Dataflow_Refresh.*"):
-                                        //Secret name - Source
-                                        //Secret ID - Source
-                                        //Tenant ID  - able to get from function app or Source
-                                        //Dataflow ID - TaskMaster
-                                        //Workspace ID - TaskMaster
-                                        var ClientId = task["Source"]["System"]["ClientId"].ToString();
-                                        var ClientSecretName = task["Source"]["System"]["ClientSecretName"].ToString();
-                                        var TenantId = "";
-                                        //if it exists then we insert our value otherwise pass empty string value that is replaced by TenantId within function app.
-                                        if (task["Source"]?["System"]?["TenantId"] != null)
-                                        {
-                                            TenantId = task["Source"]["System"]["TenantId"].ToString();
-                                        }
-                                        var DataflowName = task["TMOptionals"]["DataflowName"].ToString();
-                                        var WorkspaceId = task["TMOptionals"]["WorkspaceId"].ToString();
-                                        var KeyVaultURL = task["KeyVaultBaseUrl"].ToString();
 
-                                        await _powerBIService.RefreshDataflow(ClientId, ClientSecretName, TenantId, DataflowName, WorkspaceId, KeyVaultURL, logging);
-                                        if (completeCheck)
-                                        {
-                                            var completemsg = $"Sucessfully completed {pipelineName} and {DataflowName} in the workspace {WorkspaceId} has been refreshed";
-                                            await _taskMetaDataDatabase.LogTaskInstanceCompletion(System.Convert.ToInt64(taskInstanceId), logging.DefaultActivityLogItem.ExecutionUid.Value, TaskInstance.TaskStatus.Complete, System.Guid.Empty, completemsg);
-                                        }
-                                        break;
-                                    default:
-                                        var msg = $"Could not find execution path for Task Type of {pipelineName} and Execution Type of {task["TaskExecutionType"]}";
-                                        logging.LogErrors(new Exception(msg));
-                                        await _taskMetaDataDatabase.LogTaskInstanceCompletion(taskInstanceId, logging.DefaultActivityLogItem.ExecutionUid.Value, TaskInstance.TaskStatus.FailedNoRetry, Guid.Empty, msg);
-                                        completeCheck = false;
-                                        break;
-                                }
-
-                            }
+                                await RunDLLTask(logging, pipelineName, task);
+                            }   
+                            
                         }
                         catch (Exception taskException)
                         {
@@ -402,7 +355,59 @@ namespace FunctionApp.Functions
             }
             //To Do // Batch to make less "chatty"
             //To Do // Upgrade to stored procedure call
-        } 
+        }
+
+        private async Task RunDLLTask(Logging.Logging logging, string pipelineName, JObject task)
+        {
+            var taskInstanceId = Convert.ToInt64(task["TaskInstanceId"]);
+            using var con = await _taskMetaDataDatabase.GetSqlConnection();
+            await con.ExecuteAsync(SqlInsertTaskInstanceExecution, new
+            {
+                ExecutionUid = Guid.Parse(logging.DefaultActivityLogItem.ExecutionUid.ToString()),
+                TaskInstanceId = taskInstanceId,
+                EngineID = Convert.ToInt64(task["ExecutionEngine"]["EngineId"]),
+                PipelineName = pipelineName,
+                AdfRunUid = Guid.Parse(logging.DefaultActivityLogItem.ExecutionUid.ToString()),
+                StartDateTime = DateTimeOffset.UtcNow,
+                Status = "InProgress",
+                Comment = ""
+            }).ConfigureAwait(false);
+
+            var completeCheck = true;
+            switch (true)
+            {
+
+                //We want to check whether the pipelineName matches, however it can include several different IR's as subsequent value on the pipeline name. Regex allows to ignore the end of the string for the checking.
+                case bool _ when Regex.IsMatch(pipelineName, @"Synapse_SQLPool_Start_Stop.*"):
+                    var subscriptionId = task["ExecutionEngine"]["SubscriptionId"].ToString();
+                    var resourceGroup = task["ExecutionEngine"]["ResourceGroup"].ToString();
+                    var synapseWorkspaceName = task["Target"]["System"]["Workspace"].ToString();
+                    var synapseSQLPoolName = task["TMOptionals"]["SQLPoolName"].ToString();
+                    var poolOperation = task["TMOptionals"]["SQLPoolOperation"].ToString();
+                    await _azureSynapseService.StartStopSynapseSqlPool(subscriptionId, resourceGroup, synapseWorkspaceName, synapseSQLPoolName, poolOperation, logging);
+                    break;
+                case bool _ when Regex.IsMatch(pipelineName, @"Synpase_Stop_Idle_Spark_Sessions.*"):
+                    string SparkPoolName = JObject.Parse(task["ExecutionEngine"]["EngineJson"].ToString())["DefaultSparkPoolName"].ToString();
+                    string Endpoint = JObject.Parse(task["ExecutionEngine"]["EngineJson"].ToString())["endpoint"].ToString();
+                    string JobName = $"TaskInstance_{task["TaskInstanceId"].ToString()}";
+                    await _azureSynapseService.StopIdleSessions(new Uri(Endpoint), SparkPoolName, logging, task);
+                    break;
+                default:
+                    var msg = $"Could not find execution path for Task Type of {pipelineName} and Execution Type of {task["TaskExecutionType"]}";
+                    logging.LogErrors(new Exception(msg));
+                    await _taskMetaDataDatabase.LogTaskInstanceCompletion(taskInstanceId, logging.DefaultActivityLogItem.ExecutionUid.Value, TaskInstance.TaskStatus.FailedNoRetry, Guid.Empty, msg);
+                    completeCheck = false;
+                    break;
+            }
+            if (completeCheck)
+            {
+                var completemsg = $"Sucessfully completed {pipelineName} and Execution Type of {task["TaskExecutionType"]}";
+                await _taskMetaDataDatabase.LogTaskInstanceCompletion(System.Convert.ToInt64(taskInstanceId), logging.DefaultActivityLogItem.ExecutionUid.Value, TaskInstance.TaskStatus.Complete, System.Guid.Empty, completemsg);
+            }
+
+            //To Do // Batch to make less "chatty"
+            //To Do // Upgrade to stored procedure call
+        }
 
         private async Task GenerateTaskObjectTestFiles(Logging.Logging logging, JObject task, string pipelineName, long taskInstanceId)
         {
