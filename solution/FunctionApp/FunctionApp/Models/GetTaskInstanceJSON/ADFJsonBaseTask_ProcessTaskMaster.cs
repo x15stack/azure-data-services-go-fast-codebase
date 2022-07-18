@@ -244,14 +244,17 @@ namespace FunctionApp.Models.GetTaskInstanceJSON
 
             Dictionary<string, string> sqlParams = new Dictionary<string, string>
             {
-                { "tableName", (Extraction["TableName"].ToString()).ToUpper() },
-                { "tableSchema", (Extraction["TableSchema"].ToString()).ToUpper() },
+                { "tableName", Extraction["TableName"].ToString() },
+                { "tableSchema", Extraction["TableSchema"].ToString() },
             };
 
             string SqlTemplateLanguage = "SqlServer";
             if (sourceType == "Oracle Server")
             {
                 SqlTemplateLanguage = sourceType.Replace(" ", "");
+                sqlParams["tableName"] = sqlParams["tableName"].ToUpper();
+                sqlParams["tableSchema"] = sqlParams["tableSchema"].ToUpper();
+
             }
 
 
@@ -368,8 +371,8 @@ namespace FunctionApp.Models.GetTaskInstanceJSON
             string templateFile = "";
             Dictionary<string, string> sqlParams = new Dictionary<string, string>
             {
-                { "tableName", (tableSchema.ToString()).ToUpper() },
-                { "tableSchema", (tableName.ToString()).ToUpper() },
+                { "tableName", tableSchema.ToString() },
+                { "tableSchema", tableName.ToString() },
                 { "incrementalField", incrementalField.ToString() }
             };
 
@@ -379,6 +382,8 @@ namespace FunctionApp.Models.GetTaskInstanceJSON
             if (sourceType == "Oracle Server")
             {
                 SqlTemplateLanguage = sourceType.Replace(" ", "");
+                sqlParams["tableName"] = sqlParams["tableName"].ToUpper();
+                sqlParams["tableSchema"] = sqlParams["tableSchema"].ToUpper();
             }
 
 
