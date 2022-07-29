@@ -27,6 +27,26 @@ function(SourceType = "", SourceFormat = "Not-Applicable", TargetType = "", Targ
                 "infoText": "(required) Use this field to define the ID of the workspace that contains the dataflow you wish to reference."
             },
         },
+        "FunctionToExecute": {
+            "type": "string",
+            "enum": [
+                "PowerBIRefreshDataflow"
+            ],
+            "options": {
+                "hidden": true
+            },
+            "default": "PowerBIRefreshDataflow"
+        },
+        "FunctionToCheck": {
+            "type": "string",
+            "enum": [
+                "PowerBICheckDataflowRefresh"
+            ],
+            "options": {
+                "hidden": true
+            },
+            "default": "PowerBICheckDataflowRefresh"
+        },
         "Source": partials[SourceFormat](),
         "Target": partials[TargetFormat]()
     },

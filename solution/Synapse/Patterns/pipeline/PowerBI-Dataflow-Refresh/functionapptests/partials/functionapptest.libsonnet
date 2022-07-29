@@ -1,7 +1,7 @@
 local commons = import '../../../static/partials/functionapptest_commons.libsonnet';
 local vars = import '../../../static/partials/secrets.libsonnet';
 function(
-    SynapsePipeline = "GPL_AzureBlobStorage_ParquetAzureSqlTable_NA",
+    SynapsePipeline = "GPL_ExecuteAndCheckFunctions",
     Pattern = "PowerBI Dataflow Refresh",
     TestNumber = "-1",
     SourceFormat = "N/A",
@@ -97,7 +97,7 @@ function(
     "TargetSystemAuthType":TargetSystemAuthType,
     "TargetSystemSecretName":"",
 	"TargetSystemUserName":"",
-    "ADFPipeline": ADFPipeline,
+    "SynapsePipeline": SynapsePipeline,
     "TestDescription": "[" + TestNumber + "] " +  " PowerBI Dataflow Refresh " + " execution test.",
     "DependencyChainTag": "" 
 }+commons

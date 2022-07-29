@@ -1,7 +1,7 @@
 /* TASK TYPE FOR PowerBI Dataflow Refresh */
 SET IDENTITY_INSERT [dbo].[TaskType] ON 
 GO
-INSERT [dbo].[TaskType] ([TaskTypeId], [TaskTypeName], [TaskExecutionType], [TaskTypeJson], [ActiveYN]) VALUES (-10, N'PowerBIApp SP API Access', N'DLL', NULL, 1)
+INSERT [dbo].[TaskType] ([TaskTypeId], [TaskTypeName], [TaskExecutionType], [TaskTypeJson], [ActiveYN]) VALUES (-11, N'PowerBIApp SP API Access', N'ADF', NULL, 1)
 GO
 SET IDENTITY_INSERT [dbo].[TaskType] OFF
 GO

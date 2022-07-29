@@ -33,7 +33,7 @@ function(seed=0)
             "TargetMaxConcurrentConnections":0,
             "TargetRecursively":"false",
             "TargetDeleteAfterCompletion":"false",
-            "ADFPipeline": "Not-Applicable",
+            "SynapsePipeline": "GPL_ExecuteAndCheckFunctions",
             "Description": "Testing Refresh of dataflow",  
             "DataflowName": "TaskMasterDF", 
             "DependencyChainTag": "SynapseSqlPool",
@@ -46,7 +46,7 @@ function(seed=0)
 
     local process = function(index, t)
     template(
-        t.ADFPipeline,
+        t.SynapsePipeline,
         t.Pattern, 
         seed-index,//t.TestNumber,
         t.SourceFormat,

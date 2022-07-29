@@ -65,17 +65,6 @@ local Template_REST_API_to_Azure_Storage = function(SourceType, SourceFormat, Ta
         "Pipeline":"GPL_" + SourceType + "_" + SourceFormat + "_" + TargetType + "_" + TargetFormat  
 };
 
-local Template_PowerBI_Dataflow_Refresh = function(SourceType, SourceFormat, TargetType, TargetFormat)
-{
-        "Folder": "PowerBI-Dataflow-Refresh",
-        "GFPIR": "Azure",
-        "SourceType": SourceType,
-        "SourceFormat": SourceFormat,
-        "TargetType": TargetType,
-        "TargetFormat": TargetFormat,
-        "TaskTypeId":-10,
-        "Pipeline":"PowerBI_Dataflow_Refresh"
-};
 
 #SQL_Database_to_Azure_Storage
 [   
@@ -246,12 +235,7 @@ local Template_PowerBI_Dataflow_Refresh = function(SourceType, SourceFormat, Tar
     Template_Execute_SQL_Statement("AzureSqlTable","NA","AzureSqlTable","NA"),    
     Template_Execute_SQL_Statement("AzureSqlDWTable","NA","AzureSqlDWTable","NA")        
 ]
-+
-#PowerBI-Dataflow-Refresh
-[
-    Template_PowerBI_Dataflow_Refresh("PowerBI SP","Not-Applicable","N/A","Not-Applicable")
 
-]
 /*
 + 
 #REST API to Azure Storage 
