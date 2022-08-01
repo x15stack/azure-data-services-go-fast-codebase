@@ -160,7 +160,7 @@ local pipeline =
                                                 ],
                                                 "userProperties": [],
                                                 "typeProperties": {
-                                                    "message": "Azure Function successfully completed however the Status of returned API call is 'Failed'. Note: This indicates the error is outside of the function execution.",
+                                                    "message": "Azure Function successfully completed however the Status of returned API call is 'Failed'. Note: This indicates the error is outside of the Azure Function execution.",
                                                     "errorCode": "0"
                                                 }
                                             }

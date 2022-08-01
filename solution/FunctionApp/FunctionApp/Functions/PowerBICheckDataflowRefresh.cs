@@ -87,8 +87,6 @@ namespace FunctionApp.Functions
 
             string result = await (_powerBIService.CheckDataflowRefreshStatus(clientId, secretName, tenantId, dataflowName, workspaceId, keyvaultURL, transactionId, LogHelper));
 
-            result = "{ 'Status': '" + result + "' }";
-
             return JObject.Parse(result);
 
         }

@@ -188,7 +188,8 @@ namespace FunctionApp.Services
 
                     }
                     logging.LogInformation($"Dataflow {DataflowName} execution status is {currentStatus}");
-                    return currentStatus;
+                    string result = "{ 'Status': '" + currentStatus + "' }";
+                    return result;
                 }
                 catch (Exception e)
                 {
