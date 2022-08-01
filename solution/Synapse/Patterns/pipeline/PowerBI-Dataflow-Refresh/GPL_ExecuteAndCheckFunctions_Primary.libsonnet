@@ -10,7 +10,7 @@ local Folder =  if(GenerateArm=="false")
 local pipeline = 
 {
     "name": name,
-    "properties": {
+        "properties": {
         "activities": [
             {
                 "name": "Poll For Check Complete",
@@ -30,26 +30,6 @@ local pipeline =
                         "type": "Expression"
                     },
                     "activities": [
-                        {
-                            "name": "Mark Check Function As Complete - Success",
-                            "type": "SetVariable",
-                            "dependsOn": [
-                                {
-                                    "activity": "Check Function",
-                                    "dependencyConditions": [
-                                        "Succeeded"
-                                    ]
-                                }
-                            ],
-                            "userProperties": [],
-                            "typeProperties": {
-                                "variableName": "CheckComplete",
-                                "value": {
-                                    "value": "@if(\n    equals(\n            activity('Check Function').output.Result,\n            'Success'\n        ),\n        bool('true'),\n        bool('false')\n    )",
-                                    "type": "Expression"
-                                }
-                            }
-                        },
                         {
                             "name": "Check Function",
                             "type": "AzureFunctionActivity",
@@ -79,39 +59,6 @@ local pipeline =
                             }
                         },
                         {
-                            "name": "Wait1",
-                            "type": "Wait",
-                            "dependsOn": [
-                                {
-                                    "activity": "Mark Check Function As Complete - Success",
-                                    "dependencyConditions": [
-                                        "Succeeded"
-                                    ]
-                                }
-                            ],
-                            "userProperties": [],
-                            "typeProperties": {
-                                "waitTimeInSeconds": 60
-                            }
-                        },
-                        {
-                            "name": "Failure due to Status",
-                            "type": "Fail",
-                            "dependsOn": [
-                                {
-                                    "activity": "Mark Check Function as Complete - Failed",
-                                    "dependencyConditions": [
-                                        "Succeeded"
-                                    ]
-                                }
-                            ],
-                            "userProperties": [],
-                            "typeProperties": {
-                                "message": "Check Function completed successfully - Status of returned object is 'Failed'",
-                                "errorCode": "0"
-                            }
-                        },
-                        {
                             "name": "Mark Check Function as Complete - Failed Function",
                             "type": "SetVariable",
                             "dependsOn": [
@@ -132,26 +79,6 @@ local pipeline =
                             }
                         },
                         {
-                            "name": "Mark Check Function as Complete - Failed",
-                            "type": "SetVariable",
-                            "dependsOn": [
-                                {
-                                    "activity": "Check Function",
-                                    "dependencyConditions": [
-                                        "Succeeded"
-                                    ]
-                                }
-                            ],
-                            "userProperties": [],
-                            "typeProperties": {
-                                "variableName": "CheckComplete",
-                                "value": {
-                                    "value": "@if(\n    equals(\n            activity('Check Function').output.Result,\n            'Failed'\n        ),\n        bool('true'),\n        bool('false')\n    )",
-                                    "type": "Expression"
-                                }
-                            }
-                        },
-                        {
                             "name": "Failure due to execution error",
                             "type": "Fail",
                             "dependsOn": [
@@ -164,8 +91,93 @@ local pipeline =
                             ],
                             "userProperties": [],
                             "typeProperties": {
-                                "message": "Check Function execution failed",
+                                "message": "Azure Function Execution Failed.",
                                 "errorCode": "0"
+                            }
+                        },
+                        {
+                            "name": "Status Result Switch",
+                            "type": "Switch",
+                            "dependsOn": [
+                                {
+                                    "activity": "Check Function",
+                                    "dependencyConditions": [
+                                        "Succeeded"
+                                    ]
+                                }
+                            ],
+                            "userProperties": [],
+                            "typeProperties": {
+                                "on": {
+                                    "value": "@activity('Check Function').output.Status",
+                                    "type": "Expression"
+                                },
+                                "cases": [
+                                    {
+                                        "value": "Success",
+                                        "activities": [
+                                            {
+                                                "name": "Mark Check Function As Complete - Success",
+                                                "type": "SetVariable",
+                                                "dependsOn": [],
+                                                "userProperties": [],
+                                                "typeProperties": {
+                                                    "variableName": "CheckComplete",
+                                                    "value": {
+                                                        "value": "@bool('true')",
+                                                        "type": "Expression"
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "value": "Failed",
+                                        "activities": [
+                                            {
+                                                "name": "Mark Check Function as Complete - Failed",
+                                                "type": "SetVariable",
+                                                "dependsOn": [],
+                                                "userProperties": [],
+                                                "typeProperties": {
+                                                    "variableName": "CheckComplete",
+                                                    "value": {
+                                                        "value": "@bool('true')",
+                                                        "type": "Expression"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "name": "Failure due to Status",
+                                                "type": "Fail",
+                                                "dependsOn": [
+                                                    {
+                                                        "activity": "Mark Check Function as Complete - Failed",
+                                                        "dependencyConditions": [
+                                                            "Succeeded"
+                                                        ]
+                                                    }
+                                                ],
+                                                "userProperties": [],
+                                                "typeProperties": {
+                                                    "message": "Azure Function successfully completed however the Status of returned API call is 'Failed'. Note: This indicates the error is outside of the function execution.",
+                                                    "errorCode": "0"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "defaultActivities": [
+                                    {
+                                        "name": "Wait1",
+                                        "type": "Wait",
+                                        "dependsOn": [],
+                                        "userProperties": [],
+                                        "typeProperties": {
+                                            "waitTimeInSeconds": 60
+                                        }
+                                    }
+                                ]
                             }
                         }
                     ],

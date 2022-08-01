@@ -527,6 +527,6 @@
       "SourceType": "PowerBI SP",
       "TargetFormat": "Not-Applicable",
       "TargetType": "N/A",
-      "TaskTypeId": -10
+      "TaskTypeId": -11
    }
 ]

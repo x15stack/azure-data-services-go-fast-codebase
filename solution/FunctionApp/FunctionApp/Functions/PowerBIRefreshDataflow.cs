@@ -34,48 +34,62 @@ namespace FunctionApp.Functions
     public class PowerBIRefreshDataflow
     {
         private readonly PowerBIService _powerBIService;
-        private readonly ApplicationOptions _options;
-        private Logging.Logging _funcAppLogger = new Logging.Logging();
+        private readonly TaskMetaDataDatabase _taskMetaDataDatabase;
+        private readonly IOptions<ApplicationOptions> _options;
+        private Guid ExecutionId { get; set; }
 
-        public PowerBIRefreshDataflow(IOptions<ApplicationOptions> options, PowerBIService powerBIService)
+
+        public PowerBIRefreshDataflow(IOptions<ApplicationOptions> options, TaskMetaDataDatabase taskMetaDataDatabase, PowerBIService powerBIService)
         {
             _powerBIService = powerBIService;
-            _options = options?.Value;
+            _taskMetaDataDatabase = taskMetaDataDatabase;
+            _options = options;
         }
         [FunctionName("PowerBIRefreshDataflow")]
-        public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req, ILogger log, ExecutionContext context)
+        public async Task<IActionResult> Run(
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+            ILogger log, ExecutionContext context)
         {
-            var executionId = System.Guid.NewGuid();
-            ActivityLogItem activityLogItem = new ActivityLogItem
+            ExecutionId = context.InvocationId;
+
+            FrameworkRunner frp = new FrameworkRunner(log, ExecutionId);
+            FrameworkRunnerWorkerWithHttpRequest worker = PowerBIRefreshDataflowCore;
+            FrameworkRunnerResult result = await frp.Invoke(req, "PowerBIRefreshDataflow", worker);
+            if (result.Succeeded)
             {
-                LogSource = "AF",
-                ExecutionUid = executionId
-            };
-            _funcAppLogger.InitializeLog(log, activityLogItem);
-
-            string requestBody = new StreamReader(req.Body).ReadToEndAsync().Result;
-            JObject taskObject = JsonConvert.DeserializeObject<JObject>(requestBody);
-            string clientId = taskObject["Source"]["System"]["ClientId"].ToString();
-            string secretName = taskObject["Source"]["System"]["ClientSecretName"].ToString();
-            string tenantId = taskObject["Source"]["System"]["TenantId"].ToString();
-            string dataflowName = taskObject["Source"]["DataflowName"].ToString();
-            string workspaceId = taskObject["Source"]["WorkspaceId"].ToString();
-            string keyvaultURL = taskObject["KeyVaultBaseUrl"].ToString();
-
-            var result = (_powerBIService.RefreshDataflow(clientId, secretName, tenantId, dataflowName, workspaceId, keyvaultURL, _funcAppLogger).Result);
-
-            if (!string.IsNullOrEmpty(result))
-            {
-                taskObject.Add(new JProperty("TransactionId", result));
-
-                return new OkObjectResult(taskObject);
+                return new OkObjectResult(JObject.Parse(result.ReturnObject));
             }
             else
             {
-                return new BadRequestObjectResult(new { Error = "Execution Failed: No result from dataflow refresh" });
+                return new BadRequestObjectResult(new { Error = "Execution Failed...." });
             }
 
+        }
 
+
+        public async Task<JObject> PowerBIRefreshDataflowCore(HttpRequest req,
+    Logging.Logging LogHelper)
+        {
+
+            string requestBody = new StreamReader(req.Body).ReadToEndAsync().Result;
+            // JObject taskObject = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+            JObject taskObject = JObject.Parse(requestBody);
+
+            string clientId = taskObject["Source"]["System"]["ClientId"].ToString();
+            string secretName = taskObject["Source"]["System"]["ClientSecretName"].ToString();
+            string tenantId = taskObject["Source"]["System"]["TenantId"].ToString();
+            string dataflowName = taskObject["TMOptionals"]["DataflowName"].ToString();
+            string workspaceId = taskObject["TMOptionals"]["WorkspaceId"].ToString();
+            string keyvaultURL = taskObject["KeyVaultBaseUrl"].ToString();
+
+            var result = await (_powerBIService.RefreshDataflow(clientId, secretName, tenantId, dataflowName, workspaceId, keyvaultURL, LogHelper));
+
+            var res = taskObject;
+
+            res.Add(new JProperty("TransactionId", result));
+
+            return res;
 
         }
 
