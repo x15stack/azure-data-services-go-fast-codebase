@@ -82,7 +82,7 @@ namespace FunctionApp.Services
                 {
                     //await powerBIClient.Dataflows.RefreshDataflowAsync(workspace, dataflowId);
                     var preDataFlows = await powerBIClient.Dataflows.GetDataflowTransactionsAsync(workspaceId, dataflowId);
-                    var test = await powerBIClient.Dataflows.GetDataflowTransactionsWithHttpMessagesAsync(workspaceId, dataflowId);
+                    //var test = await powerBIClient.Dataflows.GetDataflowTransactionsWithHttpMessagesAsync(workspaceId, dataflowId);
 
                     var target = preDataFlows.Value[0].Id;
                     //if this is waiting until the refresh is complete we may want to remove the 'await'
