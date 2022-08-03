@@ -45,7 +45,8 @@ local tests =
         "SparkTableCreate": "Disabled",
         "SparkTableDBName": "",
         "SparkTableName": "",
-        "UseNotebookActivity": "Disabled"
+        "UseNotebookActivity": "Disabled",
+        "ModifiedDate = "Disabled"
 
        
     },
@@ -91,7 +92,8 @@ local tests =
         "SparkTableCreate": "Enabled",
         "SparkTableDBName": "TestDB",
         "SparkTableName": "TestTable",
-        "UseNotebookActivity": "Disabled"
+        "UseNotebookActivity": "Disabled",
+        "ModifiedDate = "Disabled"
 
        
     },
@@ -136,7 +138,8 @@ local tests =
         "SparkTableCreate": "Disabled",
         "SparkTableDBName": "",
         "SparkTableName": "",
-        "UseNotebookActivity": "Disabled"
+        "UseNotebookActivity": "Disabled",
+        "ModifiedDate = "Disabled"
 
        
     },
@@ -181,7 +184,8 @@ local tests =
         "SparkTableCreate": "Disabled",
         "SparkTableDBName": "",
         "SparkTableName": "",
-        "UseNotebookActivity": "Disabled"
+        "UseNotebookActivity": "Disabled",
+        "ModifiedDate = "Disabled"
 
        
     },
@@ -226,7 +230,8 @@ local tests =
         "SparkTableCreate": "Enabled",
         "SparkTableDBName": "TestDB",
         "SparkTableName": "TestTable2",
-        "UseNotebookActivity": "Disabled"
+        "UseNotebookActivity": "Disabled",
+        "ModifiedDate = "Disabled"
 
        
     },
@@ -271,7 +276,8 @@ local tests =
         "SparkTableCreate": "Enabled",
         "SparkTableDBName": "TestDB",
         "SparkTableName": "TestTable3",
-        "UseNotebookActivity": "Disabled"
+        "UseNotebookActivity": "Disabled",
+        "ModifiedDate = "Disabled"
 
        
     },
@@ -316,7 +322,8 @@ local tests =
         "SparkTableCreate": "Disabled",
         "SparkTableDBName": "",
         "SparkTableName": "",
-        "UseNotebookActivity": "Disabled"
+        "UseNotebookActivity": "Disabled",
+        "ModifiedDate = "Disabled"
 
        
     },
@@ -361,7 +368,8 @@ local tests =
         "SparkTableCreate": "Enabled",
         "SparkTableDBName": "TestDB",
         "SparkTableName": "TestTable4",
-        "UseNotebookActivity": "Disabled"
+        "UseNotebookActivity": "Disabled",
+        "ModifiedDate = "Disabled"
 
        
     },
@@ -408,7 +416,8 @@ local tests =
         "SparkTableCreate": "Disabled",
         "SparkTableDBName": "",
         "SparkTableName": "",
-        "UseNotebookActivity": "Disabled" 
+        "UseNotebookActivity": "Disabled",
+        "ModifiedDate = "Disabled"
        
     },
 
@@ -453,7 +462,8 @@ local tests =
         "SparkTableCreate": "Disabled",
         "SparkTableDBName": "",
         "SparkTableName": "",
-        "UseNotebookActivity": "Disabled"
+        "UseNotebookActivity": "Disabled",
+        "ModifiedDate = "Disabled"
        
     }
 
@@ -497,7 +507,8 @@ template(
     t.SparkTableCreate,
     t.SparkTableDBName,
     t.SparkTableName,
-    t.UseNotebookActivity
+    t.UseNotebookActivity,
+    t.ModifiedDate
 );
 
 
