@@ -40,5 +40,11 @@ resource "azurerm_resource_group_template_deployment" "ingestion_private_endpoin
       value = var.servicebus_private_dns_id
     }
   })
+  lifecycle {
+    ignore_changes = [
+      tags,
+      template_content
+    ]
+  }
   template_content = file("${path.module}/arm/privatelinks.json")
 }

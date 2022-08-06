@@ -27,9 +27,7 @@ resource "azurerm_private_endpoint" "purview_account_private_endpoint_with_dns" 
 
   tags = local.tags
   lifecycle {
-    ignore_changes = [
-      tags
-    ]
+    ignore_changes = all
   }
 }
 

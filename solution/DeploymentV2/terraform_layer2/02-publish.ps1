@@ -48,6 +48,9 @@ $tout = GatherOutputsFromTerraform -TerraformFolderPath $PathToReturnTo
 #------------------------------------------------------------------------------------------------------------
 # Publish
 #------------------------------------------------------------------------------------------------------------
+import-Module ./../pwshmodules/Deploy_4_PrivateLinks.psm1 -force
+DeployPrivateLinks -tout $tout  
+
 import-Module ./../pwshmodules/Deploy_5_WebApp.psm1 -force
 DeployWebApp -tout $tout  -deploymentFolderPath $deploymentFolderPath -PathToReturnTo $PathToReturnTo
 
