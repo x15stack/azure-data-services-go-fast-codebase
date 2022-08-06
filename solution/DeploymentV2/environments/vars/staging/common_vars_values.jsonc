@@ -38,5 +38,8 @@
   "GIT_ADF_REPOSITORY_NAME": "#####",
   "GIT_ADF_REPOSITORY_BRANCH_NAME": "#####",
   "GIT_ADF_USER_NAME": "#####",
-  "GIT_ADF_EMAIL_ADDRESS": "#####"
+  "GIT_ADF_EMAIL_ADDRESS": "#####",
+  "FeatureTemplateOverrides": {
+    "is_onprem_datafactory_ir_registered":false
+  }
 }

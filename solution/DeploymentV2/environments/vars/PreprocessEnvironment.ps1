@@ -53,10 +53,23 @@ $hiddenoutput = !(Test-Path $newfolder) ? ($F = New-Item -itemType Directory -Na
 (jsonnet "./common_vars_template.jsonnet" --tla-str featuretemplatename=$FeatureTemplate --tla-str environment=$Environment --tla-str gitDeploy=$gitDeploy  ) | Set-Content($newfolder +"/common_vars.json")
 $obj = Get-Content ($newfolder + "/common_vars.json") | ConvertFrom-Json
 
+
+#featureTemplateOverrides
+$fto_vals = ((Get-Content -Path  "./uat/common_vars_values.jsonc") | ConvertFrom-Json -Depth 10).FeatureTemplateOverrides
+$fto_keys = $fto_vals | Get-Member | Where-Object {$_.MemberType -eq "NoteProperty"}
+
 foreach($t in ($obj.ForEnvVar | Get-Member | Where-Object {$_.MemberType -eq "NoteProperty"}))
 {
     $Name = $t.Name
     $Value = $obj.ForEnvVar[0].$Name
+
+    #Feature Template Value Overrides
+    if(($fto_keys | Where-Object {$_.Name -eq $Name.Replace("TF_VAR_","")}).count -gt 0)
+    {
+        $fto_prop = ($fto_keys | Where-Object {$_.Name -eq $Name.Replace("TF_VAR_","")}).Name
+        Write-Warning "Overriding Feature Template value for $fto_prop"        
+        $Value = $fto_vals.$fto_prop
+    }
     
     if($Value.GetType().Name -eq "Boolean")
     {
