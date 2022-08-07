@@ -6,7 +6,15 @@ function GatherOutputsFromTerraform_DataFactoryFolder()
 
     Import-Module (Convert-Path -Path ($DeploymentFolderPath + "/pwshmodules/GatherOutputsFromTerraform.psm1")) -Force
     Import-Module (Convert-Path -Path ($DeploymentFolderPath + "/pwshmodules/Deploy_0_Prep.psm1")) -Force 
-    PrepareDeployment -gitDeploy $false -deploymentFolderPath $deploymentFolderPath -FeatureTemplate "" -PathToReturnTo $PathToReturnTo
+    
+    if($gitDeploy)
+    {
+        #Do Nothing as prepare will already have been run
+    }
+    else 
+    {
+        PrepareDeployment -gitDeploy $false -deploymentFolderPath $deploymentFolderPath -FeatureTemplate "" -PathToReturnTo $PathToReturnTo
+    }
 
     $tout = GatherOutputsFromTerraform -TerraformFolderPath $TerraformFolderPath
     return $tout
