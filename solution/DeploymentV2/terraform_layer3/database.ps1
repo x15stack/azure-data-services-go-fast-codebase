@@ -137,8 +137,8 @@ else {
 
     #Add Ip to SQL Firewall
     #$result = az synapse workspace update -n $synapse_workspace_name -g $resource_group_name  --set publicNetworkAccess="Enabled"
-    $result = az synapse workspace firewall-rule create --resource-group $tout.resource_group_name --workspace-name $tout.synapse_workspace_name --name "DeploymentAgent" --start-ip-address $myIp --end-ip-address $myIp
-    $result = az synapse workspace firewall-rule create --resource-group $tout.resource_group_name --workspace-name $tout.synapse_workspace_name --name "DeploymentUser" --start-ip-address $myIp2 --end-ip-address $myIp2
+    $result = az synapse workspace firewall-rule create --resource-group $tout.resource_group_name --workspace-name $tout.synapse_workspace_name --name "CICDAgent" --start-ip-address $myIp --end-ip-address $myIp
+    $result = az synapse workspace firewall-rule create --resource-group $tout.resource_group_name --workspace-name $tout.synapse_workspace_name --name "CICDUser" --start-ip-address $myIp2 --end-ip-address $myIp2
 
     if ($tout.is_vnet_isolated -eq $false)
     {

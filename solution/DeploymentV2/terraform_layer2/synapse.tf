@@ -130,7 +130,7 @@ resource "azurerm_synapse_firewall_rule" "cicd" {
 
 resource "azurerm_synapse_firewall_rule" "cicd_user" {
   count                = var.deploy_adls && var.deploy_synapse ? 1 : 0
-  name                 = "AllowCICDUser"
+  name                 = "CICDUser"
   synapse_workspace_id = azurerm_synapse_workspace.synapse[0].id
   start_ip_address     = var.ip_address2
   end_ip_address       = var.ip_address2
