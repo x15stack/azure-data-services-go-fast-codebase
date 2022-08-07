@@ -40,6 +40,6 @@
   "GIT_ADF_USER_NAME": "#####",
   "GIT_ADF_EMAIL_ADDRESS": "#####",
   "FeatureTemplateOverrides": {
-    "is_onprem_datafactory_ir_registered":false
+    "is_onprem_datafactory_ir_registered":true
   }
 }
