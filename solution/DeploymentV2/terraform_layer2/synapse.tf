@@ -119,23 +119,22 @@ resource "azurerm_synapse_spark_pool" "synapse_spark_pool" {
 
 # --------------------------------------------------------------------------------------------------------------------
 # Synapse Workspace Firewall Rules (Allow Public Access)
-# - These are now done outside of terraform as they are required prior to terraform in order to be able to read state
 # --------------------------------------------------------------------------------------------------------------------
-# resource "azurerm_synapse_firewall_rule" "cicd" {
-#   count                = var.deploy_adls && var.deploy_synapse ? 1 : 0
-#   name                 = "CICDAgent"
-#   synapse_workspace_id = azurerm_synapse_workspace.synapse[0].id
-#   start_ip_address     = var.ip_address
-#   end_ip_address       = var.ip_address
-# }
+resource "azurerm_synapse_firewall_rule" "cicd" {
+  count                = var.deploy_adls && var.deploy_synapse ? 1 : 0
+  name                 = "CICDAgent"
+  synapse_workspace_id = azurerm_synapse_workspace.synapse[0].id
+  start_ip_address     = var.ip_address
+  end_ip_address       = var.ip_address
+}
 
-# resource "azurerm_synapse_firewall_rule" "cicd_user" {
-#   count                = var.deploy_adls && var.deploy_synapse ? 1 : 0
-#   name                 = "CICDUser"
-#   synapse_workspace_id = azurerm_synapse_workspace.synapse[0].id
-#   start_ip_address     = var.ip_address2
-#   end_ip_address       = var.ip_address2
-# }
+resource "azurerm_synapse_firewall_rule" "cicd_user" {
+  count                = var.deploy_adls && var.deploy_synapse ? 1 : 0
+  name                 = "CICDUser"
+  synapse_workspace_id = azurerm_synapse_workspace.synapse[0].id
+  start_ip_address     = var.ip_address2
+  end_ip_address       = var.ip_address2
+}
 
 # --------------------------------------------------------------------------------------------------------------------
 # Synapse Workspace Firewall Rules (Allow Public Access)
