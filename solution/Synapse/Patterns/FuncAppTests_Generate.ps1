@@ -1,5 +1,7 @@
-Import-Module .\GatherOutputsFromTerraform.psm1 -force
-$tout = GatherOutputsFromTerraform
+
+
+Import-Module ./GatherOutputsFromTerraform_SynapseFolder.psm1 -Force
+$tout = GatherOutputsFromTerraform_SynapseFolder
 
 $patterns = ((Get-Content "Patterns.json") | ConvertFrom-Json).Folder | Sort-Object | Get-Unique
 $CurDir = $PWD.ToString()

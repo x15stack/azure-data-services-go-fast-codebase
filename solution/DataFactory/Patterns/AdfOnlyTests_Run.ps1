@@ -1,6 +1,7 @@
 az config set extension.use_dynamic_install=yes_without_prompt
-Import-Module .\GatherOutputsFromTerraform.psm1 -force
-$tout = GatherOutputsFromTerraform
+
+Import-Module ./GatherOutputsFromTerraform_DataFactoryFolder.psm1 -Force
+$tout = GatherOutputsFromTerraform_DataFactoryFolder
 
 if($tout.datafactory_name -eq "") {
     $tout.datafactory_name = Read-Host "Enter the name of the data factory"
