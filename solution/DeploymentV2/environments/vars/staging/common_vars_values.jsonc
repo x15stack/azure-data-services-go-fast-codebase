@@ -12,24 +12,20 @@
   "tenant_id": "0fee3d31-b963-4a1c-8f4a-ca367205aa65",
   "deployment_principal_layers1and3": "",
   "resource_owners": [
-    "ed0568a1-1ee0-46ee-b7e8-0540c4660de2",
-    "72213528-b7fa-4d51-adc5-78bd2d684509"
+    "ed0568a1-1ee0-46ee-b7e8-0540c4660de2"
   ],
   "synapse_administrators": {
-    "hugo.sharpe@arkahna.io": "ed0568a1-1ee0-46ee-b7e8-0540c4660de2",
-    "dlzdevtesting": "72213528-b7fa-4d51-adc5-78bd2d684509"
   },
   "azure_sql_aad_administrators": {
-    "sql_aad_admin": "ed0568a1-1ee0-46ee-b7e8-0540c4660de2",
-    "dlzdevtesting": "72213528-b7fa-4d51-adc5-78bd2d684509"  
+    "sql_aad_admin": "ed0568a1-1ee0-46ee-b7e8-0540c4660de2"
   },
   "synapse_publishers": {},
   "synapse_contributors": {},
   "WEB_APP_ADMIN_USER": "ed0568a1-1ee0-46ee-b7e8-0540c4660de2",
   "WEB_APP_ADMIN_SECURITY_GROUP": "#####",
-  "ARM_SYNAPSE_WORKSPACE_NAME": "adsstgsynwadspmu3",
-  "ARM_KEYVAULT_NAME": "ads-stg-kv-ads-pmu3",
-  "ARM_DATALAKE_NAME": "adsstgdlsadspmu3adsl",
+  "ARM_SYNAPSE_WORKSPACE_NAME": "adsstgsynwadsp9cl",
+  "ARM_KEYVAULT_NAME": "ads-stg-kv-ads-p9cl",
+  "ARM_DATALAKE_NAME": "adsstgdlsadsp9cladsl",
   "ARM_PAL_PARTNER_ID": "0",
   "GIT_REPOSITORY_NAME": "testLockbox",
   "GIT_SYNAPSE_REPOSITORY_BRANCH_NAME": "featuretest",

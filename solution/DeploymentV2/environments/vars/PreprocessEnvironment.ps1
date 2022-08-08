@@ -76,7 +76,7 @@ foreach($t in $envarprops)
 }
 
 #Feature Template Value Overrides
-$fto_vals = ((Get-Content -Path  "./uat/common_vars_values.jsonc") | ConvertFrom-Json -Depth 10).FeatureTemplateOverrides
+$fto_vals = ((Get-Content -Path  "./$Environment/common_vars_values.jsonc") | ConvertFrom-Json -Depth 10).FeatureTemplateOverrides
 $fto_keys = $fto_vals | Get-Member | Where-Object {$_.MemberType -eq "NoteProperty"}
 
 foreach($fto in $fto_keys)
@@ -95,12 +95,12 @@ foreach($fto in $fto_keys)
 
     if($Value.GetType().Name -eq "Boolean")
     {
-        Write-Warning $Value.GetType().Name
+        #Write-Warning $Value.GetType().Name
         $Value = $Value.ToString().ToLower()
     }  
     if($Value.GetType().Name -eq "PSCustomObject")
     {   
-        Write-Warning $Value.GetType().Name
+        #Write-Warning $Value.GetType().Name
         $Value = ($Value | ConvertTo-Json -Depth 10)
     }  
 
