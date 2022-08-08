@@ -100,7 +100,7 @@ foreach($fto in $fto_keys)
     }  
     if($Value.GetType().Name -eq "PSCustomObject")
     {   
-        Write-Warning $Value.GetType().Name
+        #Write-Warning $Value.GetType().Name
         $Value = ($Value | ConvertTo-Json -Depth 10)
     }  
 
