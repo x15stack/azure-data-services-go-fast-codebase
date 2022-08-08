@@ -76,7 +76,7 @@ foreach($t in $envarprops)
 }
 
 #Feature Template Value Overrides
-$fto_vals = ((Get-Content -Path  "./uat/common_vars_values.jsonc") | ConvertFrom-Json -Depth 10).FeatureTemplateOverrides
+$fto_vals = ((Get-Content -Path  "./$Environment/common_vars_values.jsonc") | ConvertFrom-Json -Depth 10).FeatureTemplateOverrides
 $fto_keys = $fto_vals | Get-Member | Where-Object {$_.MemberType -eq "NoteProperty"}
 
 foreach($fto in $fto_keys)
