@@ -95,17 +95,24 @@ foreach($fto in $fto_keys)
 
     if($Value.GetType().Name -eq "Boolean")
     {
+        Write-Warning $Value.GetType().Name
         $Value = $Value.ToString().ToLower()
     }  
     if($Value.GetType().Name -eq "PSCustomObject")
-    {
+    {   
+        Write-Warning $Value.GetType().Name
         $Value = ($Value | ConvertTo-Json -Depth 10)
     }  
 
     if([string]::IsNullOrEmpty($Value) -eq $false -and $Value -ne '#####')
-    {          
-        [Environment]::SetEnvironmentVariable($Name, $Value) 
-    }  
+    {       
+        #Write-Warning "Injecting Envar 'TF_VAR_$Name': $Value"   
+        [Environment]::SetEnvironmentVariable("TF_VAR_$Name", $Value) 
+    }
+    else 
+    {
+        #Write-Warning "Value Supressed"
+    }
 }
 
 
