@@ -37,11 +37,6 @@ RUN bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "$
     && mv terragrunt_linux_amd64 terragrunt \
     && chmod u+x terragrunt \
     && mv terragrunt /usr/local/bin/terragrunt 
-    && curl -sSLo install.sh https://install.hclq.sh
-    && sh install.sh
-    && rm install.sh
-    
-    
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \

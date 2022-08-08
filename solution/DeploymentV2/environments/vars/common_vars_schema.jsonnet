@@ -1,4 +1,4 @@
-{
+local schema = {
     "type": "object",
     "required": [],
     "properties": {
@@ -27,7 +27,8 @@
             "westeurope",
             "westus",
             "westus2"
-         ]
+         ],
+         "examples":[]
       },
       "environment_tag": {
         "type": "string",
@@ -70,24 +71,33 @@
         ]
       },
       "ip_address": {
-        "type": "string"
+        "type": "string",
+        "examples": [],
+        "description": ""
       },
       "ip_address2": {
-        "type": "string"
+        "type": "string",
+        "examples": [],
+        "description": ""
       },
       "tenant_id": {
-        "type": "string"
+        "type": "string",
+        "examples": [],
+        "description": ""
       },
       "deployment_principal_layers1and3": {
         "description": "Object Id of the AAD account that will manage layer's 1 & 3. Note leave this blank if you are going to also include this principal in the resource owner's collection.",
         "type": "string",
-        "default": ""
+        "default": "",
+        "examples": []
       },
       "resource_owners": {
         "type": "array",
         "items": {
           "type": "string"
-        }
+        },
+        "examples": [],
+        "description": ""
       },
       "synapse_administrators": {
         "type": "object",
@@ -274,4 +284,19 @@
 
       
     }
-  }
+  };
+
+local properties = schema["properties"];
+
+{
+  "test":   [  // Object comprehension.
+              {
+                  ["01.Property"]: sd,
+                  ["02.Type"]: properties[sd]["type"],
+                  ["03.Description"]: properties[sd]["description"],
+
+                  #["Examples"]: properties[sd]["examples"],
+              }
+              for sd in std.objectFields(properties)
+            ]
+}
