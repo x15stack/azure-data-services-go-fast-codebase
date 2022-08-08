@@ -54,23 +54,12 @@ $hiddenoutput = !(Test-Path $newfolder) ? ($F = New-Item -itemType Directory -Na
 $obj = Get-Content ($newfolder + "/common_vars.json") | ConvertFrom-Json
 
 
-#featureTemplateOverrides
-$fto_vals = ((Get-Content -Path  "./uat/common_vars_values.jsonc") | ConvertFrom-Json -Depth 10).FeatureTemplateOverrides
-$fto_keys = $fto_vals | Get-Member | Where-Object {$_.MemberType -eq "NoteProperty"}
-
-foreach($t in ($obj.ForEnvVar | Get-Member | Where-Object {$_.MemberType -eq "NoteProperty"}))
+$envarprops = ($obj.ForEnvVar | Get-Member | Where-Object {$_.MemberType -eq "NoteProperty"})
+foreach($t in $envarprops)
 {
     $Name = $t.Name
-    $Value = $obj.ForEnvVar[0].$Name
-
-    #Feature Template Value Overrides
-    if(($fto_keys | Where-Object {$_.Name -eq $Name.Replace("TF_VAR_","")}).count -gt 0)
-    {
-        $fto_prop = ($fto_keys | Where-Object {$_.Name -eq $Name.Replace("TF_VAR_","")}).Name
-        Write-Warning "Overriding Feature Template value for $fto_prop"        
-        $Value = $fto_vals.$fto_prop
-        #Write-Warning "Overriding Feature Template value to $Value"
-    }
+    $Value = $obj.ForEnvVar[0].$Name    
+    
     if($Value.GetType().Name -eq "Boolean")
     {
         $Value = $Value.ToString().ToLower()
@@ -85,6 +74,47 @@ foreach($t in ($obj.ForEnvVar | Get-Member | Where-Object {$_.MemberType -eq "No
         [Environment]::SetEnvironmentVariable($Name, $Value)
     }      
 }
+
+#Feature Template Value Overrides
+$fto_vals = ((Get-Content -Path  "./uat/common_vars_values.jsonc") | ConvertFrom-Json -Depth 10).FeatureTemplateOverrides
+$fto_keys = $fto_vals | Get-Member | Where-Object {$_.MemberType -eq "NoteProperty"}
+
+foreach($fto in $fto_keys)
+{
+    $Name = $fto.Name
+    if (($envarprops | Where-Object {$_.Name -eq "TF_VAR_$Name"}).Count -gt 0)
+    {
+        $ev_prop = ($envarprops | Where-Object {$_.Name -eq "TF_VAR_$Name"}).Name        
+        $Value = $fto_vals.$Name
+        Write-Warning "Overriding Feature Template value for $ev_prop with value of $Value"        
+    }
+    else {
+        Write-Warning "Inserting Feature Template value for $ev_prop with value of $Value" 
+        $Value = $fto_vals.$Name
+    }
+
+    if($Value.GetType().Name -eq "Boolean")
+    {
+        Write-Warning $Value.GetType().Name
+        $Value = $Value.ToString().ToLower()
+    }  
+    if($Value.GetType().Name -eq "PSCustomObject")
+    {   
+        Write-Warning $Value.GetType().Name
+        $Value = ($Value | ConvertTo-Json -Depth 10)
+    }  
+
+    if([string]::IsNullOrEmpty($Value) -eq $false -and $Value -ne '#####')
+    {       
+        #Write-Warning "Injecting Envar 'TF_VAR_$Name': $Value"   
+        [Environment]::SetEnvironmentVariable("TF_VAR_$Name", $Value) 
+    }
+    else 
+    {
+        #Write-Warning "Value Supressed"
+    }
+}
+
 
 foreach($t in ($obj.ForSecretFile | Get-Member | Where-Object {$_.MemberType -eq "NoteProperty"}))
 {
