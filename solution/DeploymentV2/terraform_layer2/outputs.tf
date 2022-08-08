@@ -70,7 +70,7 @@ output "purview_sp_name" {
   value = local.purview_ir_app_reg_name
 }
 output "azurerm_purview_account_purview_id" {
-  value = azurerm_purview_account.purview[0].id
+  value =   var.deploy_purview ? azurerm_purview_account.purview[0].id : ""
 }
 output "is_vnet_isolated" {
   value = var.is_vnet_isolated
@@ -312,7 +312,7 @@ output "private_dns_zone_purview_studio_id" {
 }
 
 output "azurerm_purview_account_purview_name" {
-  value = azurerm_purview_account.purview[0].name
+  value = var.deploy_purview ? azurerm_purview_account.purview[0].name : ""
 }
 
 output "plink_subnet_id" {

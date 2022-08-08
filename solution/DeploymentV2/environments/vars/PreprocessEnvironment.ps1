@@ -69,8 +69,8 @@ foreach($t in ($obj.ForEnvVar | Get-Member | Where-Object {$_.MemberType -eq "No
         $fto_prop = ($fto_keys | Where-Object {$_.Name -eq $Name.Replace("TF_VAR_","")}).Name
         Write-Warning "Overriding Feature Template value for $fto_prop"        
         $Value = $fto_vals.$fto_prop
+        #Write-Warning "Overriding Feature Template value to $Value"
     }
-    
     if($Value.GetType().Name -eq "Boolean")
     {
         $Value = $Value.ToString().ToLower()
@@ -79,10 +79,10 @@ foreach($t in ($obj.ForEnvVar | Get-Member | Where-Object {$_.MemberType -eq "No
     {
         $Value = ($Value | ConvertTo-Json -Depth 10)
     }  
-    
+    #Write-Warning "Checking Value change $Value"
     if([string]::IsNullOrEmpty($Value) -eq $false -and $Value -ne '#####')
     {          
-        [Environment]::SetEnvironmentVariable($Name, $Value) 
+        [Environment]::SetEnvironmentVariable($Name, $Value)
     }      
 }
 
