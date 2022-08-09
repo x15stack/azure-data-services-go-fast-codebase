@@ -6,8 +6,8 @@ locals {
   aad_webapp_name              = (var.aad_webapp_name != "" ? var.aad_webapp_name : "ADS GoFast Web Portal (${var.environment_tag})")
   aad_functionapp_name         = (var.aad_functionapp_name != "" ? var.aad_functionapp_name : "ADS GoFast Orchestration App (${var.environment_tag})")
   purview_name                 = data.terraform_remote_state.layer2.outputs.purview_name
-  purview_account_plink        = (data.terraform_remote_state.layer2.outputs.purview_name != "" ? data.terraform_remote_state.layer2.outputs.purview_name : "${var.prefix}-${var.environment_tag}-pura-${lower(var.app_name)}-plink-${element(split("-", module.naming.data_factory.name_unique),length(split("-", module.naming.data_factory.name_unique))-1)}")
-  purview_portal_plink        =  (data.terraform_remote_state.layer2.outputs.purview_name != "" ? data.terraform_remote_state.layer2.outputs.purview_name : "${var.prefix}-${var.environment_tag}-purp-${lower(var.app_name)}-plink-${element(split("-", module.naming.data_factory.name_unique),length(split("-", module.naming.data_factory.name_unique))-1)}")
+  purview_account_plink        = "${var.prefix}-${var.environment_tag}-pura-${lower(var.app_name)}-plink-${element(split("-", module.naming.data_factory.name_unique),length(split("-", module.naming.data_factory.name_unique))-1)}"
+  purview_portal_plink         = "${var.prefix}-${var.environment_tag}-purp-${lower(var.app_name)}-plink-${element(split("-", module.naming.data_factory.name_unique),length(split("-", module.naming.data_factory.name_unique))-1)}"
   purview_resource_group_name  = "managed-${module.naming.resource_group.name_unique}-purview"
   purview_ir_app_reg_name      = data.terraform_remote_state.layer2.outputs.purview_sp_name
   private_dns_zone_servicebus_id = data.terraform_remote_state.layer2.outputs.private_dns_zone_servicebus_id
