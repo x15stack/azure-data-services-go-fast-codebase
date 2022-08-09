@@ -7,7 +7,7 @@ on:
 
 jobs:
     deploy-to-env-one:
-      name: Deploy to Environment One
+      name: Deploy to Environment One      
       concurrency: terraform
       environment: 
         name: uat
@@ -52,7 +52,7 @@ jobs:
 
         #TF_LOG : TRACE
       
-      runs-on: ubuntu-latest
+      runs-on: self-hosted
       steps:      
       - name: PrintInfo
         run: |
@@ -169,7 +169,7 @@ jobs:
       #PROD ENVIRONMENT
       #TF_LOG : TRACE
       
-      runs-on: ubuntu-latest
+      runs-on: self-hosted
       steps:
       
       - name: Checkout
