@@ -20,7 +20,7 @@ function DeployPrivateLinks (
                 $result = az network private-endpoint-connection approve -g $tout.resource_group_name -n $id_parts[$id_parts.length - 1] --resource-name $tout.keyvault_name --type Microsoft.Keyvault/vaults --description "Approved by Deploy.ps1"
             }
         }
-        $links = az network private-endpoint-connection list -g $tout.resource_group_name -n $sqlserver_name --type 'Microsoft.Sql/servers' |  ConvertFrom-Json
+        $links = az network private-endpoint-connection list -g $tout.resource_group_name -n $tout.sqlserver_name --type 'Microsoft.Sql/servers' |  ConvertFrom-Json
         foreach ($link in $links) {
             if ($link.properties.privateLinkServiceConnectionState.status -eq "Pending") {
                 $id_parts = $link.id.Split("/");
@@ -29,7 +29,7 @@ function DeployPrivateLinks (
             }
         }
     
-        $links = az network private-endpoint-connection list -g $tout.resource_group_name -n $synapse_workspace_name --type 'Microsoft.Synapse/workspaces' |  ConvertFrom-Json
+        $links = az network private-endpoint-connection list -g $tout.resource_group_name -n $tout.synapse_workspace_name --type 'Microsoft.Synapse/workspaces' |  ConvertFrom-Json
         foreach ($link in $links) {
             if ($link.properties.privateLinkServiceConnectionState.status -eq "Pending") {
                 $id_parts = $link.id.Split("/");
