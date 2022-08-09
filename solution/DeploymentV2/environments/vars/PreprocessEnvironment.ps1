@@ -68,10 +68,10 @@ foreach($t in $envarprops)
     {
         $Value = ($Value | ConvertTo-Json -Depth 10)
     }  
-    
+    #Write-Warning "Checking Value change $Value"
     if([string]::IsNullOrEmpty($Value) -eq $false -and $Value -ne '#####')
     {          
-        [Environment]::SetEnvironmentVariable($Name, $Value) 
+        [Environment]::SetEnvironmentVariable($Name, $Value)
     }      
 }
 
@@ -95,7 +95,7 @@ foreach($fto in $fto_keys)
 
     if($Value.GetType().Name -eq "Boolean")
     {
-        Write-Warning $Value.GetType().Name
+        #Write-Warning $Value.GetType().Name
         $Value = $Value.ToString().ToLower()
     }  
     if($Value.GetType().Name -eq "PSCustomObject")

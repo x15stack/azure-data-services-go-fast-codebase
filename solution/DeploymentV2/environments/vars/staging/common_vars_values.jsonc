@@ -1,45 +1,50 @@
 {
   "$schema": "./../common_vars_schema.json",
-  "owner_tag": "Contoso",
+  "owner_tag": "Arkahna",
   "resource_location": "australiaeast",
   "environment_tag": "stg",
-  "domain": "microsoft.com",
-  "subscription_id": "035a1364-f00d-48e2-b582-4fe125905ee3",
-  "prefix": "ads",
-  "resource_group_name": "gfuat",
-  "ip_address": "144.138.148.220",
-  "ip_address2": "163.47.54.2",
-  "tenant_id": "72f988bf-86f1-41af-91ab-2d7cd011db47",
-  "deployment_principal_layers1and3": "ccbdbba4-669c-48d6-86b8-75c9ab2ee578",
+  "domain": "arkahna.io",
+  "subscription_id": "687fe1ae-a520-4f86-b921-a80664c40f9b",
+  "prefix": "ark",
+  "resource_group_name": "lockboxfeaturetest",
+  "ip_address": "159.196.32.59",
+  "ip_address2": "",
+  "tenant_id": "0fee3d31-b963-4a1c-8f4a-ca367205aa65",
+  "deployment_principal_layers1and3": "",
   "resource_owners": [
-    "4c732d19-4076-4a76-87f3-6fbfd77f007d",
-    "ccbdbba4-669c-48d6-86b8-75c9ab2ee578"
+    "ed0568a1-1ee0-46ee-b7e8-0540c4660de2"
   ],
   "synapse_administrators": {
-    "jorampon@microsoft.com": "ccbdbba4-669c-48d6-86b8-75c9ab2ee578"
   },
   "azure_sql_aad_administrators": {
-    "sql_aad_admin": "6f467924-4d92-40e3-b348-b3154d5cd437",
-    "AdsGoFastDeployerjkcgkaibkungm": "4c732d19-4076-4a76-87f3-6fbfd77f007d",
-    "jorampon@microsoft.com": "ccbdbba4-669c-48d6-86b8-75c9ab2ee578"
+    "sql_aad_admin": "ed0568a1-1ee0-46ee-b7e8-0540c4660de2"
   },
   "synapse_publishers": {},
   "synapse_contributors": {},
-  "WEB_APP_ADMIN_USER": "ccbdbba4-669c-48d6-86b8-75c9ab2ee578",
+  "WEB_APP_ADMIN_USER": "ed0568a1-1ee0-46ee-b7e8-0540c4660de2",
   "WEB_APP_ADMIN_SECURITY_GROUP": "#####",
-  "ARM_SYNAPSE_WORKSPACE_NAME": "adsstgsynwadspmu3",
-  "ARM_KEYVAULT_NAME": "ads-stg-kv-ads-pmu3",
-  "ARM_DATALAKE_NAME": "adsstgdlsadspmu3adsl",
+  "ARM_SYNAPSE_WORKSPACE_NAME": "adsstgsynwadsp9cl",
+  "ARM_KEYVAULT_NAME": "ads-stg-kv-ads-p9cl",
+  "ARM_DATALAKE_NAME": "adsstgdlsadsp9cladsl",
   "ARM_PAL_PARTNER_ID": "0",
-  "GIT_REPOSITORY_NAME": "#####",
-  "GIT_SYNAPSE_REPOSITORY_BRANCH_NAME": "#####",
-  "GIT_USER_NAME": "#####",
+  "GIT_REPOSITORY_NAME": "testLockbox",
+  "GIT_SYNAPSE_REPOSITORY_BRANCH_NAME": "featuretest",
+  "GIT_USER_NAME": "h-sha",
   "GIT_EMAIL_ADDRESS": "#####",
   "GIT_ADF_REPOSITORY_NAME": "#####",
   "GIT_ADF_REPOSITORY_BRANCH_NAME": "#####",
   "GIT_ADF_USER_NAME": "#####",
   "GIT_ADF_EMAIL_ADDRESS": "#####",
   "FeatureTemplateOverrides": {
-    "is_onprem_datafactory_ir_registered":false
+    "is_onprem_datafactory_ir_registered":false,
+    "synapse_git_toggle":true,
+    "adf_git_toggle":false,
+    "deploy_sentinel": false,
+    "publish_sif_database": false,
+    "synapse_git_toggle_integration": true,
+    "synapse_git_repository_owner": "h-sha",
+    "synapse_git_repository_name":"testLockbox",
+    "synapse_git_repository_root_folder": "/Synapse",
+    "synapse_git_use_pat": false
   }
 }
