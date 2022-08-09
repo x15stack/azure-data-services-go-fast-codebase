@@ -43,7 +43,7 @@ function DeployPrivateLinks (
             if ($link.properties.privateLinkServiceConnectionState.status -eq "Pending") {
                 $id_parts = $link.id.Split("/");
                 Write-Host "- " + $id_parts[$id_parts.length - 1]
-                $result = az network private-endpoint-connection approve -g $tout.resource_group_name -n $id_parts[$id_parts.length - 1] --resource-name $blobstorage_name --type Microsoft.Storage/storageAccounts --description "Approved by Deploy.ps1"
+                $result = az network private-endpoint-connection approve -g $tout.resource_group_name -n $id_parts[$id_parts.length - 1] --resource-name $tout.blobstorage_name --type Microsoft.Storage/storageAccounts --description "Approved by Deploy.ps1"
             }
         }
         $links = az network private-endpoint-connection list -g $tout.resource_group_name -n $tout.adlsstorage_name --type 'Microsoft.Storage/storageAccounts' |  ConvertFrom-Json
