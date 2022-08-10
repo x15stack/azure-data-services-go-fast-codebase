@@ -1,6 +1,5 @@
-Import-Module .\GatherOutputsFromTerraform.psm1 -force
-$tout = GatherOutputsFromTerraform
-
+Import-Module ./GatherOutputsFromTerraform_SynapseFolder.psm1 -Force
+$tout = GatherOutputsFromTerraform_SynapseFolder
 
 if($tout.datafactory_name -eq "") {
     $tout.datafactory_name = Read-Host "Enter the name of the data factory"

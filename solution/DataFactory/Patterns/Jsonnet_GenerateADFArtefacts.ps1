@@ -1,5 +1,8 @@
-Import-Module .\GatherOutputsFromTerraform.psm1 -force
-$tout = GatherOutputsFromTerraform
+
+
+Import-Module ./GatherOutputsFromTerraform_DataFactoryFolder.psm1 -Force
+$tout = GatherOutputsFromTerraform_DataFactoryFolder
+
 $newfolder = "./output/"
 
 

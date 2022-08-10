@@ -1,5 +1,5 @@
-Import-Module .\GatherOutputsFromTerraform.psm1 -force
-$tout = GatherOutputsFromTerraform
+Import-Module ./GatherOutputsFromTerraform_SynapseFolder.psm1 -Force
+$tout = GatherOutputsFromTerraform_SynapseFolder
 
 Write-Information "_____________________________"
 Write-Information " Uploading Synapse Notebooks " 
