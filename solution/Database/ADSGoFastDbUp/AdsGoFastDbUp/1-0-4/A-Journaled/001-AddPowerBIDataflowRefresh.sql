@@ -17,9 +17,6 @@ GO
 SET IDENTITY_INSERT [dbo].[SourceAndTargetSystems] OFF 
 GO
 
-SET IDENTITY_INSERT [dbo].[IntegrationRuntimeMapping] ON 
-GO
+
 INSERT [dbo].[IntegrationRuntimeMapping] ([IntegrationRuntimeId], [IntegrationRuntimeName], [SystemId], [ActiveYN]) VALUES (1, 'Azure', -17, 1)
-GO
-SET IDENTITY_INSERT [dbo].[IntegrationRuntimeMapping] OFF
 GO

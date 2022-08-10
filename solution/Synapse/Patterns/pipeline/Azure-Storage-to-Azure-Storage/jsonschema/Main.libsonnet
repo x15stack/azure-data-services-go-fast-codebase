@@ -91,7 +91,7 @@ function(SourceType = "Parquet", SourceFormat = "Delta",TargetType = "AzureSqlTa
                 "Disabled"
             ],
             "options": {
-                "infoText": "(required) This flag is used to control whether an additional column 'ModifiedDate' is added to the output delta table. This column will only update on the output if the corresponding row has been modified or just inserted. Note: This is only used when the source is a parquet type and is not CDC. "
+                "infoText": "(required) This flag is used to control whether an additional column ModifiedDate is added to the output delta table. This column will only update on the output if the corresponding row has been modified or just inserted. Note: This is only used when the source is a parquet type and is not CDC."
             }
         },      
         "Source": partials[SourceFormat](),
@@ -103,6 +103,7 @@ function(SourceType = "Parquet", SourceFormat = "Delta",TargetType = "AzureSqlTa
         "Source",
         "Target",
         "Purview",
-        "UseNotebookActivity"
+        "UseNotebookActivity",
+        "ModifiedDate"
     ]
 }

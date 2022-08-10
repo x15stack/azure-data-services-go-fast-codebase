@@ -8,13 +8,6 @@ SET IDENTITY_INSERT [dbo].[SourceAndTargetSystems] ON
 GO
 
 
-
-
-SET IDENTITY_INSERT [dbo].[SourceAndTargetSystems] ON
-
-GO
-
-
 UPDATE [dbo].[SourceAndTargetSystems]
 
 SET SystemServer = 'localhost'
@@ -27,3 +20,6 @@ WHERE SystemId = '-13'
 GO
 
 
+SET IDENTITY_INSERT [dbo].[SourceAndTargetSystems] OFF
+
+GO

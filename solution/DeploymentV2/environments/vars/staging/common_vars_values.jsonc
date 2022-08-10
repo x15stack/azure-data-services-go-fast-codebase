@@ -6,7 +6,7 @@
   "domain": "arkahna.io",
   "subscription_id": "687fe1ae-a520-4f86-b921-a80664c40f9b",
   "prefix": "ark",
-  "resource_group_name": "lockboxfeaturetest",
+  "resource_group_name": "lockboxftest",
   "ip_address": "159.196.32.59",
   "ip_address2": "",
   "tenant_id": "0fee3d31-b963-4a1c-8f4a-ca367205aa65",
@@ -26,16 +26,16 @@
   "synapse_contributors": {},
   "WEB_APP_ADMIN_USER": "ed0568a1-1ee0-46ee-b7e8-0540c4660de2",
   "WEB_APP_ADMIN_SECURITY_GROUP": "#####",
-  "ARM_SYNAPSE_WORKSPACE_NAME": "arkstgsynwadsp9cl",
-  "ARM_KEYVAULT_NAME": "ark-stg-kv-ads-p9cl",
-  "ARM_DATALAKE_NAME": "arkstgdlsadsp9cladsl",
+  "ARM_SYNAPSE_WORKSPACE_NAME": "arkstgsynwadspxqg",
+  "ARM_KEYVAULT_NAME": "ark-stg-kv-ads-pxqg",
+  "ARM_DATALAKE_NAME": "arkstgdlsadspxqgadsl",
   "ARM_PAL_PARTNER_ID": "0",
   "GIT_REPOSITORY_NAME": "testLockbox",
-  "GIT_SYNAPSE_REPOSITORY_BRANCH_NAME": "featuretest",
+  "GIT_SYNAPSE_REPOSITORY_BRANCH_NAME": "featuretest2",
   "GIT_USER_NAME": "h-sha",
   "GIT_EMAIL_ADDRESS": "#####",
   "GIT_ADF_REPOSITORY_NAME": "#####",
-  "GIT_ADF_REPOSITORY_BRANCH_NAME": "#####",
+  "GIT_ADF_REPOSITORY_BRANCH_NAME": "featuretest2",
   "GIT_ADF_USER_NAME": "#####",
   "GIT_ADF_EMAIL_ADDRESS": "#####",
   "FeatureTemplateOverrides": {
@@ -48,6 +48,11 @@
     "synapse_git_repository_owner": "h-sha",
     "synapse_git_repository_name":"testLockbox",
     "synapse_git_repository_root_folder": "/Synapse",
-    "synapse_git_use_pat": false
+    "synapse_git_use_pat": false,
+    "adf_git_toggle_integration": true,
+    "adf_git_repository_owner": "h-sha",
+    "adf_git_repository_name":"testLockbox",
+    "adf_git_repository_root_folder": "/ADF",
+    "adf_git_use_pat": false
   }
 }
