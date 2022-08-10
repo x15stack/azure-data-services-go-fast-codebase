@@ -147,6 +147,9 @@ output "publish_web_app_addcurrentuserasadmin" {
 output "azure_sql_aad_administrators" {
   value = var.azure_sql_aad_administrators
 }
+output "azure_purview_data_curators" {
+  value = var.azure_purview_data_curators
+}
 output "synapse_workspace_name" {
   value = var.deploy_synapse ? azurerm_synapse_workspace.synapse[0].name : ""
 }

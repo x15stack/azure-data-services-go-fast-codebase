@@ -7,7 +7,7 @@ on:
 
 jobs:
     deploy-to-env-one:
-      name: Deploy to Environment One
+      name: Deploy to Environment One      
       concurrency: terraform
       environment: 
         name: uat
@@ -52,7 +52,7 @@ jobs:
 
         #TF_LOG : TRACE
       
-      runs-on: ubuntu-latest
+      runs-on: self-hosted
       steps:      
       - name: PrintInfo
         run: |
@@ -70,7 +70,7 @@ jobs:
         uses: azure/login@v1
         with:
           creds: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}","clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}","subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.ARM_TENANT_ID }}"}'
-          enable-AzPSSession: true 
+          enable-AzPSSession: false 
 
       - name: Open Firewalls for Agent
         id: open_firewalls
@@ -169,7 +169,7 @@ jobs:
       #PROD ENVIRONMENT
       #TF_LOG : TRACE
       
-      runs-on: ubuntu-latest
+      runs-on: self-hosted
       steps:
       
       - name: Checkout

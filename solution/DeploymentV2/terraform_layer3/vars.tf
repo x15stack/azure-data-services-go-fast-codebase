@@ -148,6 +148,12 @@ variable "azure_sql_aad_administrators" {
    default = {}
 }
 
+variable "azure_purview_data_curators" {
+   description = "List of Azure Purview Data Curators for default root"
+   type = map(string)
+   default = {}
+}
+
 variable "resource_owners" {
   description = "A web app Azure security group used for admin access."
   default = {	

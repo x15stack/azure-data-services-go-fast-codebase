@@ -171,6 +171,22 @@
         "category": "Target Azure Environment"
       }
     },
+    "azure_purview_data_curators": {
+      "type": "object",
+      "required": [],
+      "properties": {},
+      "default": {},
+      "description": "Object with a property for each user that is to be a Purview Data Curator for root object. The property name is descriptive only and should be unique. The property value is the object_id of the user. Leave as empty object when not is use.",
+      "examples": [
+        {
+            "user_1": "5c736d19-4076-4a76-87f3-6fbfd77f007d",
+            "user_2": "5c732d19-4076-4a76-87f3-6fbfd72f007d"
+        }
+      ],
+      "options": {
+        "category": "Target Azure Environment"
+      }
+    },
     "synapse_publishers": {
       "type": "object",
       "required": [],
