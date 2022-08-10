@@ -67,6 +67,9 @@ namespace FunctionApp.Functions
         private readonly IAzureAuthenticationProvider _authProvider;
         private readonly DataFactoryClientFactory _dataFactoryClientFactory;
         private readonly AzureSynapseService _azureSynapseService;
+        private readonly MicrosoftAzureServicesAppAuthenticationProvider _microsoftAzureServicesAppAuthenticationProvider;
+        private readonly KeyVaultService _keyVaultService;
+        private readonly PowerBIService _powerBIService;
         public string HeartBeatFolder { get; set; }
 
 
@@ -75,7 +78,10 @@ namespace FunctionApp.Functions
             IOptions<ApplicationOptions> options, 
             IAzureAuthenticationProvider authProvider, 
             DataFactoryClientFactory dataFactoryClientFactory,
-            AzureSynapseService azureSynapseService)
+            AzureSynapseService azureSynapseService,
+            MicrosoftAzureServicesAppAuthenticationProvider microsoftAzureServicesAppAuthenticationProvider,
+            KeyVaultService keyVaultService,
+            PowerBIService powerBIService)
         {
             _sap = sap;
             _taskMetaDataDatabase = taskMetaDataDatabase;
@@ -83,6 +89,9 @@ namespace FunctionApp.Functions
             _authProvider = authProvider;
             _dataFactoryClientFactory = dataFactoryClientFactory;
             _azureSynapseService = azureSynapseService;
+            _microsoftAzureServicesAppAuthenticationProvider = microsoftAzureServicesAppAuthenticationProvider;
+            _keyVaultService = keyVaultService;
+            _powerBIService = powerBIService;
         }
 
         [FunctionName("RunFrameworkTasksHttpTrigger")]
@@ -485,7 +494,7 @@ namespace FunctionApp.Functions
                     logging.DefaultActivityLogItem.TaskInstanceId = taskInstanceJson.TaskInstanceId;
                     logging.DefaultActivityLogItem.TaskMasterId = taskInstanceJson.TaskMasterId;
 
-                    AdfJsonBaseTask T =  new AdfJsonBaseTask(taskInstanceJson, logging);
+                    AdfJsonBaseTask T =  new AdfJsonBaseTask(taskInstanceJson, logging, _options);
                     //Set the base properties using data stored in non-json columns of the database
                     T.CreateJsonObjectForAdf(ExecutionUid);
                     JObject root = await T.ProcessRoot(ttMappingProvider, systemSchemas, engineSchemas);
