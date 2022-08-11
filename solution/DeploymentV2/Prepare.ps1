@@ -161,13 +161,13 @@ else
     $assigneeobject = Read-Host "Enter the object id of the AAD account or Group that you would like to have ownership of the new resource group."
     $sqlAdmin = Read-Host "Enter the object id of the AAD account or Group that you would like to have SQL AAD Admin on the Azure SQL Server instances created. Leave blank if this is an end-to-end interactive user deployment. Provide a security group or the deployment service principal if this is an agent deployment"
 
-    if([string]::IsNullOrEmpty($assigneeobject)) {
-        #Write-Host "Skipping Resource Group Ownership Assignment"
-        $assigneeobject = $currentAccount.id
+    if([string]::IsNullOrEmpty($assigneeobject -eq $false)) {
+        #Write-Host "Skipping Resource Group Ownership Assignment"        
+        $output = az role assignment create --role "Owner" --scope "/subscriptions/${env:TF_VAR_subscription_id}/resourcegroups/${env:TF_VAR_resource_group_name}" --assignee-object-id $assigneeobject --only-show-errors
     }
     
     
-    az role assignment create --role "Owner" --scope "/subscriptions/${env:TF_VAR_subscription_id}/resourcegroups/${env:TF_VAR_resource_group_name}" --assignee-object-id $assigneeobject
+   
     
     #------------------------------------------------------------------------------------------------------------
     # Print pretty output for user
@@ -234,21 +234,36 @@ else
         $common_vars_values.resource_group_name = $env:TF_VAR_resource_group_name 
         $common_vars_values.domain =  $env:TF_VAR_domain
         $common_vars_values.subscription_id =  $env:TF_VAR_subscription_id 
+        $common_vars_values.ip_address =  $env:TF_VAR_ip_address
         $common_vars_values.ip_address2 =  $env:TF_VAR_ip_address
         $common_vars_values.tenant_id =  $env:TF_VAR_tenant_id 
-        $common_vars_values.WEB_APP_ADMIN_USER = (az ad signed-in-user show | ConvertFrom-Json).id
-        $common_vars_values.deployment_principal_layers1and3 = (az ad signed-in-user show | ConvertFrom-Json).id        
+        $common_vars_values.WEB_APP_ADMIN_USER = (az ad signed-in-user show --only-show-errors | ConvertFrom-Json).id
+             
         $foundUser = $false
+        $common_vars_values.resource_owners =  @()  
+        $common_vars_values.synapse_administrators = @{}  
         
-        $common_vars_values.resource_owners =  @("$assigneeobject")       
+        if([string]::IsNullOrEmpty($assigneeobject) -eq $false)
+        {
+            $common_vars_values.deployment_principal_layers1and3 = $assigneeobject             
+            $userPrincipalName = (az ad signed-in-user show --only-show-errors | ConvertFrom-Json).userPrincipalName                  
+            $common_vars_values.synapse_administrators.$userPrincipalName = (az ad signed-in-user show --only-show-errors | ConvertFrom-Json).id            
+        }
+        else 
+        {
+            $owner = (az ad signed-in-user show | ConvertFrom-Json).id
+            $common_vars_values.resource_owners =  @("$owner")      
+            $common_vars_values.deployment_principal_layers1and3 = ""
+            #$assigneeobject = ((az ad user show --id $currentAccount.user.name) | ConvertFrom-Json -Depth 10).id
+        }                  
+        
+        if([string]::IsNullOrEmpty($sqlAdmin) -eq $false)
+        {
+            $common_vars_values.azure_sql_aad_administrators = @{}     
+            $userPrincipalName = "sql_aad_admin"                  
+            $common_vars_values.azure_sql_aad_administrators.$userPrincipalName = $sqlAdmin          
+        }
 
-        $common_vars_values.synapse_administrators = @{}
-            
-        $userPrincipalName = "sql_aad_admin"                  
-        $common_vars_values.synapse_administrators.$userPrincipalName = ""  
-        $userPrincipalName = (az ad signed-in-user show --only-show-errors | ConvertFrom-Json).userPrincipalName                  
-        $common_vars_values.synapse_administrators.$userPrincipalName = (az ad signed-in-user show | ConvertFrom-Json).id                   
-        
         $common_vars_values | Convertto-Json -Depth 10 | Set-Content ./environments/vars/$environmentName/common_vars_values.jsonc
 
 
