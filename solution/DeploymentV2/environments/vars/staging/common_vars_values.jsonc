@@ -18,6 +18,9 @@
   "azure_sql_aad_administrators": {
     "sql_aad_admin": "ccbdbba4-669c-48d6-86b8-75c9ab2ee578"
   },
+  "azure_purview_data_curators": {
+    "hugo": "ed0568a1-1ee0-46ee-b7e8-0540c4660de2"
+  },
   "synapse_publishers": {},
   "synapse_contributors": {},
   "WEB_APP_ADMIN_USER": "ccbdbba4-669c-48d6-86b8-75c9ab2ee578",

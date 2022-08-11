@@ -65,3 +65,6 @@ DeployDataFactoryAndSynapseArtefacts -tout $tout  -deploymentFolderPath $deploym
 
 import-Module ./../pwshmodules/Deploy_10_SampleFiles.psm1 -force
 DeploySampleFiles -tout $tout  -deploymentFolderPath $deploymentFolderPath -PathToReturnTo $PathToReturnTo
+
+#import-Module ./../pwshmodules/ConfigureAzurePurview.psm1 -force
+#ConfigureAzurePurview -tout $tout  

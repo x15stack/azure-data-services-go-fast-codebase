@@ -850,6 +850,12 @@ variable "azure_sql_aad_administrators" {
    default = {}
 }
 
+variable "azure_purview_data_curators" {
+   description = "List of Azure Purview Data Curators for default root"
+   type = map(string)
+   default = {}
+}
+
 variable "synapse_administrators" {
    description = "List of Synapse Administrators"
    type = map(string)
