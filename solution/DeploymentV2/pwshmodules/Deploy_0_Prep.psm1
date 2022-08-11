@@ -87,7 +87,7 @@ function PrepareDeployment (
     Set-Location $deploymentFolderPath
 
     [System.Environment]::SetEnvironmentVariable('TFenvironmentName', $environmentName)
-    if ($env:TF_VAR_ip_address -ne "")
+    if (($env:TF_VAR_ip_address -ne "") -and ($env:TF_VAR_ip_address -ne $env:TF_VAR_ip_address2))
     {
         try {
             if ($env:TF_VAR_state_storage_account_name -ne "") 

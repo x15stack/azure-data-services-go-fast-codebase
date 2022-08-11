@@ -14,8 +14,7 @@
   "resource_owners": [
     "ed0568a1-1ee0-46ee-b7e8-0540c4660de2"
   ],
-  "synapse_administrators": {
-  },
+  "synapse_administrators": {},
   "azure_sql_aad_administrators": {
     "sql_aad_admin": "ed0568a1-1ee0-46ee-b7e8-0540c4660de2"
   },
@@ -26,9 +25,9 @@
   "synapse_contributors": {},
   "WEB_APP_ADMIN_USER": "ed0568a1-1ee0-46ee-b7e8-0540c4660de2",
   "WEB_APP_ADMIN_SECURITY_GROUP": "#####",
-  "ARM_SYNAPSE_WORKSPACE_NAME": "",
-  "ARM_KEYVAULT_NAME": "",
-  "ARM_DATALAKE_NAME": "",
+  "ARM_SYNAPSE_WORKSPACE_NAME": "arkstgsynwadsf829",
+  "ARM_KEYVAULT_NAME": "ark-stg-kv-ads-f829",
+  "ARM_DATALAKE_NAME": "arkstgdlsadsf829adsl",
   "ARM_PAL_PARTNER_ID": "0",
   "GIT_REPOSITORY_NAME": "#####",
   "GIT_SYNAPSE_REPOSITORY_BRANCH_NAME": "#####",
@@ -39,6 +38,6 @@
   "GIT_ADF_USER_NAME": "#####",
   "GIT_ADF_EMAIL_ADDRESS": "#####",
   "FeatureTemplateOverrides": {
-    "is_onprem_datafactory_ir_registered":false
+    "is_onprem_datafactory_ir_registered": false
   }
 }
