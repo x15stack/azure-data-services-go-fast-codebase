@@ -100,11 +100,7 @@ namespace FunctionApp.Functions
             ExecutionContext context, System.Security.Claims.ClaimsPrincipal principal)
         {
             this.HeartBeatFolder = context.FunctionAppDirectory;
-            log.LogWarning("Principal is in role?: " + principal.IsInRole("FunctionAPICaller"));
-            foreach (var claim in principal.Claims)
-            {
-                log.LogWarning(claim.Type + ":" + claim.Value);
-            }
+            //log.LogWarning("Principal is in role?: " + principal.IsInRole("FunctionAPICaller"));
             bool isAuthorised = await _sap.IsAuthorised(req, log);
             if (isAuthorised)
             {
