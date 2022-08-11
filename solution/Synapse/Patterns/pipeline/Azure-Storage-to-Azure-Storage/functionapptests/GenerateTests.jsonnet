@@ -46,7 +46,7 @@ local tests =
         "SparkTableDBName": "",
         "SparkTableName": "",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate = "Disabled"
+        "ModifiedDate": "Disabled"
 
        
     },
@@ -93,7 +93,7 @@ local tests =
         "SparkTableDBName": "TestDB",
         "SparkTableName": "TestTable",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate = "Disabled"
+        "ModifiedDate": "Disabled"
 
        
     },
@@ -139,7 +139,7 @@ local tests =
         "SparkTableDBName": "",
         "SparkTableName": "",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate = "Disabled"
+        "ModifiedDate": "Disabled"
 
        
     },
@@ -185,7 +185,7 @@ local tests =
         "SparkTableDBName": "",
         "SparkTableName": "",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate = "Disabled"
+        "ModifiedDate": "Disabled"
 
        
     },
@@ -231,7 +231,7 @@ local tests =
         "SparkTableDBName": "TestDB",
         "SparkTableName": "TestTable2",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate = "Disabled"
+        "ModifiedDate": "Disabled"
 
        
     },
@@ -277,7 +277,7 @@ local tests =
         "SparkTableDBName": "TestDB",
         "SparkTableName": "TestTable3",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate = "Disabled"
+        "ModifiedDate": "Disabled"
 
        
     },
@@ -323,7 +323,7 @@ local tests =
         "SparkTableDBName": "",
         "SparkTableName": "",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate = "Disabled"
+        "ModifiedDate": "Disabled"
 
        
     },
@@ -369,7 +369,7 @@ local tests =
         "SparkTableDBName": "TestDB",
         "SparkTableName": "TestTable4",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate = "Disabled"
+        "ModifiedDate": "Disabled"
 
        
     },
@@ -417,7 +417,7 @@ local tests =
         "SparkTableDBName": "",
         "SparkTableName": "",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate = "Disabled"
+        "ModifiedDate": "Disabled"
        
     },
 
@@ -463,7 +463,7 @@ local tests =
         "SparkTableDBName": "",
         "SparkTableName": "",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate = "Disabled"
+        "ModifiedDate": "Disabled"
        
     }
 

@@ -48,7 +48,7 @@ function(
         "SparkTableDBName": SparkTableDBName,
         "SparkTableName": SparkTableName,
         "UseNotebookActivity": UseNotebookActivity,
-        "ModifiedDate = ModifiedDate,
+        "ModifiedDate": ModifiedDate,
         "Source":{
             "Type": SourceFormat,                       
             "RelativePath": "samples/SalesLT_Customer_CDC/",
