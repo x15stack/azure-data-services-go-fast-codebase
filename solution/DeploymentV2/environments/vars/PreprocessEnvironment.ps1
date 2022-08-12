@@ -89,6 +89,7 @@ foreach($fto in $fto_keys)
         Write-Warning "Overriding Feature Template value for $ev_prop with value of $Value"        
     }
     else {
+        $ev_prop = "TF_VAR_$Name"
         Write-Warning "Inserting Feature Template value for $ev_prop with value of $Value" 
         $Value = $fto_vals.$Name
     }
