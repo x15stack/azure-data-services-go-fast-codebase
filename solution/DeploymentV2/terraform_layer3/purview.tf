@@ -23,6 +23,7 @@ resource "azurerm_private_endpoint" "purview_account_private_endpoint_with_dns" 
   }
 
   depends_on = [
+    module.purview_ingestion_private_endpoints[0].azurerm_resource_group_template_deployment
   ]
 
   tags = local.tags
@@ -51,6 +52,7 @@ resource "azurerm_private_endpoint" "purview_portal_private_endpoint_with_dns" {
   }
 
   depends_on = [   
+    module.purview_ingestion_private_endpoints[0].azurerm_resource_group_template_deployment
   ]
 
   tags = local.tags

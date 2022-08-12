@@ -31,6 +31,18 @@ function PrepareDeployment (
     #az vm image terms accept --urn h2o-ai:h2o-driverles-ai:h2o-dai-lts:latest
 
 
+    #purge TF_VAR environment variables so we don't get issues from jumping between environments
+    #this can be an issue if you have different features enabled between environments
+    #as old features may persist otherwise
+    $envVariables = gci env:
+
+    foreach($var in $envVariables)
+    {
+        if($var.Name -clike 'TF_VAR*')
+        {
+            [System.Environment]::SetEnvironmentVariable($var.Name, '')
+        }
+    }
 
     if ($gitDeploy) {
         $resourceGroupName = [System.Environment]::GetEnvironmentVariable('ARM_RESOURCE_GROUP_NAME')
