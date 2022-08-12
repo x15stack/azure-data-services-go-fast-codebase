@@ -159,7 +159,7 @@ else
 
 
     $assigneeobject = Read-Host "Enter the object id of the AAD account or Group that you would like to have ownership of the new resource group."
-    $sqlAdmin = Read-Host "Enter the object id of the AAD account or Group that you would like to have SQL AAD Admin on the Azure SQL Server instances created. Leave blank if this is an end-to-end interactive user deployment. Provide a security group or the deployment service principal if this is an agent deployment"
+    $sqlAdmin = Read-Host "Enter the object id of the AAD account or Group that you would like to have SQL AAD Admin on the Azure SQL Server instances created."
 
     if([string]::IsNullOrEmpty($assigneeobject -eq $false)) {
         #Write-Host "Skipping Resource Group Ownership Assignment"        
@@ -205,10 +205,7 @@ else
     Write-Host " - domain = " -NoNewline -ForegroundColor green
     Write-Host "${env:TF_VAR_domain}";
     Write-Host " ";
-    Write-Host "NOTE: It is recommended you copy these into your terraform/vars/local/terragrunt.hcl file for future use" -ForegroundColor blue
-    Write-Host " " 
-    Write-Host "If you are creating a local development instance only, you can run ./Deploy.ps1 now" -ForegroundColor green
-    Write-Host " " 
+    Write-Host "NOTE: It is recommended you copy these into your environment/vars/local/common_vars_values.jsonc file for future use" -ForegroundColor blue
     Write-Host "Press any key to continue...";
     #------------------------------------------------------------------------------------------------------------
     # Pause incase this was run directly
@@ -263,6 +260,15 @@ else
             $userPrincipalName = "sql_aad_admin"                  
             $common_vars_values.azure_sql_aad_administrators.$userPrincipalName = $sqlAdmin          
         }
+        
+
+        $ResetFlags = Get-SelectionFromUser -Options ('Yes','No') -Prompt "Reset flags for is_onprem_datafactory_ir_registered and deployment_layer3_complete. For brand new deployment select 'Yes'."
+        if ($ResetFlags -eq "Yes")
+        {
+            $common_vars_values.FeatureTemplateOverrides.is_onprem_datafactory_ir_registered = $false
+            $common_vars_values.FeatureTemplateOverrides.deployment_layer3_complete = $false
+        }
+       
 
         $common_vars_values | Convertto-Json -Depth 10 | Set-Content ./environments/vars/$environmentName/common_vars_values.jsonc
 
@@ -288,7 +294,9 @@ else
 
     }
 }
-
+Write-Host "Prepare Complete...." 
+Write-Host "If you are creating a local development instance only, you can run ./Deploy.ps1 now" -ForegroundColor green
+Write-Host " " 
 Set-Location $deploymentFolderPath
 
 
