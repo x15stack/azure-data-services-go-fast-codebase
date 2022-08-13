@@ -30,10 +30,10 @@ else {
     $myIp2 = $env:TF_VAR_ip_address2
 
     if ($myIp -ne $null) {
-        $result = az sql server firewall-rule create -g $tout.resource_group_name -s $tout.sqlserver_name -n "CICDAgent" --start-ip-address $myIp --end-ip-address $myIp
+        $result = az sql server firewall-rule create -g $tout.resource_group_name -s $tout.sqlserver_name -n "CICDAgent" --start-ip-address $myIp --end-ip-address $myIp --only-show-errors
     }
     if ($myIp2 -ne $null) {        
-        $result = az sql server firewall-rule create -g $tout.resource_group_name -s $tout.sqlserver_name -n "CICDUser" --start-ip-address $myIp2 --end-ip-address $myIp2
+        $result = az sql server firewall-rule create -g $tout.resource_group_name -s $tout.sqlserver_name -n "CICDUser" --start-ip-address $myIp2 --end-ip-address $myIp2 --only-show-errors
     }
 
     $databases = @($tout.stagingdb_name, $tout.sampledb_name, $tout.metadatadb_name)
@@ -137,12 +137,12 @@ else {
 
     #Add Ip to SQL Firewall
     #$result = az synapse workspace update -n $synapse_workspace_name -g $resource_group_name  --set publicNetworkAccess="Enabled"
-    $result = az synapse workspace firewall-rule create --resource-group $tout.resource_group_name --workspace-name $tout.synapse_workspace_name --name "CICDAgent" --start-ip-address $myIp --end-ip-address $myIp
-    $result = az synapse workspace firewall-rule create --resource-group $tout.resource_group_name --workspace-name $tout.synapse_workspace_name --name "CICDUser" --start-ip-address $myIp2 --end-ip-address $myIp2
+    $result = az synapse workspace firewall-rule create --resource-group $tout.resource_group_name --workspace-name $tout.synapse_workspace_name --name "CICDAgent" --start-ip-address $myIp --end-ip-address $myIp --only-show-errors
+    $result = az synapse workspace firewall-rule create --resource-group $tout.resource_group_name --workspace-name $tout.synapse_workspace_name --name "CICDUser" --start-ip-address $myIp2 --end-ip-address $myIp2 --only-show-errors
 
     if ($tout.is_vnet_isolated -eq $false)
     {
-        $result = az synapse workspace firewall-rule create --resource-group $tout.resource_group_name --workspace-name $tout.synapse_workspace_name --name "AllowAllWindowsAzureIps" --start-ip-address "0.0.0.0" --end-ip-address "0.0.0.0"
+        $result = az synapse workspace firewall-rule create --resource-group $tout.resource_group_name --workspace-name $tout.synapse_workspace_name --name "AllowAllWindowsAzureIps" --start-ip-address "0.0.0.0" --end-ip-address "0.0.0.0" --only-show-errors
     }
 
     if([string]::IsNullOrEmpty($tout.synapse_sql_pool_name) )

@@ -27,6 +27,7 @@ param (
 #------------------------------------------------------------------------------------------------------------
 import-Module ./../pwshmodules/GatherOutputsFromTerraform.psm1 -force
 import-Module ./../pwshmodules/Deploy_0_Prep.psm1 -force
+import-Module ./../pwshmodules/ProcessTerraformApply.psm1 -force
 #------------------------------------------------------------------------------------------------------------
 # Preparation #Mandatory
 #------------------------------------------------------------------------------------------------------------
@@ -43,20 +44,9 @@ PrepareDeployment -gitDeploy $gitDeploy -deploymentFolderPath $deploymentFolderP
 # Main Terraform - Layer1
 #------------------------------------------------------------------------------------------------------------
 Write-Host "Starting Terraform Deployment- Layer 1"
+Write-Host "Note this usually takes a few minutes to complete."
 $output = terragrunt init --terragrunt-config vars/$env:environmentName/terragrunt.hcl -reconfigure
 $output = terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl -json 
 
-$warnings = ($output | ConvertFrom-Json -Depth 20) | Where-Object {$_."@level" -eq "warn"}              
-$errors = ($output | ConvertFrom-Json -Depth 20) | Where-Object {$_."@level" -eq "error"}              
-if($warnings.count -gt 0)
-{
-    Write-Host "---------------------Terraform Warnings-----------------------------------------------------------"
-    foreach($o in $warnings) {Write-Warning ($o."@message" + "; Address:" + $o.diagnostic.address + "; Detail:" + $o.diagnostic.detail)}
-    Write-Host "--------------------------------------------------------------------------------------------------"
-}
-if($errors.count -gt 0)
-{
-    Write-Host "---------------------Terraform Errors-------------------------------------------------------------"
-    foreach($o in $errors) {Write-Error ($o."@message" + "; Address:" + $o.diagnostic.address + "; Detail:" + $o.diagnostic.detail)}
-    Write-Host "--------------------------------------------------------------------------------------------------"
-}
+ProcessTerraformApply -output $output -gitDeploy $gitDeploy
+

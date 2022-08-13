@@ -58,7 +58,7 @@ resource "random_password" "selfhostedsql" {
   min_special = 1
   special     = true
   lower       = true
-  number      = true
+  numeric      = true
   upper       = true
 }
 
@@ -129,7 +129,7 @@ resource "random_password" "h2o-ai" {
   min_special = 1
   special     = true
   lower       = true
-  number      = true
+  numeric      = true
   upper       = true
 }
 
@@ -204,7 +204,7 @@ resource "random_password" "custom_vm" {
   min_special = 1
   special     = true
   lower       = true
-  number      = true
+  numeric       = true
   upper       = true
 }
 

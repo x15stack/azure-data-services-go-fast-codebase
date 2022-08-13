@@ -55,6 +55,7 @@ else {
     # Main Terraform - Layer1
     #------------------------------------------------------------------------------------------------------------
     Write-Host "Starting Terraform Deployment- Layer 3"
-    terragrunt init --terragrunt-config vars/$env:environmentName/terragrunt.hcl -reconfigure
-    terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl
+    $output = terragrunt init --terragrunt-config vars/$env:environmentName/terragrunt.hcl -reconfigure
+    $output = terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl -json
+    ProcessTerraformApply -output $output -gitDeploy $gitDeploy
 }

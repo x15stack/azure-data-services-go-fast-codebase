@@ -27,6 +27,7 @@ param (
 #------------------------------------------------------------------------------------------------------------
 import-Module ./../pwshmodules/GatherOutputsFromTerraform.psm1 -force
 import-Module ./../pwshmodules/Deploy_0_Prep.psm1 -force
+import-Module ./../pwshmodules/ProcessTerraformApply.psm1 -force
 #------------------------------------------------------------------------------------------------------------
 # Preparation #Mandatory
 #------------------------------------------------------------------------------------------------------------
@@ -43,23 +44,22 @@ PrepareDeployment -gitDeploy $gitDeploy -deploymentFolderPath $deploymentFolderP
 # Main Terraform - Layer1
 #------------------------------------------------------------------------------------------------------------
 Write-Host "Starting Terraform Deployment- Layer 2"
+Write-Host "Expect this to take 20-30 minutes to complete the first time it is run. Subsequent, incremental builds should only take a few minutes."
+if([string]::IsNullOrEmpty($env:TF_VAR_jumphost_password) -and ($gitDeploy -eq $false -or $null -eq $gitdeploy))
+{
+    $env:TF_VAR_jumphost_password = Read-Host "Enter the Jumphost Password"
+}
+
+if([string]::IsNullOrEmpty($env:TF_VAR_synapse_sql_password) -and ($gitDeploy -eq $false -or $null -eq $gitdeploy))
+{
+    $env:TF_VAR_synapse_sql_password = Read-Host "Enter the Synapse SQL Admin Password"
+}
+
 $output = terragrunt init --terragrunt-config vars/$env:environmentName/terragrunt.hcl -reconfigure 
 $output = terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl -json #-var synapse_sql_password=$env:TF_VAR_synapse_sql_password  
 
-$warnings = ($output | ConvertFrom-Json -Depth 20) | Where-Object {$_."@level" -eq "warn"}              
-$errors = ($output | ConvertFrom-Json -Depth 20) | Where-Object {$_."@level" -eq "error"}              
-if($warnings.count -gt 0)
-{
-    Write-Host "---------------------Terraform Warnings-----------------------------------------------------------"
-    foreach($o in $warnings) {Write-Warning ($o."@message" + "; Address:" + $o.diagnostic.address + "; Detail:" + $o.diagnostic.detail)}
-    Write-Host "--------------------------------------------------------------------------------------------------"
-}
-if($errors.count -gt 0)
-{
-    Write-Host "---------------------Terraform Errors-------------------------------------------------------------"
-    foreach($o in $errors) {Write-Error ($o."@message" + "; Address:" + $o.diagnostic.address + "; Detail:" + $o.diagnostic.detail)}
-    Write-Host "--------------------------------------------------------------------------------------------------"
-}
+ProcessTerraformApply -output $output -gitDeploy $gitDeploy
+
 
 #Update Values for variables in Environment
 $tout_raw = ((az storage blob download -c "tstate" -n "terraform_layer2.tfstate" --account-name $env:TF_VAR_state_storage_account_name --auth-mode login) | ConvertFrom-Json).outputs

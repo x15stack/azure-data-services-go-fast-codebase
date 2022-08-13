@@ -28,11 +28,11 @@ function DeployFuncApp (
         $Path = $Path + "/Publish.zip"
         Compress-Archive -Path '.\unzipped\functionapp\*' -DestinationPath $Path -force
         
-        $result = az functionapp deployment source config-zip --resource-group $tout.resource_group_name --name $tout.functionapp_name --src $Path
+        $result = az functionapp deployment source config-zip --resource-group $tout.resource_group_name --name $tout.functionapp_name --src $Path --only-show-errors
 
         #Make sure we are running V6.0 --TODO: Move this to terraform if possible -- This is now done!
-        $result = az functionapp config set --net-framework-version v6.0 -n $tout.functionapp_name -g $tout.resource_group_name
-        $result = az functionapp config appsettings set --name $tout.functionapp_name --resource-group $tout.resource_group_name --settings FUNCTIONS_EXTENSION_VERSION=~4
+        $result = az functionapp config set --net-framework-version v6.0 -n $tout.functionapp_name -g $tout.resource_group_name --only-show-errors
+        $result = az functionapp config appsettings set --name $tout.functionapp_name --resource-group $tout.resource_group_name --settings FUNCTIONS_EXTENSION_VERSION=~4 --only-show-errors
 
         Set-Location $deploymentFolderPath
 
