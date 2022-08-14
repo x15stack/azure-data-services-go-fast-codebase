@@ -19,7 +19,7 @@
     "sql_aad_admin": "ccbdbba4-669c-48d6-86b8-75c9ab2ee578"
   },
   "azure_purview_data_curators": {
-    "hugo": "ed0568a1-1ee0-46ee-b7e8-0540c4660de2"
+    "john": "ccbdbba4-669c-48d6-86b8-75c9ab2ee578"
   },
   "synapse_publishers": {},
   "synapse_contributors": {},
@@ -39,10 +39,10 @@
   "GIT_ADF_EMAIL_ADDRESS": "#####",
   "FeatureTemplateOverrides": {
     "is_onprem_datafactory_ir_registered": false,
+    "deployment_layer3_complete": true,
     "synapse_git_toggle": false,
     "adf_git_toggle": false,
-    "deploy_sentinel": false,
-    "publish_sif_database": false,
+    "deploy_sentinel": false,    
     "synapse_git_toggle_integration": false,
     "synapse_git_repository_owner": "h-sha",
     "synapse_git_repository_name": "testLockbox",

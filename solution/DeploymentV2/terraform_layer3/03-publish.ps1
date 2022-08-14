@@ -47,3 +47,11 @@ $tout = GatherOutputsFromTerraform -TerraformFolderPath $PathToReturnTo
 
 ./database.ps1 -tout $tout -deploymentFolderPath $deploymentFolderPath -PathToReturnTo $PathToReturnTo -PublishSQLLogins $true
 ./app_service.ps1 -aad_webreg_id $tout.aad_webreg_id
+
+#Flip Flag on deployment_layer3_complete
+$envFolderPath = Convert-Path -Path ($deploymentFolderPath + "./environments/vars/$env:environmentName/")
+$varsfile = $envFolderPath + "/common_vars_values.jsonc"
+$common_vars_values = Get-Content $varsfile | ConvertFrom-Json -Depth 10
+$common_vars_values.FeatureTemplateOverrides.deployment_layer3_complete = $true
+$common_vars_values | Convertto-Json -Depth 10 | Set-Content $varsfile
+        

@@ -23,7 +23,6 @@ resource "azurerm_private_endpoint" "purview_account_private_endpoint_with_dns" 
   }
 
   depends_on = [
-    module.purview_ingestion_private_endpoints[0].azurerm_resource_group_template_deployment
   ]
 
   tags = local.tags
@@ -52,7 +51,6 @@ resource "azurerm_private_endpoint" "purview_portal_private_endpoint_with_dns" {
   }
 
   depends_on = [   
-    module.purview_ingestion_private_endpoints[0].azurerm_resource_group_template_deployment
   ]
 
   tags = local.tags
@@ -80,4 +78,8 @@ module "purview_ingestion_private_endpoints" {
   managed_resource_group_name = local.purview_resource_group_name
   name_suffix                 = random_id.rg_deployment_unique.id
   subscription_id             = var.subscription_id
+
+  depends_on = [
+    azurerm_private_endpoint.purview_account_private_endpoint_with_dns,azurerm_private_endpoint.purview_portal_private_endpoint_with_dns
+  ]
 }

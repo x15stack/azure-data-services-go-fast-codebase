@@ -25,19 +25,19 @@ function DeployMataDataDB (
         dotnet publish --no-restore --configuration Release --output '..\..\..\DeploymentV2\bin\publish\unzipped\database\'
     
         #Add Ip to SQL Firewall
-        $result = az sql server update -n $tout.sqlserver_name -g $tout.resource_group_name  --set publicNetworkAccess="Enabled"
+        $result = az sql server update -n $tout.sqlserver_name -g $tout.resource_group_name  --set publicNetworkAccess="Enabled" --only-show-errors
 
         $myIp = $env:TF_VAR_ip_address
         $myIp2 = $env:TF_VAR_ip_address2
 
         if ($myIp -ne $null) {
-            $result = az sql server firewall-rule create -g $tout.resource_group_name -s $tout.sqlserver_name -n "CICDAgent" --start-ip-address $myIp --end-ip-address $myIp
+            $result = az sql server firewall-rule create -g $tout.resource_group_name -s $tout.sqlserver_name -n "CICDAgent" --start-ip-address $myIp --end-ip-address $myIp --only-show-errors
         }
         if ($myIp2 -ne $null) {        
-            $result = az sql server firewall-rule create -g $tout.resource_group_name -s $tout.sqlserver_name -n "CICDUser" --start-ip-address $myIp2 --end-ip-address $myIp2
+            $result = az sql server firewall-rule create -g $tout.resource_group_name -s $tout.sqlserver_name -n "CICDUser" --start-ip-address $myIp2 --end-ip-address $myIp2 --only-show-errors
         }
         #Allow Azure services and resources to access this server
-        $result = az sql server firewall-rule create -g $tout.resource_group_name -s $tout.sqlserver_name -n "Azure" --start-ip-address 0.0.0.0 --end-ip-address 0.0.0.0
+        $result = az sql server firewall-rule create -g $tout.resource_group_name -s $tout.sqlserver_name -n "Azure" --start-ip-address 0.0.0.0 --end-ip-address 0.0.0.0 --only-show-errors
 
         Set-Location $deploymentFolderPath
         Set-Location ".\bin\publish\unzipped\database\"

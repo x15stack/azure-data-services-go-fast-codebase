@@ -148,7 +148,7 @@ resource "azurerm_synapse_firewall_rule" "public_access" {
 }
 
 resource "time_sleep" "azurerm_synapse_firewall_rule_wait_30_seconds_cicd" {
-  depends_on      = [azurerm_synapse_firewall_rule.cicd, azurerm_synapse_firewall_rule.cicd]
+  depends_on      = [azurerm_synapse_firewall_rule.cicd, azurerm_synapse_firewall_rule.cicd_user]
   create_duration = "30s"
 }
 
