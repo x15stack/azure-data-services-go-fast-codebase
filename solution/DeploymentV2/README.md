@@ -33,8 +33,8 @@ When you execute the script it will ask you for a number of inputs:
 ![image](https://user-images.githubusercontent.com/11702150/184566884-89671236-cbb6-441d-a6b5-f7390a44b78c.png)
 - **Resource Provider Registration**: Select '1' (YES) to ensure that the pre-requisite resource providers have been enabled on your Azure subscription. 
 ![image](https://user-images.githubusercontent.com/11702150/184566915-ad311bf1-59fc-4c1d-a94c-6d51c3b82101.png)
-- **Resource Owner**: Select 'yes' to ensure that the pre-requisite reesource providers have been enabled on your Azure subscription. 
-- **SQL Server AAD Admin**: Select 'yes' to ensure that the pre-requisite reesource providers have been enabled on your Azure subscription. 
+- **Resource Owner**: Insert the object id of the Azure identity or group that you would like to have ownership of the resource group.  If you are planning to deploy the solution using a CICD agent, it is suggested that you enter the Agent Service Principal's object id here. If you will be deploying from the command line using an interactive session then leave this field blank.
+- **SQL Server AAD Admin**: Insert the object id of the Azure identity or group that you would like to be the AAD administrator of any SQL Server instances deployed.  If you are planning to deploy the solution using a CICD agent, then it is suggested that you use an AAD group here. If you will be deploying from the command line using an interactive session then leave this field blank.
 
  
 At the end of the execution, you will be provided the details of what was performed as well as the resource & subscription details.
@@ -52,7 +52,7 @@ Before you run the **Deploy.ps1** script, make sure you have completed the pre-r
 - Run the Prepare.ps1 script first. This will prepare your azure subscription for deployment
 - Ensure that you have run az login and az account set
 - Ensure you have Owner access to the resource group you are planning on deploying into
-- Ensure you have the Application.ReadWrite.OwnedBy permission with Azure AD to allow you to create and manage AAD app registrations
+- Ensure you have the **Application.ReadWrite.OwnedBy** permission with Azure AD to allow you to create and manage AAD app registrations
 
 ### :grey_question: What does it do?
 This script will:
