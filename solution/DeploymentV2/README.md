@@ -26,14 +26,21 @@ The purpose of this script is to prepare your Azure environment ready for the de
 ### 	:arrow_forward: How do I run this?
 Execute the following script file:
 ```./Prepare.ps1```
-When you execute the script it will ask you for two inputs:
- - **Resource Group Name**: The resource group name to be created. If you skip this, only the providers will be registered
- - **Storage Account Name** The storage account name for storing your terraform state. If you skip this, no storage account will be created
+When you execute the script it will ask you for a number of inputs:
+- **Deployment Environment**: The first step is to select which deployment environment you would like to deploy into. The specifics of each deployment environment are stored within json files located within the [./environments/vars/](./environments/vars/) directory. Within this directory there is a subdirectory for each environment file. The prepare script will gather information and update one of these envionment files. The specific file that will be update depends on which environment you choose at this point.  
+![image](https://user-images.githubusercontent.com/11702150/184566506-95b8d705-de58-4c2c-a2e2-5b8dfd855f7b.png)
+- **Resource Group Name**: The resource group name to be created. 
+![image](https://user-images.githubusercontent.com/11702150/184566884-89671236-cbb6-441d-a6b5-f7390a44b78c.png)
+- **Resource Provider Registration**: Select '1' (YES) to ensure that the pre-requisite resource providers have been enabled on your Azure subscription. 
+![image](https://user-images.githubusercontent.com/11702150/184566915-ad311bf1-59fc-4c1d-a94c-6d51c3b82101.png)
+- **Resource Owner**: Select 'yes' to ensure that the pre-requisite reesource providers have been enabled on your Azure subscription. 
+- **SQL Server AAD Admin**: Select 'yes' to ensure that the pre-requisite reesource providers have been enabled on your Azure subscription. 
+
  
 At the end of the execution, you will be provided the details of what was performed as well as the resource & subscription details.
 These are pre-loaded into environment variables so that you can directly run the ./Deploy.ps1 without doing any manual entry.
 
-To save you having to do more work later, I recommend that you copy them down and updatethe values directly into the following file:
+To save you having to do more work later, I recommend that you copy them down and update the values directly into the following file:
 
  ```/azure-data-services-go-fast-codebase/solution/DeploymentV2/terraform/vars/local/terragrunt.hcl```
 
@@ -45,7 +52,7 @@ Before you run the **Deploy.ps1** script, make sure you have completed the pre-r
 - Run the Prepare.ps1 script first. This will prepare your azure subscription for deployment
 - Ensure that you have run az login and az account set
 - Ensure you have Owner access to the resource group you are planning on deploying into
-- Ensure you have the Application Administrator role with Azure AD to allow you to create AAD app registrations
+- Ensure you have the Application.ReadWrite.OwnedBy permission with Azure AD to allow you to create and manage AAD app registrations
 
 ### :grey_question: What does it do?
 This script will:
