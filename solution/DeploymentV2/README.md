@@ -69,9 +69,11 @@ Execute the following script file:
 You can run this script multiple times if needed.
 The configuration for this environment creation is read from the following locations:
 - The environment variables created when you ran Prepare.ps1
-- The environment configuration file:
-  -  ```/azure-data-services-go-fast-codebase/solution/DeploymentV2/terraform/vars/local/terragrunt.hcl```
+- The environment configuration file (*where {selected_environment} is the name of the environment that you selected during execution of prepare.ps1):
+  -  ```/azure-data-services-go-fast-codebase/solution/DeploymentV2/environment/vars/{selected_environment}/terragrunt.hcl```
 
+
+### Deployment Layers
 Layer | Description | Permissions Required when using Service Principal | Permissions Required when using User Principal
 | --- | --- | --- | --- |
 Terraform Layer One | - Register AAD Enterprise Applications & Service Principals | - Application.ReadWrite.OwnedBy | - Application Administrator (Role)
