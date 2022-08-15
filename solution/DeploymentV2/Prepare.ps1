@@ -78,9 +78,10 @@ if ($gitDeploy)
 else 
 {    
     $env:TF_VAR_resource_group_name = Read-Host "Enter the name of the resource group to create (enter to skip)"
-    $env:TF_VAR_state_storage_account_name = Read-Host "Enter the name of the state storage account name to create (enter nothing to automatically name state as resourcegroupnamestate)"
+    $env:TF_VAR_state_storage_account_name = Read-Host "Enter the name of the state storage account name to create. If you enter nothing the name will be set as 'resourcegroupname'+'state'. Note: All non valid / excess characters will also be stripped"
     if([string]::IsNullOrEmpty($env:TF_VAR_state_storage_account_name) -eq $true) {
-        $env:TF_VAR_state_storage_account_name = $env:TF_VAR_resource_group_name + "state"
+        $temp = $env:TF_VAR_resource_group_name + "state"
+        $env:TF_VAR_state_storage_account_name = $temp -replace "\W"
         Write-Host "Auto applied state name: " + $env:TF_VAR_state_storage_account_name
     }
 
