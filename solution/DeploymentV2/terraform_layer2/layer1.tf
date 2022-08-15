@@ -7,7 +7,7 @@
       config = {
         container_name       = "tstate"
         key                  = "terraform_layer1.tfstate"
-        resource_group_name  = "lockboxdevtemp"
-        storage_account_name = "lockboxdevtempstate"
+        resource_group_name  = "test-state-custom"
+        storage_account_name = "bstate2"
       }
     }

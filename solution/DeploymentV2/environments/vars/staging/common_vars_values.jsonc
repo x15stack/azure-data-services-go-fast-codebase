@@ -7,6 +7,7 @@
   "subscription_id": "687fe1ae-a520-4f86-b921-a80664c40f9b",
   "prefix": "ark",
   "resource_group_name": "lockboxftest",
+  "state_storage_account_name": "lockboxftteststate",
   "ip_address": "159.196.32.59",
   "ip_address2": "",
   "tenant_id": "0fee3d31-b963-4a1c-8f4a-ca367205aa65",

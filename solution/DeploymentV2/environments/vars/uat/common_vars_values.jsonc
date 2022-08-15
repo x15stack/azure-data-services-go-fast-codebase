@@ -6,15 +6,16 @@
   "domain": "arkahna.io",
   "subscription_id": "687fe1ae-a520-4f86-b921-a80664c40f9b",
   "prefix": "ark",
-  "resource_group_name": "lockboxdevtemp",
+  "resource_group_name": "test-state-custom",
+  "state_storage_account_name": "bstate2",
   "ip_address": "159.196.32.59",
-  "ip_address2": "",
+  "ip_address2": "159.196.32.59",
   "tenant_id": "0fee3d31-b963-4a1c-8f4a-ca367205aa65",
-  "deployment_principal_layers1and3": "",
-  "resource_owners": [
-    "ed0568a1-1ee0-46ee-b7e8-0540c4660de2"
-  ],
-  "synapse_administrators": {},
+  "deployment_principal_layers1and3": "ed0568a1-1ee0-46ee-b7e8-0540c4660de2",
+  "resource_owners": [],
+  "synapse_administrators": {
+    "hugo.sharpe@arkahna.io": "ed0568a1-1ee0-46ee-b7e8-0540c4660de2"
+  },
   "azure_sql_aad_administrators": {
     "sql_aad_admin": "ed0568a1-1ee0-46ee-b7e8-0540c4660de2"
   },
@@ -25,9 +26,9 @@
   "synapse_contributors": {},
   "WEB_APP_ADMIN_USER": "ed0568a1-1ee0-46ee-b7e8-0540c4660de2",
   "WEB_APP_ADMIN_SECURITY_GROUP": "#####",
-  "ARM_SYNAPSE_WORKSPACE_NAME": "arkstgsynwadsf829",
-  "ARM_KEYVAULT_NAME": "ark-stg-kv-ads-f829",
-  "ARM_DATALAKE_NAME": "arkstgdlsadsf829adsl",
+  "ARM_SYNAPSE_WORKSPACE_NAME": "arkstgsynwadsc6p9",
+  "ARM_KEYVAULT_NAME": "ark-stg-kv-ads-c6p9",
+  "ARM_DATALAKE_NAME": "arkstgdlsadsc6p9adsl",
   "ARM_PAL_PARTNER_ID": "0",
   "GIT_REPOSITORY_NAME": "#####",
   "GIT_SYNAPSE_REPOSITORY_BRANCH_NAME": "#####",

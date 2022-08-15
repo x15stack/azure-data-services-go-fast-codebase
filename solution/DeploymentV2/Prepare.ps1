@@ -78,7 +78,12 @@ if ($gitDeploy)
 else 
 {    
     $env:TF_VAR_resource_group_name = Read-Host "Enter the name of the resource group to create (enter to skip)"
-    $env:TF_VAR_storage_account_name = $env:TF_VAR_resource_group_name+"state"
+    $env:TF_VAR_state_storage_account_name = Read-Host "Enter the name of the state storage account name to create (enter nothing to automatically name state as resourcegroupnamestate)"
+    if([string]::IsNullOrEmpty($env:TF_VAR_state_storage_account_name) -eq $true) {
+        $env:TF_VAR_state_storage_account_name = $env:TF_VAR_resource_group_name + "state"
+        Write-Host "Auto applied state name: " + $env:TF_VAR_state_storage_account_name
+    }
+
     $CONTAINER_NAME="tstate"
     # ------------------------------------------------------------------------------------------------------------
     # Ensure that you have all of the require Azure resource providers enabled before you begin deploying the solution.
@@ -138,10 +143,10 @@ else
         Write-Progress -Activity "Creating Resource Group" -Status "${progress}% Complete:" -PercentComplete $progress 
         $rg = az group create -n $env:TF_VAR_resource_group_name -l australiaeast --only-show-errors
 
-        if([string]::IsNullOrEmpty($env:TF_VAR_storage_account_name) -eq $false) {
+        if([string]::IsNullOrEmpty($env:TF_VAR_state_storage_account_name) -eq $false) {
             $progress+=5
             Write-Progress -Activity "Creating Storage Account" -Status "${progress}% Complete:" -PercentComplete $progress
-            $storageId = az storage account create --resource-group $env:TF_VAR_resource_group_name --name $env:TF_VAR_storage_account_name --sku Standard_LRS --allow-blob-public-access false --https-only true --min-tls-version TLS1_2 --query id -o tsv --only-show-errors
+            $storageId = az storage account create --resource-group $env:TF_VAR_resource_group_name --name $env:TF_VAR_state_storage_account_name --sku Standard_LRS --allow-blob-public-access false --https-only true --min-tls-version TLS1_2 --query id -o tsv --only-show-errors
 
             $progress+=5
             $userObjectId = az ad signed-in-user show --query id -o tsv --only-show-errors
@@ -150,7 +155,7 @@ else
 
             $progress+=5
             Write-Progress -Activity "Creating State Container" -Status "${progress}% Complete:" -PercentComplete $progress
-            $container = az storage container create --name $CONTAINER_NAME --account-name $env:TF_VAR_storage_account_name --auth-mode login --only-show-errors
+            $container = az storage container create --name $CONTAINER_NAME --account-name $env:TF_VAR_state_storage_account_name --auth-mode login --only-show-errors
 
             Write-Progress -Activity "Finished" -Completed 
         }
@@ -185,17 +190,17 @@ else
         Write-Host "Resource Group: " -NoNewline -ForegroundColor green
         Write-Host "'${env:TF_VAR_resource_group_name}'";
     }
-    if($env:TF_VAR_storage_account_name -ne "") {
+    if($env:TF_VAR_state_storage_account_name -ne "") {
         Write-Host "Storage Account: " -NoNewline -ForegroundColor green
-        Write-Host "${env:TF_VAR_storage_account_name}";
+        Write-Host "${env:TF_VAR_state_storage_account_name}";
         Write-Host "Storage Account Container: " -NoNewline -ForegroundColor green
         Write-Host "${CONTAINER_NAME}";    
     }
     Write-Host "The following terraform environment variables have been set:";
     Write-Host " - resource_group_name = " -NoNewline -ForegroundColor green
     Write-Host "${env:TF_VAR_resource_group_name}";
-    Write-Host " - storage_account_name = " -NoNewline -ForegroundColor green
-    Write-Host "${env:TF_VAR_storage_account_name}";
+    Write-Host " - state_storage_account_name = " -NoNewline -ForegroundColor green
+    Write-Host "${env:TF_VAR_state_storage_account_name}";
     Write-Host " - subscription_id = " -NoNewline -ForegroundColor green
     Write-Host "${env:TF_VAR_subscription_id}";
     Write-Host " - tenant_id = " -NoNewline -ForegroundColor green
@@ -233,7 +238,9 @@ else
         $common_vars_values.subscription_id =  $env:TF_VAR_subscription_id 
         $common_vars_values.ip_address =  $env:TF_VAR_ip_address
         $common_vars_values.ip_address2 =  $env:TF_VAR_ip_address
-        $common_vars_values.tenant_id =  $env:TF_VAR_tenant_id 
+        $common_vars_values.tenant_id =  $env:TF_VAR_tenant_id
+        $common_vars_values.state_storage_account_name =  $env:TF_VAR_state_storage_account_name
+ 
         $common_vars_values.WEB_APP_ADMIN_USER = (az ad signed-in-user show --only-show-errors | ConvertFrom-Json).id
              
         $foundUser = $false

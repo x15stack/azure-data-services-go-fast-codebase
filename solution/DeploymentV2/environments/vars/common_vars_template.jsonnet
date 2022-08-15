@@ -250,8 +250,8 @@ local AllVariables = [
         {            
             "CICDSecretName": "ARM_STORAGE_NAME",            
             "EnvVarName": "TF_VAR_state_storage_account_name",            
-            "HCLName": "",
-            "Value": locals[environment].resource_group_name + "state",
+            "HCLName": "state_storage_account_name",
+            "Value": locals[environment].state_storage_account_name,
             "Sensitive": false,
             "DoNotReplaceDuringAgentDeployment":false
         },
@@ -396,6 +396,76 @@ local SecretFileSensitiveVars =     {  // Object comprehension.
     "ForSecretFile": SecretFileVars,
     "ForSecretFileSensitive": SecretFileSensitiveVars
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

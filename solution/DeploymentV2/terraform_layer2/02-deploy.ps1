@@ -64,6 +64,8 @@ ProcessTerraformApply -output $output -gitDeploy $gitDeploy
 #Update Values for variables in Environment
 $tout_raw = ((az storage blob download -c "tstate" -n "terraform_layer2.tfstate" --account-name $env:TF_VAR_state_storage_account_name --auth-mode login) | ConvertFrom-Json).outputs
 
+
+#conditional
 $envFolderPath = Convert-Path -Path ($deploymentFolderPath + "./environments/vars/$env:environmentName/")
 $varsfile = $envFolderPath + "/common_vars_values.jsonc"
 $common_vars_values = Get-Content $varsfile | ConvertFrom-Json -Depth 10
