@@ -39,10 +39,10 @@
   "GIT_ADF_EMAIL_ADDRESS": "#####",
   "FeatureTemplateOverrides": {
     "is_onprem_datafactory_ir_registered": false,
-    "deployment_layer3_complete": true,
+    "deployment_layer3_complete": false,
     "synapse_git_toggle": false,
     "adf_git_toggle": false,
-    "deploy_sentinel": false,    
+    "deploy_sentinel": false,
     "synapse_git_toggle_integration": false,
     "synapse_git_repository_owner": "h-sha",
     "synapse_git_repository_name": "testLockbox",

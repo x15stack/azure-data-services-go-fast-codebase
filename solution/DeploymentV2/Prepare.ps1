@@ -205,7 +205,7 @@ else
     Write-Host " - domain = " -NoNewline -ForegroundColor green
     Write-Host "${env:TF_VAR_domain}";
     Write-Host " ";
-    Write-Host "NOTE: It is recommended you copy these into your environment/vars/local/common_vars_values.jsonc file for future use" -ForegroundColor blue
+    Write-Host "NOTE: If you did not select the option to autopersist configurations, then it is recommended you copy these into your environment/vars/local/common_vars_values.jsonc file for future use" -ForegroundColor blue
     Write-Host "Press any key to continue...";
     #------------------------------------------------------------------------------------------------------------
     # Pause incase this was run directly
