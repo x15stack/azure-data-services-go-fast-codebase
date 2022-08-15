@@ -78,12 +78,23 @@ if ($gitDeploy)
 else 
 {    
     $env:TF_VAR_resource_group_name = Read-Host "Enter the name of the resource group to create (enter to skip)"
-    $env:TF_VAR_state_storage_account_name = Read-Host "Enter the name of the state storage account name to create. If you enter nothing the name will be set as 'resourcegroupname'+'state'. Note: All non valid / excess characters will also be stripped"
+    $env:TF_VAR_state_storage_account_name = Read-Host "Enter the name of the state storage account name to create. If you enter nothing the name will be set as 'resourcegroupname'+'state'. Note: All non valid characters will also be stripped"
     if([string]::IsNullOrEmpty($env:TF_VAR_state_storage_account_name) -eq $true) {
         $temp = $env:TF_VAR_resource_group_name + "state"
         $env:TF_VAR_state_storage_account_name = $temp -replace "\W"
-        Write-Host "Auto applied state name: " + $env:TF_VAR_state_storage_account_name
+        Write-Host "Auto applied state name:" $env:TF_VAR_state_storage_account_name
     }
+    if($env:TF_VAR_state_storage_account_name.length -gt 24)
+    {
+        Write-Host "The state storage account name" $env:TF_VAR_state_storage_account_name "is invalid"
+        do {
+            $input = Read-Host "Please input a state storage account name that is less than 25 characters long (only letters and numbers, no spaces)"
+            $input = $input -replace "\W"
+        } until ($input.length -le 24)
+        $env:TF_VAR_state_storage_account_name = $input
+        Write-Host "Storage account name: " $env:TF_VAR_state_storage_account_name
+    }
+
 
     $CONTAINER_NAME="tstate"
     # ------------------------------------------------------------------------------------------------------------

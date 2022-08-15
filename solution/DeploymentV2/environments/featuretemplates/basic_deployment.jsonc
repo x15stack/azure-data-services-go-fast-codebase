@@ -18,5 +18,7 @@
     {"Name":"publish_web_app_addcurrentuserasadmin","Value":true},
     {"Name":"deploy_selfhostedsql","Value":false},
     {"Name":"is_onprem_datafactory_ir_registered","Value":false},
-    {"Name":"publish_sif_database","Value":true}
+    {"Name":"publish_sif_database","Value":true},
+    {"Name":"deployment_layer3_complete","Value":false}
+
 ]

@@ -41,21 +41,24 @@ PrepareDeployment -gitDeploy $gitDeploy -deploymentFolderPath $deploymentFolderP
 
 
 #Check to make sure that purview account is fully deployed
-$pname = ((az storage blob download -c "tstate" -n "terraform_layer2.tfstate" --account-name $env:TF_VAR_state_storage_account_name --auth-mode login) | ConvertFrom-Json).outputs.purview_name
-$pstate = (az purview account show --name $pname.value -g $env:TF_VAR_resource_group_name | ConvertFrom-Json -Depth 10).provisioningState
+#$pname = ((az storage blob download -c "tstate" -n "terraform_layer2.tfstate" --account-name $env:TF_VAR_state_storage_account_name --auth-mode login) | ConvertFrom-Json).outputs.purview_name
+#$pstate = (az purview account show --name $pname.value -g $env:TF_VAR_resource_group_name | ConvertFrom-Json -Depth 10).provisioningState
 
 #az purview account show --name $pname.value -g $env:TF_VAR_resource_group_name
 
-if($pstate -ne "Succeeded")
-{
-    Write-Error "Purview account has not yet completed provisioning - Wait For completion and then retry"
-}
-else {
-    #------------------------------------------------------------------------------------------------------------
-    # Main Terraform - Layer1
-    #------------------------------------------------------------------------------------------------------------
-    Write-Host "Starting Terraform Deployment- Layer 3"
-    $output = terragrunt init --terragrunt-config vars/$env:environmentName/terragrunt.hcl -reconfigure
-    $output = terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl -json
-    ProcessTerraformApply -output $output -gitDeploy $gitDeploy
-}
+#if($pstate -ne "Succeeded")
+#{
+#    Write-Error "Purview account has not yet completed provisioning - Wait For completion and then retry"
+#}
+#else {
+#    #------------------------------------------------------------------------------------------------------------
+#    # Main Terraform - Layer1
+#    #------------------------------------------------------------------------------------------------------------
+#
+#}
+
+
+Write-Host "Starting Terraform Deployment- Layer 3"
+$output = terragrunt init --terragrunt-config vars/$env:environmentName/terragrunt.hcl -reconfigure
+$output = terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl -json
+ProcessTerraformApply -output $output -gitDeploy $gitDeploy
