@@ -71,3 +71,9 @@ The configuration for this environment creation is read from the following locat
 - The environment variables created when you ran Prepare.ps1
 - The environment configuration file:
   -  ```/azure-data-services-go-fast-codebase/solution/DeploymentV2/terraform/vars/local/terragrunt.hcl```
+
+Layer | Description | Permissions Required when using Service Principal | Permissions Required when using User Principal
+| --- | --- | --- | --- |
+Terraform Layer One | - Register AAD Enterprise Applications & Service Principals | - Application.ReadWrite.OwnedBy | - Application Administrator (Role)
+Terraform Layer Two | - Core IAC deployment for approx. 70 ADS Go fast resources | - Resource Group Owner | - Resource Group Owner
+Terraform Layer Three | - Update AAD Enterprise Applications by granting required roles and permissions to managed service identities created in Layer Two <br /> - Create Private Endpoints for Purview | - Application.ReadWrite.OwnedBy <br /> (Must be same identity as that which was used to run Layer One) | - Application Administrator (Role), <br /> - Network Contributor 
