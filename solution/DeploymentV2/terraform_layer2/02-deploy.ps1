@@ -62,15 +62,28 @@ ProcessTerraformApply -output $output -gitDeploy $gitDeploy
 
 
 #Update Values for variables in Environment
+[Environment]::SetEnvironmentVariable("TF_VAR_state_storage_account_name", $Value) 
 $tout_raw = ((az storage blob download -c "tstate" -n "terraform_layer2.tfstate" --account-name $env:TF_VAR_state_storage_account_name --auth-mode login) | ConvertFrom-Json).outputs
 
 
 #conditional
-$envFolderPath = Convert-Path -Path ($deploymentFolderPath + "./environments/vars/$env:environmentName/")
-$varsfile = $envFolderPath + "/common_vars_values.jsonc"
-$common_vars_values = Get-Content $varsfile | ConvertFrom-Json -Depth 10
-$common_vars_values.ARM_DATALAKE_NAME = $tout_raw.adlsstorage_name.value
-$common_vars_values.ARM_KEYVAULT_NAME = $tout_raw.keyvault_name.value
-$common_vars_values.ARM_SYNAPSE_WORKSPACE_NAME = $tout_raw.synapse_workspace_name.value
-$common_vars_values | Convertto-Json -Depth 10 | Set-Content $varsfile
+if(-not (([string]::IsNullOrEmpty($tout_raw.adlsstorage_name.value)) -or ([string]::IsNullOrEmpty($tout_raw.keyvault_name.value)) -or([string]::IsNullOrEmpty($tout_raw.synapse_workspace_name.value)) ) )
+{
+    Write-Host "Writing ARM_DATALAKE_NAME / ARM_KEYVAULT_NAME / ARM_SYNAPSE_WORKSPACE_NAME to common vars environment file"
+    $envFolderPath = Convert-Path -Path ($deploymentFolderPath + "./environments/vars/$env:environmentName/")
+    $varsfile = $envFolderPath + "/common_vars_values.jsonc"
+    $common_vars_values = Get-Content $varsfile | ConvertFrom-Json -Depth 10
+    $common_vars_values.ARM_DATALAKE_NAME = $tout_raw.adlsstorage_name.value
+    $common_vars_values.ARM_KEYVAULT_NAME = $tout_raw.keyvault_name.value
+    $common_vars_values.ARM_SYNAPSE_WORKSPACE_NAME = $tout_raw.synapse_workspace_name.value
+    $common_vars_values | Convertto-Json -Depth 10 | Set-Content $varsfile
+}
+else 
+{
+    Write-Host "Not writing ARM_DATALAKE_NAME / ARM_KEYVAULT_NAME / ARM_SYNAPSE_WORKSPACE_NAME to common vars environment file"
+    Write-Host "ARM_DATALAKE_NAME =" $tout_raw.adlsstorage_name.value
+    Write-Host "ARM_KEYVAULT_NAME =" $tout_raw.keyvault_name.value
+    Write-Host "ARM_SYNAPSE_WORKSPACE_NAME =" $tout_raw.synapse_workspace_name.value
+}
+
         

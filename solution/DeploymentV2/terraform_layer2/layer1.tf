@@ -7,7 +7,7 @@
       config = {
         container_name       = "tstate"
         key                  = "terraform_layer1.tfstate"
-        resource_group_name  = "test-state-custom"
-        storage_account_name = "bstate2"
+        resource_group_name  = "Test-Deployment-with-purview-dp"
+        storage_account_name = "arkstate01"
       }
     }
