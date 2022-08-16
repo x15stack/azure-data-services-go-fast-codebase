@@ -91,6 +91,17 @@
         "category": "Target Azure Environment"
       }
     },
+    "state_storage_account_name": {
+      "type": "string",
+      "default": "gf1state",
+      "description": "Name of the storage account name into which the terraform states will be stored",
+      "examples": [
+          "gf1state"
+      ],
+      "options": {
+        "category": "Target Azure Environment"
+      }
+    },
     "ip_address": {
       "type": "string",
       "examples": [],

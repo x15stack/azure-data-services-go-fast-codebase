@@ -13,7 +13,7 @@ remote_state {
     # You need to update the resource group and storage account here. 
     # You should have created these with the Prepare.ps1 script.
     resource_group_name  = "${local.common_vars.resource_group_name}"
-    storage_account_name = "${local.common_vars.resource_group_name}state"
+    storage_account_name = "${local.common_vars.state_storage_account_name}"
     container_name       = "tstate"
     key                  = "terraform_layer1.tfstate"
   }
