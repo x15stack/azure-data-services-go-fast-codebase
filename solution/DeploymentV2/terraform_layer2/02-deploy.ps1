@@ -62,7 +62,7 @@ ProcessTerraformApply -output $output -gitDeploy $gitDeploy
 
 
 #Update Values for variables in Environment
-[Environment]::SetEnvironmentVariable("TF_VAR_state_storage_account_name", $Value) 
+#[Environment]::SetEnvironmentVariable("TF_VAR_state_storage_account_name", $Value) 
 $tout_raw = ((az storage blob download -c "tstate" -n "terraform_layer2.tfstate" --account-name $env:TF_VAR_state_storage_account_name --auth-mode login) | ConvertFrom-Json).outputs
 
 

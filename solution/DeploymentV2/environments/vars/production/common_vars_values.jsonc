@@ -19,6 +19,7 @@
   "ARM_KEYVAULT_NAME": "ads-dev-kv-ads-khpv",
   "ARM_DATALAKE_NAME": "adsdevdlsadskhpvadsl",
   "FeatureTemplateOverrides": {
-    "is_onprem_datafactory_ir_registered": false
+    "is_onprem_datafactory_ir_registered": false,
+    "deployment_layer3_complete":false
   }
 }
