@@ -38,6 +38,6 @@
   "GIT_ADF_EMAIL_ADDRESS": "#####",
   "FeatureTemplateOverrides": {
     "is_onprem_datafactory_ir_registered": false,
-    "deployment_layer3_complete":false
+    "deployment_layer3_complete": true
   }
 }
