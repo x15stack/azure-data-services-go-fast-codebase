@@ -22,6 +22,17 @@
 # Once this script has finished, you then run Deploy.ps1 to create your environment
 # ------------------------------------------------------------------------------------------------------------
 
+Function Sleep-Progress($seconds) {
+    $s = 0;
+    Do {
+        $p = [math]::Round(100 - (($seconds - $s) / $seconds * 100));
+        Write-Progress -Activity "Waiting..." -Status "$p% Complete:" -SecondsRemaining ($seconds - $s) -PercentComplete $p;
+        [System.Threading.Thread]::Sleep(1000)
+        $s++;
+    }
+    While($s -lt $seconds);
+    
+}
 
 #by default $gitDeploy will not be true, only being set by the git environment - meaning if not using a runner it will default to a standard execution.
 $gitDeploy = ([System.Environment]::GetEnvironmentVariable('gitDeploy')  -eq 'true')
@@ -151,25 +162,45 @@ else
     # and restrict it so that only GitHub / AzDO can access it.
     #------------------------------------------------------------------------------------------------------------
     if([string]::IsNullOrEmpty($env:TF_VAR_resource_group_name) -eq $false) {
-        $progress = 0
-        Write-Progress -Activity "Creating Resource Group" -Status "${progress}% Complete:" -PercentComplete $progress 
         $rg = az group create -n $env:TF_VAR_resource_group_name -l australiaeast --only-show-errors
 
         if([string]::IsNullOrEmpty($env:TF_VAR_state_storage_account_name) -eq $false) {
-            $progress+=5
-            Write-Progress -Activity "Creating Storage Account" -Status "${progress}% Complete:" -PercentComplete $progress
-            $storageId = az storage account create --resource-group $env:TF_VAR_resource_group_name --name $env:TF_VAR_state_storage_account_name --sku Standard_LRS --allow-blob-public-access false --https-only true --min-tls-version TLS1_2 --query id -o tsv --only-show-errors
+            Write-Host "Creating storage account"
+            #Public 
+            $uinput = Get-SelectionFromUser -Options ('Public','Isolated', 'Private') -Prompt "Please select Network Isolation Level"
+            if($uinput -eq "Public")
+            {
+                Write-Host "Creating Public Storage"
+                $storageId = az storage account create --resource-group $env:TF_VAR_resource_group_name --name $env:TF_VAR_state_storage_account_name --sku Standard_LRS --allow-blob-public-access false --public-network-access Enabled --default-action Allow --https-only true --min-tls-version TLS1_2 --query id -o tsv --only-show-errors           
+            }
 
-            $progress+=5
-            $userObjectId = az ad signed-in-user show --query id -o tsv --only-show-errors
-            Write-Progress -Activity "Assigning Blob Contributor" -Status "${progress}% Complete:" -PercentComplete $progress
+            if($uinput -eq "Isolated")
+            {
+                Write-Host "Creating Isolated Storage"      
+                #Isolated 
+                $storageId = az storage account create --resource-group $env:TF_VAR_resource_group_name --name $env:TF_VAR_state_storage_account_name --sku Standard_LRS --allow-blob-public-access false --public-network-access Enabled --default-action Deny --https-only true --min-tls-version TLS1_2 --query id -o tsv --only-show-errors
+                $hiddenoutput =az storage account network-rule add --resource-group $env:TF_VAR_resource_group_name --account-name $env:TF_VAR_state_storage_account_name --ip-address $env:TF_VAR_ip_address --only-show-errors
+                #wait for network rule 
+                Sleep-Progress 7
+            }
+            if($uinput -eq "Private")
+            {
+                Write-Host "Creating Private Storage"      
+                #Private
+                $storageId = az storage account create --resource-group $env:TF_VAR_resource_group_name --name $env:TF_VAR_state_storage_account_name --sku Standard_LRS --allow-blob-public-access false --public-network-access Disabled --https-only true --min-tls-version TLS1_2 --query id -o tsv --only-show-errors
+                            
+                $DeploymentVnet =  Read-Host "Please input the name of the vnet from which deployment activities will originate."
+                $DeploymentRg = Read-Host "Please input the resource group of the vnet from which deployment activities will originate."                
+                $output = az network private-dns zone create --resource-group $env:TF_VAR_resource_group_name --name "privatelink.blob.core.windows.net"
+                $output = az network private-endpoint create -g $DeploymentRg -n $env:TF_VAR_state_storage_account_name --vnet-name $DeploymentVnet --subnet default --private-connection-resource-id "/subscriptions/$env:TF_VAR_subscription_id/resourceGroups/$env:TF_VAR_resource_group_name/providers/Microsoft.Storage/storageAccounts/gft6state" --connection-name tttt -l australiaeast --group-id dfs           
+                $output = az network private-dns link vnet create --name "adscore.privatelink.blob.core.windows.net" --registration-enabled false --resource-group $env:TF_VAR_resource_group_name --virtual-network "/subscriptions/$env:TF_VAR_subscription_id/resourceGroups/$DeploymentRg/providers/Microsoft.Network/virtualNetworks/$DeploymentVnet" --zone-name "privatelink.blob.core.windows.net"
+            }
+            Write-Host "Creating Role Assignment"        
+            $userObjectId = az ad signed-in-user show --query id -o tsv --only-show-errors            
             $assignment = az role assignment create --role "Storage Blob Data Contributor" --assignee-object-id $userObjectId --assignee-principal-type User --only-show-errors
-
-            $progress+=5
-            Write-Progress -Activity "Creating State Container" -Status "${progress}% Complete:" -PercentComplete $progress
+            Write-Host "Creating State Container"        
             $container = az storage container create --name $CONTAINER_NAME --account-name $env:TF_VAR_state_storage_account_name --auth-mode login --only-show-errors
-
-            Write-Progress -Activity "Finished" -Completed 
+       
         }
 
     }

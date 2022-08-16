@@ -107,11 +107,11 @@ foreach ($patternFolder in $patternFolders)
         Write-Verbose "_____________________________"
         
         $newfolder = ($schemafile.SourceFolder + "/output")
-        $hiddenoutput = !(Test-Path $newfolder) ? ($F = New-Item -itemType Directory -Name $newfolder) : ($F = "")
+        $hiddenoutput = !(Test-Path $newfolder) ? ($F = New-Item -itemType Directory -Name $newfolder -Force) : ($F = "")
         $newfolder = ($newfolder + "/schemas")
-        $hiddenoutput = !(Test-Path $newfolder) ? ($F = New-Item -itemType Directory -Name $newfolder) : ($F = "")
+        $hiddenoutput = !(Test-Path $newfolder) ? ($F = New-Item -itemType Directory -Name $newfolder -Force) : ($F = "")
         $newfolder = ($newfolder + "/taskmasterjson/")
-        $hiddenoutput = !(Test-Path $newfolder) ? ($F = New-Item -itemType Directory -Name $newfolder) : ($F = "")
+        $hiddenoutput = !(Test-Path $newfolder) ? ($F = New-Item -itemType Directory -Name $newfolder -Force) : ($F = "")
         
         $schemafile.TargetFolder = $newfolder
         $schemafiletemplate = (Get-ChildItem -Path ($schemafile.SourceFolder+"/jsonschema/") -Filter "Main.libsonnet")

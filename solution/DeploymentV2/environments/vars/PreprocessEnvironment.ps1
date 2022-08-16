@@ -48,7 +48,7 @@ Write-Debug "Preparing Environment: $Environment Using $FeatureTemplate Template
 
 #Prep Output Folder
 $newfolder = "./../../bin/environments/$Environment/"
-$hiddenoutput = !(Test-Path $newfolder) ? ($F = New-Item -itemType Directory -Name $newfolder) : ($F = "")
+$hiddenoutput = !(Test-Path $newfolder) ? ($F = New-Item -itemType Directory -Force -Name $newfolder) : ($F = "")
 
 (jsonnet "./common_vars_template.jsonnet" --tla-str featuretemplatename=$FeatureTemplate --tla-str environment=$Environment --tla-str gitDeploy=$gitDeploy  ) | Set-Content($newfolder +"/common_vars.json")
 $obj = Get-Content ($newfolder + "/common_vars.json") | ConvertFrom-Json
