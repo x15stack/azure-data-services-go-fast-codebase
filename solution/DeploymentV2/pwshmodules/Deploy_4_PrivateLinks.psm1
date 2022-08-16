@@ -54,5 +54,9 @@ function DeployPrivateLinks (
                 $result = az network private-endpoint-connection approve -g $tout.resource_group_name -n $id_parts[$id_parts.length - 1] --resource-name $tout.adlsstorage_name --type Microsoft.Storage/storageAccounts --description "Approved by Deploy.ps1" --only-show-errors
             }
         }
+
+
+        #$links = (az network private-dns zone list --resource-group gfh5 | ConvertFrom-Json).name
+        #foreach($l in $links) {az network private-dns link vnet create --name "adscore.$l" --registration-enabled false --resource-group gfuat --virtual-network "/subscriptions/035a1364-f00d-48e2-b582-4fe125905ee3/resourceGroups/adsgfcore/providers/Microsoft.Network/virtualNetworks/ads-gf-core-vnet" --zone-name $l }
     }
 }

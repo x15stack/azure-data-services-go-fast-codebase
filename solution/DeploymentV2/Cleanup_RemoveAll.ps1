@@ -6,12 +6,15 @@
 Import-Module .\pwshmodules\GetSelectionFromUser.psm1 -force
 Import-Module .\pwshmodules\GatherOutputsFromTerraform.psm1 -force
 
-$environmentName = Get-SelectionFromUser -Options ('local','staging') -Prompt "Select deployment environment"
-if ($environmentName -eq "Quit")
-{
-    Exit
+if ($null -eq [System.Environment]::GetEnvironmentVariable('environmentName')) {        
+    $envlist = (Get-ChildItem -Directory -Path ./environments/vars | Select-Object -Property Name).Name
+    Import-Module ./pwshmodules/GetSelectionFromUser.psm1 -Force   
+    $environmentName = Get-SelectionFromUser -Options ($envlist) -Prompt "Select deployment environment"
+    [System.Environment]::SetEnvironmentVariable('environmentName', $environmentName)
+    [System.Environment]::SetEnvironmentVariable('TFenvironmentName',$environmentName)
 }
-[System.Environment]::SetEnvironmentVariable('TFenvironmentName',$environmentName)
+
+
 
 #------------------------------------------------------------------------------------------------------------
 # Get all the outputs from terraform so we can use them in subsequent steps
