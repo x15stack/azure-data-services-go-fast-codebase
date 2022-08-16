@@ -187,13 +187,30 @@ else
             {
                 Write-Host "Creating Private Storage"      
                 #Private
-                $storageId = az storage account create --resource-group $env:TF_VAR_resource_group_name --name $env:TF_VAR_state_storage_account_name --sku Standard_LRS --allow-blob-public-access false --public-network-access Disabled --https-only true --min-tls-version TLS1_2 --query id -o tsv --only-show-errors
+                $storageId = az storage account create --resource-group $env:TF_VAR_resource_group_name --name $env:TF_VAR_state_storage_account_name --sku Standard_LRS --pr  --allow-blob-public-access false --public-network-access Disabled --https-only true --min-tls-version TLS1_2 --query id -o tsv --only-show-errors
                             
-                $DeploymentVnet =  Read-Host "Please input the name of the vnet from which deployment activities will originate."
-                $DeploymentRg = Read-Host "Please input the resource group of the vnet from which deployment activities will originate."                
-                $output = az network private-dns zone create --resource-group $env:TF_VAR_resource_group_name --name "privatelink.blob.core.windows.net"
-                $output = az network private-endpoint create -g $DeploymentRg -n $env:TF_VAR_state_storage_account_name --vnet-name $DeploymentVnet --subnet default --private-connection-resource-id "/subscriptions/$env:TF_VAR_subscription_id/resourceGroups/$env:TF_VAR_resource_group_name/providers/Microsoft.Storage/storageAccounts/gft6state" --connection-name tttt -l australiaeast --group-id dfs           
-                $output = az network private-dns link vnet create --name "adscore.privatelink.blob.core.windows.net" --registration-enabled false --resource-group $env:TF_VAR_resource_group_name --virtual-network "/subscriptions/$env:TF_VAR_subscription_id/resourceGroups/$DeploymentRg/providers/Microsoft.Network/virtualNetworks/$DeploymentVnet" --zone-name "privatelink.blob.core.windows.net"
+                $DeploymentVnet =  Read-Host "Please input the name of the spoke vnet for the deployment. If you leave it blank it will default to 'ads-stg-vnet-ads'"
+                if([string]::IsNullOrEmpty($DeploymentVnet))
+                {
+                    $DeploymentVnet = "ads-stg-vnet-ads"
+                }                       
+                
+                #Create the VNET 
+                $output = az network vnet create --name $DeploymentVnet --resource-group $env:TF_VAR_resource_group_name --address-prefixes "10.0.0.0/24"  --subnet-name ads-stg-snet-ads-vm --subnet-prefixes 10.0.0.192/26
+                        
+                #Create Private Endpoint for DFS
+                $output = az network private-endpoint create -g $env:TF_VAR_resource_group_name -n $env:TF_VAR_state_storage_account_name --vnet-name $DeploymentVnet --subnet ads-stg-snet-ads-vm --private-connection-resource-id "/subscriptions/$env:TF_VAR_subscription_id/resourceGroups/$env:TF_VAR_resource_group_name/providers/Microsoft.Storage/storageAccounts/$env:TF_VAR_state_storage_account_name" --connection-name "$env:TF_VAR_state_storage_account_name-dfs-plink" -l australiaeast --group-id dfs --zone-name "privatelink.dfs.core.windows.net"  
+                                       
+                
+                #DFS Zone and Vnet Link
+                $output = az network private-dns zone create --resource-group $env:TF_VAR_resource_group_name --name "privatelink.dfs.core.windows.net"
+                $output = az network private-endpoint dns-zone-group create --endpoint-name "$env:TF_VAR_state_storage_account_name" -g $env:TF_VAR_resource_group_name -n "privatednszonegroupstoragedfs" --zone-name "privatelink.dfs.core.windows.net" --private-dns-zone "privatelink.dfs.core.windows.net"
+                $output = az network private-dns link vnet create --name "privatelink.dfs.core.windows.net" --registration-enabled false --resource-group $env:TF_VAR_resource_group_name --virtual-network "/subscriptions/$env:TF_VAR_subscription_id/resourceGroups/$env:TF_VAR_resource_group_name/providers/Microsoft.Network/virtualNetworks/$DeploymentVnet" --zone-name "privatelink.dfs.core.windows.net"
+                
+                #Add Resources to Zones
+                $storageip =  ((az network private-endpoint show --resource-group $env:TF_VAR_resource_group_name  --name $env:TF_VAR_state_storage_account_name) | ConvertFrom-Json -depth 10).customDnsConfigs.ipAddresses
+                az network private-dns record-set a create -g $env:TF_VAR_resource_group_name -z "privatelink.dfs.core.windows.net" -n "$env:TF_VAR_state_storage_account_name" --ttl 10
+                $output = az network private-dns record-set a add-record -g $env:TF_VAR_resource_group_name  -z "privatelink.dfs.core.windows.net" -n "$env:TF_VAR_state_storage_account_name" -a $storageip
             }
             Write-Host "Creating Role Assignment"        
             $userObjectId = az ad signed-in-user show --query id -o tsv --only-show-errors            
