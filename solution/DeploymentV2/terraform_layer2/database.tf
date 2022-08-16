@@ -8,7 +8,7 @@ resource "random_password" "database" {
   min_special = 1
   special     = true
   lower       = true
-  number      = true
+  numeric      = true
   upper       = true
 }
 

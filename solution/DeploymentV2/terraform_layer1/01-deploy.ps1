@@ -27,6 +27,7 @@ param (
 #------------------------------------------------------------------------------------------------------------
 import-Module ./../pwshmodules/GatherOutputsFromTerraform.psm1 -force
 import-Module ./../pwshmodules/Deploy_0_Prep.psm1 -force
+import-Module ./../pwshmodules/ProcessTerraformApply.psm1 -force
 #------------------------------------------------------------------------------------------------------------
 # Preparation #Mandatory
 #------------------------------------------------------------------------------------------------------------
@@ -43,5 +44,9 @@ PrepareDeployment -gitDeploy $gitDeploy -deploymentFolderPath $deploymentFolderP
 # Main Terraform - Layer1
 #------------------------------------------------------------------------------------------------------------
 Write-Host "Starting Terraform Deployment- Layer 1"
-terragrunt init --terragrunt-config vars/$env:environmentName/terragrunt.hcl -reconfigure
-terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl
+Write-Host "Note this usually takes a few minutes to complete."
+$output = terragrunt init --terragrunt-config vars/$env:environmentName/terragrunt.hcl -reconfigure
+$output = terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl -json 
+
+ProcessTerraformApply -output $output -gitDeploy $gitDeploy
+

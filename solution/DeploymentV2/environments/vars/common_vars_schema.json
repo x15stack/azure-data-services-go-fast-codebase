@@ -91,10 +91,21 @@
         "category": "Target Azure Environment"
       }
     },
+    "state_storage_account_name": {
+      "type": "string",
+      "default": "gf1state",
+      "description": "Name of the storage account name into which the terraform states will be stored",
+      "examples": [
+          "gf1state"
+      ],
+      "options": {
+        "category": "Target Azure Environment"
+      }
+    },
     "ip_address": {
       "type": "string",
       "examples": [],
-      "description": "",
+      "description": "Primary Deployment IP Address. This is usually the IP of the CICD agent. If deploying locally set it to your IPAddress. The agent will update this dynamically in the CICD workflow.",
       "options": {
         "category": "Target Azure Environment"
       }
@@ -102,7 +113,7 @@
     "ip_address2": {
       "type": "string",
       "examples": [],
-      "description": "",
+      "description": "Secondary Deployment IP Address. If deploying locally set it to your IPAddress. If Layers 1 & 3 are deploying from an IP Address that is different to the primary IP then put the layers 1 & 3 IP addess here.",
       "options": {
         "category": "Target Azure Environment"
       }

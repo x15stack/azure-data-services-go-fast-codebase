@@ -44,7 +44,7 @@ $str = $str + "/*DONOTREMOVETHISCOMMENT:ENVS*/"
 ($cvjnss[0] + $Str + $cvjnss[2]) | Set-Content "./common_vars_template.jsonnet"
 
 
-Write-Host "Preparing Environment: $Environment Using $FeatureTemplate Template"
+Write-Debug "Preparing Environment: $Environment Using $FeatureTemplate Template"
 
 #Prep Output Folder
 $newfolder = "./../../bin/environments/$Environment/"
@@ -86,10 +86,11 @@ foreach($fto in $fto_keys)
     {
         $ev_prop = ($envarprops | Where-Object {$_.Name -eq "TF_VAR_$Name"}).Name        
         $Value = $fto_vals.$Name
-        Write-Warning "Overriding Feature Template value for $ev_prop with value of $Value"        
+        Write-Debug "Overriding Feature Template value for $ev_prop with value of $Value"        
     }
     else {
-        Write-Warning "Inserting Feature Template value for $ev_prop with value of $Value" 
+        $ev_prop = "TF_VAR_$Name"
+        Write-Debug "Inserting Feature Template value for $ev_prop with value of $Value" 
         $Value = $fto_vals.$Name
     }
 

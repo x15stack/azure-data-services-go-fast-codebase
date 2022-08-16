@@ -29,7 +29,7 @@ function DeployWebApp (
         $Path = $Path + "/Publish.zip"
         Compress-Archive -Path '.\unzipped\webapplication\*' -DestinationPath $Path -force
 
-        $result = az webapp deployment source config-zip --resource-group $tout.resource_group_name --name $tout.webapp_name --src $Path    
+        $result = az webapp deployment source config-zip --resource-group $tout.resource_group_name --name $tout.webapp_name --src $Path  --only-show-errors  
 
         Set-Location $deploymentFolderPath
         

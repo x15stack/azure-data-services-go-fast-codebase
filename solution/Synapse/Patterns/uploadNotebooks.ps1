@@ -10,7 +10,7 @@ $tests = (Get-ChildItem -Path ("../../Synapse/Patterns/notebook") -Verbose -Filt
 foreach ($test in $tests)
 {
     ($test | Get-Content) | Set-Content('FileForUpload.json')
-    $result = az synapse notebook import --workspace-name $tout.synapse_workspace_name --name $test.BaseName --file '@FileForUpload.json' --folder-path 'FrameworkNotebooks'
+    $result = az synapse notebook import --workspace-name $tout.synapse_workspace_name --name $test.BaseName --file '@FileForUpload.json' --folder-path 'FrameworkNotebooks' --only-show-errors
     Remove-Item FileForUpload.json
 }
 
@@ -22,7 +22,7 @@ if ($tout.publish_sif_database)
     foreach ($test in $tests)
     {
         ($test | Get-Content) | Set-Content('FileForUpload.json')
-        $result = az synapse notebook import --workspace-name $tout.synapse_workspace_name --name $test.BaseName --file '@FileForUpload.json' --folder-path 'FrameworkNotebooks/sif'
+        $result = az synapse notebook import --workspace-name $tout.synapse_workspace_name --name $test.BaseName --file '@FileForUpload.json' --folder-path 'FrameworkNotebooks/sif' --only-show-errors
         Remove-Item FileForUpload.json
     }
 }

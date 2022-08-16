@@ -13,8 +13,8 @@ function GatherOutputsFromTerraform($TerraformFolderPath)
     #------------------------------------------------------------------------------------------------------------
     # Get all the outputs from terraform so we can use them in subsequent steps
     #------------------------------------------------------------------------------------------------------------
-    Write-Host "-------------------------------------------------------------------------------------------------"
-    Write-Host "Reading Terraform Outputs - Started"
+    Write-Debug "-------------------------------------------------------------------------------------------------"
+    Write-Debug "Reading Terraform Outputs - Started"
 
     $tout = New-Object PSObject
 
@@ -27,8 +27,8 @@ function GatherOutputsFromTerraform($TerraformFolderPath)
     $tout | Add-Member  -MemberType NoteProperty -Name "resource_group_id" -Value $rgid
 
     #Set-Location $CurrentFolderPath
-    Write-Host "Reading Terraform Outputs - Finished"
-    Write-Host "-------------------------------------------------------------------------------------------------"
+    Write-Debug "Reading Terraform Outputs - Finished"
+    Write-Debug "-------------------------------------------------------------------------------------------------"
     Set-Location $currentPath
     return $tout
 }

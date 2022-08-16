@@ -78,7 +78,24 @@ if ($gitDeploy)
 else 
 {    
     $env:TF_VAR_resource_group_name = Read-Host "Enter the name of the resource group to create (enter to skip)"
-    $env:TF_VAR_storage_account_name = $env:TF_VAR_resource_group_name+"state"
+    $env:TF_VAR_state_storage_account_name = Read-Host "Enter the name of the state storage account name to create. If you enter nothing the name will be set as 'resourcegroupname'+'state'. Note: All non valid characters will also be stripped"
+    if([string]::IsNullOrEmpty($env:TF_VAR_state_storage_account_name) -eq $true) {
+        $temp = $env:TF_VAR_resource_group_name + "state"
+        $env:TF_VAR_state_storage_account_name = $temp -replace "\W"
+        Write-Host "Auto applied state name:" $env:TF_VAR_state_storage_account_name
+    }
+    if($env:TF_VAR_state_storage_account_name.length -gt 24)
+    {
+        Write-Host "The state storage account name" $env:TF_VAR_state_storage_account_name "is invalid"
+        do {
+            $input = Read-Host "Please input a state storage account name that is less than 25 characters long (only letters and numbers, no spaces)"
+            $input = $input -replace "\W"
+        } until ($input.length -le 24)
+        $env:TF_VAR_state_storage_account_name = $input
+        Write-Host "Storage account name: " $env:TF_VAR_state_storage_account_name
+    }
+
+
     $CONTAINER_NAME="tstate"
     # ------------------------------------------------------------------------------------------------------------
     # Ensure that you have all of the require Azure resource providers enabled before you begin deploying the solution.
@@ -138,10 +155,10 @@ else
         Write-Progress -Activity "Creating Resource Group" -Status "${progress}% Complete:" -PercentComplete $progress 
         $rg = az group create -n $env:TF_VAR_resource_group_name -l australiaeast --only-show-errors
 
-        if([string]::IsNullOrEmpty($env:TF_VAR_storage_account_name) -eq $false) {
+        if([string]::IsNullOrEmpty($env:TF_VAR_state_storage_account_name) -eq $false) {
             $progress+=5
             Write-Progress -Activity "Creating Storage Account" -Status "${progress}% Complete:" -PercentComplete $progress
-            $storageId = az storage account create --resource-group $env:TF_VAR_resource_group_name --name $env:TF_VAR_storage_account_name --sku Standard_LRS --allow-blob-public-access false --https-only true --min-tls-version TLS1_2 --query id -o tsv --only-show-errors
+            $storageId = az storage account create --resource-group $env:TF_VAR_resource_group_name --name $env:TF_VAR_state_storage_account_name --sku Standard_LRS --allow-blob-public-access false --https-only true --min-tls-version TLS1_2 --query id -o tsv --only-show-errors
 
             $progress+=5
             $userObjectId = az ad signed-in-user show --query id -o tsv --only-show-errors
@@ -150,7 +167,7 @@ else
 
             $progress+=5
             Write-Progress -Activity "Creating State Container" -Status "${progress}% Complete:" -PercentComplete $progress
-            $container = az storage container create --name $CONTAINER_NAME --account-name $env:TF_VAR_storage_account_name --auth-mode login --only-show-errors
+            $container = az storage container create --name $CONTAINER_NAME --account-name $env:TF_VAR_state_storage_account_name --auth-mode login --only-show-errors
 
             Write-Progress -Activity "Finished" -Completed 
         }
@@ -159,15 +176,15 @@ else
 
 
     $assigneeobject = Read-Host "Enter the object id of the AAD account or Group that you would like to have ownership of the new resource group."
-    $sqlAdmin = Read-Host "Enter the object id of the AAD account or Group that you would like to have SQL AAD Admin on the Azure SQL Server instances created. Leave blank if this is an end-to-end interactive user deployment. Provide a security group or the deployment service principal if this is an agent deployment"
+    $sqlAdmin = Read-Host "Enter the object id of the AAD account or Group that you would like to have SQL AAD Admin on the Azure SQL Server instances created."
 
-    if([string]::IsNullOrEmpty($assigneeobject)) {
-        #Write-Host "Skipping Resource Group Ownership Assignment"
-        $assigneeobject = $currentAccount.id
+    if([string]::IsNullOrEmpty($assigneeobject -eq $false)) {
+        #Write-Host "Skipping Resource Group Ownership Assignment"        
+        $output = az role assignment create --role "Owner" --scope "/subscriptions/${env:TF_VAR_subscription_id}/resourcegroups/${env:TF_VAR_resource_group_name}" --assignee-object-id $assigneeobject --only-show-errors
     }
     
     
-    az role assignment create --role "Owner" --scope "/subscriptions/${env:TF_VAR_subscription_id}/resourcegroups/${env:TF_VAR_resource_group_name}" --assignee-object-id $assigneeobject
+   
     
     #------------------------------------------------------------------------------------------------------------
     # Print pretty output for user
@@ -185,17 +202,17 @@ else
         Write-Host "Resource Group: " -NoNewline -ForegroundColor green
         Write-Host "'${env:TF_VAR_resource_group_name}'";
     }
-    if($env:TF_VAR_storage_account_name -ne "") {
+    if($env:TF_VAR_state_storage_account_name -ne "") {
         Write-Host "Storage Account: " -NoNewline -ForegroundColor green
-        Write-Host "${env:TF_VAR_storage_account_name}";
+        Write-Host "${env:TF_VAR_state_storage_account_name}";
         Write-Host "Storage Account Container: " -NoNewline -ForegroundColor green
         Write-Host "${CONTAINER_NAME}";    
     }
     Write-Host "The following terraform environment variables have been set:";
     Write-Host " - resource_group_name = " -NoNewline -ForegroundColor green
     Write-Host "${env:TF_VAR_resource_group_name}";
-    Write-Host " - storage_account_name = " -NoNewline -ForegroundColor green
-    Write-Host "${env:TF_VAR_storage_account_name}";
+    Write-Host " - state_storage_account_name = " -NoNewline -ForegroundColor green
+    Write-Host "${env:TF_VAR_state_storage_account_name}";
     Write-Host " - subscription_id = " -NoNewline -ForegroundColor green
     Write-Host "${env:TF_VAR_subscription_id}";
     Write-Host " - tenant_id = " -NoNewline -ForegroundColor green
@@ -205,10 +222,7 @@ else
     Write-Host " - domain = " -NoNewline -ForegroundColor green
     Write-Host "${env:TF_VAR_domain}";
     Write-Host " ";
-    Write-Host "NOTE: It is recommended you copy these into your terraform/vars/local/terragrunt.hcl file for future use" -ForegroundColor blue
-    Write-Host " " 
-    Write-Host "If you are creating a local development instance only, you can run ./Deploy.ps1 now" -ForegroundColor green
-    Write-Host " " 
+    Write-Host "NOTE: It is recommended you copy these into your environment/vars/local/common_vars_values.jsonc file for future use" -ForegroundColor blue
     Write-Host "Press any key to continue...";
     #------------------------------------------------------------------------------------------------------------
     # Pause incase this was run directly
@@ -234,21 +248,47 @@ else
         $common_vars_values.resource_group_name = $env:TF_VAR_resource_group_name 
         $common_vars_values.domain =  $env:TF_VAR_domain
         $common_vars_values.subscription_id =  $env:TF_VAR_subscription_id 
+        $common_vars_values.ip_address =  $env:TF_VAR_ip_address
         $common_vars_values.ip_address2 =  $env:TF_VAR_ip_address
-        $common_vars_values.tenant_id =  $env:TF_VAR_tenant_id 
-        $common_vars_values.WEB_APP_ADMIN_USER = (az ad signed-in-user show | ConvertFrom-Json).id
-        $common_vars_values.deployment_principal_layers1and3 = (az ad signed-in-user show | ConvertFrom-Json).id        
+        $common_vars_values.tenant_id =  $env:TF_VAR_tenant_id
+        $common_vars_values.state_storage_account_name =  $env:TF_VAR_state_storage_account_name
+ 
+        $common_vars_values.WEB_APP_ADMIN_USER = (az ad signed-in-user show --only-show-errors | ConvertFrom-Json).id
+             
         $foundUser = $false
+        $common_vars_values.resource_owners =  @()  
+        $common_vars_values.synapse_administrators = @{}  
         
-        $common_vars_values.resource_owners =  @("$assigneeobject")       
+        if([string]::IsNullOrEmpty($assigneeobject) -eq $false)
+        {
+            $common_vars_values.deployment_principal_layers1and3 = $assigneeobject             
+            $userPrincipalName = (az ad signed-in-user show --only-show-errors | ConvertFrom-Json).userPrincipalName                  
+            $common_vars_values.synapse_administrators.$userPrincipalName = (az ad signed-in-user show --only-show-errors | ConvertFrom-Json).id            
+        }
+        else 
+        {
+            $owner = (az ad signed-in-user show | ConvertFrom-Json).id
+            $common_vars_values.resource_owners =  @("$owner")      
+            $common_vars_values.deployment_principal_layers1and3 = ""
+            #$assigneeobject = ((az ad user show --id $currentAccount.user.name) | ConvertFrom-Json -Depth 10).id
+        }                  
+        
+        if([string]::IsNullOrEmpty($sqlAdmin) -eq $false)
+        {
+            $common_vars_values.azure_sql_aad_administrators = @{}     
+            $userPrincipalName = "sql_aad_admin"                  
+            $common_vars_values.azure_sql_aad_administrators.$userPrincipalName = $sqlAdmin          
+        }
+        
 
-        $common_vars_values.synapse_administrators = @{}
-            
-        $userPrincipalName = "sql_aad_admin"                  
-        $common_vars_values.synapse_administrators.$userPrincipalName = ""  
-        $userPrincipalName = (az ad signed-in-user show --only-show-errors | ConvertFrom-Json).userPrincipalName                  
-        $common_vars_values.synapse_administrators.$userPrincipalName = (az ad signed-in-user show | ConvertFrom-Json).id                   
-        
+        $ResetFlags = Get-SelectionFromUser -Options ('Yes','No') -Prompt "Reset flags for is_onprem_datafactory_ir_registered and deployment_layer3_complete. For brand new deployment select 'Yes'."
+        if ($ResetFlags -eq "Yes")
+        {
+            $common_vars_values.FeatureTemplateOverrides.is_onprem_datafactory_ir_registered = $false
+            $common_vars_values.FeatureTemplateOverrides.deployment_layer3_complete = $false
+        }
+       
+
         $common_vars_values | Convertto-Json -Depth 10 | Set-Content ./environments/vars/$environmentName/common_vars_values.jsonc
 
 
@@ -273,7 +313,9 @@ else
 
     }
 }
-
+Write-Host "Prepare Complete...." 
+Write-Host "If you are creating a local development instance only, you can run ./Deploy.ps1 now" -ForegroundColor green
+Write-Host " " 
 Set-Location $deploymentFolderPath
 
 

@@ -22,6 +22,8 @@ param (
     [string]$FeatureTemplate=""
 )
 
+
+
 #------------------------------------------------------------------------------------------------------------
 # Module Imports #Mandatory
 #------------------------------------------------------------------------------------------------------------
@@ -39,6 +41,12 @@ $ipaddress = $env:TF_VAR_ip_address
 $ipaddress2 = $env:TF_VAR_ip_address2
 
 PrepareDeployment -gitDeploy $gitDeploy -deploymentFolderPath $deploymentFolderPath -FeatureTemplate $FeatureTemplate -PathToReturnTo $PathToReturnTo
+
+if($env:TF_VAR_deployment_layer3_complete -eq $false -or $null -eq $env:TF_VAR_deployment_layer3_complete)
+{
+    Write-Error "Layer 3 Deployment is not complete. Code will now exit. Run terraform layer 3 for this deployment before running this layer (layer two) again."
+    exit 
+}
 
 #------------------------------------------------------------------------------------------------------------
 # Get Outputs #Mandatory
@@ -68,3 +76,34 @@ DeploySampleFiles -tout $tout  -deploymentFolderPath $deploymentFolderPath -Path
 
 #import-Module ./../pwshmodules/ConfigureAzurePurview.psm1 -force
 #ConfigureAzurePurview -tout $tout  
+
+
+#----------------------------------------------------------------------------------------------------------------
+#   Set up Purview
+#----------------------------------------------------------------------------------------------------------------
+# This is a WIP - not recommended to use for standard user
+#----------------------------------------------------------------------------------------------------------------
+#
+if($skipConfigurePurview -or $null -eq $skipConfigurePurview) {
+    Write-Host "Skipping experimental Purview Configuration"
+}
+else {
+    Write-Host "Running Purview Configuration (experimental) Script"
+    Set-Location $deploymentFolderPath
+    Invoke-Expression ./ConfigureAzurePurview.ps1
+}
+
+
+#----------------------------------------------------------------------------------------------------------------
+#   Deploy Functional Tests
+#----------------------------------------------------------------------------------------------------------------
+# This is for development purposes primarily - If using, understand these may not be all working with most recent platform version as tests can become outdated / missing new required fields.
+#----------------------------------------------------------------------------------------------------------------
+if($skipFunctionalTests -or $null -eq $skipFunctionalTests) {
+    Write-Host "Skipping Functional Tests Upload"
+}
+else {
+    Write-Host "Deploying Functional Tests to Web App"
+    Set-Location $deploymentFolderPath
+    Invoke-Expression ./GenerateAndUploadFunctionalTests.ps1
+}
