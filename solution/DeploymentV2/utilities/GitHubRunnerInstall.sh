@@ -1,10 +1,8 @@
 sudo apt-get update  && \
 sudo apt-get install -y wget apt-transport-https software-properties-common && \
-wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb  && \
-sudo dpkg -i packages-microsoft-prod.deb  && \
-sudo apt-get update  && \
-sudo apt-get install -y powershell  && \
-rm ./packages-microsoft-prod.deb  && \
+wget -q https://github.com/PowerShell/PowerShell/releases/download/v7.2.5/powershell-lts_7.2.5-1.deb_amd64.deb  && \
+sudo dpkg -i powershell-lts_7.2.5-1.deb_amd64.deb  && \
+rm ./powershell-lts_7.2.5-1.deb_amd64.deb  && \
 sudo apt install -y dotnet-sdk-6.0  && \
 wget https://github.com/google/go-jsonnet/releases/download/v0.17.0/jsonnet-go_0.17.0_linux_amd64.deb  && \
 sudo dpkg -i jsonnet-go_0.17.0_linux_amd64.deb && \
@@ -16,4 +14,4 @@ wget https://github.com/gruntwork-io/terragrunt/releases/download/v0.35.14/terra
 sudo mv terragrunt_linux_amd64 terragrunt && \
 sudo chmod u+x terragrunt && \
 sudo mv terragrunt /usr/local/bin/terragrunt && \
-curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bashaz 
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash

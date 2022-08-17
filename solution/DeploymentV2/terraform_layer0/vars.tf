@@ -96,11 +96,6 @@ variable "synapse_sql_login" {
   type        = string
 }
 
-variable "synapse_sql_password" {
-  description = "Password for the Azure Synapse SQL admin"
-  type        = string
-}
-
 variable "allow_public_access_to_synapse_studio" {
   description = "Should the synapse studio allow access to public IPs"
   type        = bool
