@@ -36,6 +36,7 @@ data "azurerm_client_config" "current" {
 module "naming" {
   source  = "Azure/naming/azurerm"
   version = "0.1.1"
+  unique-seed = var.naming_unique_seed 
   prefix = [
     var.prefix,
     var.environment_tag

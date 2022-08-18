@@ -79,6 +79,12 @@ variable "is_vnet_isolated" {
   type        = bool
 }
 
+variable "is_private_network" {
+  description = "If true will disable public IP's entirely"
+  default     = false
+  type        = bool
+}
+
 variable "sql_admin_username" {
   description = "The username for the sql server admin"
   default     = "adsgofastsqladminuser11"

@@ -299,7 +299,7 @@ resource "azurerm_private_endpoint" "synapse_web" {
   name                = "${local.synapse_workspace_name}-web-plink"
   location            = var.resource_location
   resource_group_name = var.resource_group_name
-  subnet_id           = local.plink_subnet_id
+  subnet_id           = local.plink_subnet_id 
 
   private_service_connection {
     name                           = "${local.synapse_workspace_name}-web-plink-conn"
@@ -326,7 +326,7 @@ resource "azurerm_private_endpoint" "synapse_dev" {
   name                = "${local.synapse_workspace_name}-dev-plink"
   location            = var.resource_location
   resource_group_name = var.resource_group_name
-  subnet_id           = local.plink_subnet_id
+  subnet_id           = local.plink_subnet_id 
 
   private_service_connection {
     name                           = "${local.synapse_workspace_name}-dev-plink-conn"
@@ -356,7 +356,7 @@ resource "azurerm_private_endpoint" "synapse_sql" {
   name                = "${local.synapse_workspace_name}-sql-plink"
   location            = var.resource_location
   resource_group_name = var.resource_group_name
-  subnet_id           = local.plink_subnet_id
+  subnet_id           = local.plink_subnet_id 
 
   private_service_connection {
     name                           = "${local.synapse_workspace_name}-sql-plink-conn"
@@ -386,7 +386,7 @@ resource "azurerm_private_endpoint" "synapse_sqlondemand" {
   name                = "${local.synapse_workspace_name}-sqld-plink"
   location            = var.resource_location
   resource_group_name = var.resource_group_name
-  subnet_id           = local.plink_subnet_id
+  subnet_id           = local.plink_subnet_id 
 
   private_service_connection {
     name                           = "${local.synapse_workspace_name}-sqld-plink-conn"

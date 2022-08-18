@@ -7,7 +7,7 @@
   "subscription_id": "035a1364-f00d-48e2-b582-4fe125905ee3",
   "prefix": "ads",
   "resource_group_name": "gft6",
-  "state_storage_account_name": "gft6state",
+  "state_storage_account_name": "gf6state",
   "ip_address": "144.138.148.220",
   "ip_address2": "144.138.148.220",
   "tenant_id": "72f988bf-86f1-41af-91ab-2d7cd011db47",
@@ -38,6 +38,7 @@
   "GIT_ADF_REPOSITORY_BRANCH_NAME": "#####",
   "GIT_ADF_USER_NAME": "#####",
   "GIT_ADF_EMAIL_ADDRESS": "#####",
+  "is_private_network": true,
   "FeatureTemplateOverrides": {
     "is_onprem_datafactory_ir_registered": false,
     "deployment_layer3_complete": false,
@@ -48,6 +49,7 @@
     "synapse_git_repository_owner": "h-sha",
     "synapse_git_repository_name": "testLockbox",
     "synapse_git_repository_root_folder": "/Synapse",
-    "synapse_git_use_pat": false
+    "synapse_git_use_pat": false,
+    "layer0_state": "remote"
   }
 }

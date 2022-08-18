@@ -21,3 +21,9 @@ function ProcessTerraformApply (
     }
 
 }
+
+
+# 
+#
+# $pout =  terragrunt plan --terragrunt-config vars/$env:environmentName/terragrunt.hcl -json
+# (($pout | ConvertFrom-Json -Depth 20) | Where-Object {$_.type -eq "change_summary"})

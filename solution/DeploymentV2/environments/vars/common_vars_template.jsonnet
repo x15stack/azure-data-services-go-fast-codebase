@@ -361,6 +361,14 @@ local AllVariables = [
             "Value":  locals[environment].GIT_ADF_EMAIL_ADDRESS,
             "Sensitive": false,
             "DoNotReplaceDuringAgentDeployment":false
+        },
+        {
+            "CICDSecretName": "",
+            "EnvVarName": "TF_VAR_is_private_network",
+            "HCLName": "is_private_network",
+            "Value":  locals[environment].is_private_network,
+            "Sensitive": false,
+            "DoNotReplaceDuringAgentDeployment":false
         }
     ]+featuretemplate;
 
@@ -396,6 +404,18 @@ local SecretFileSensitiveVars =     {  // Object comprehension.
     "ForSecretFile": SecretFileVars,
     "ForSecretFileSensitive": SecretFileSensitiveVars
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

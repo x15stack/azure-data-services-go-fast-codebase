@@ -44,6 +44,19 @@ locals {
   selfhostedsqlvm_name         = replace(module.naming.virtual_machine.name,"-vm-ads","-vm-sql")
   h2o-ai_name                  = replace(module.naming.virtual_machine.name,"-vm-ads","-vm-h2o")
   custom_vm_name               = replace(module.naming.virtual_machine.name,"-vm-ads","-vm-custom")
+  
+  plink_subnet_id              = data.terraform_remote_state.layer0.outputs.plink_subnet_id 
+  private_dns_zone_dfs_id      = data.terraform_remote_state.layer0.outputs.private_dns_zone_dfs_id 
+  private_dns_zone_blob_id      = data.terraform_remote_state.layer0.outputs.private_dns_zone_blob_id 
+
+  vm_subnet_id                 = data.terraform_remote_state.layer0.outputs.vm_subnet_id
+  app_service_subnet_id        = data.terraform_remote_state.layer0.outputs.app_service_subnet_id
+  private_dns_zone_db_id       = data.terraform_remote_state.layer0.outputs.private_dns_zone_db_id
+  private_dns_zone_kv_id       = data.terraform_remote_state.layer0.outputs.private_dns_zone_kv_id
+
+  private_dns_zone_synapse_sql_id = data.terraform_remote_state.layer0.outputs.private_dns_zone_synapse_sql_id
+  private_dns_zone_synapse_studio_id = data.terraform_remote_state.layer0.outputs.private_dns_zone_synapse_studio_id
+  private_dns_zone_synapse_gateway_id = data.terraform_remote_state.layer0.outputs.private_dns_zone_synapse_gateway_id
 
   tags = {
     Environment = var.environment_tag

@@ -295,29 +295,34 @@ output "naming_unique_suffix" {
 
 /*DNS Zone*/
 output "private_dns_zone_servicebus_id" {
-  value = local.private_dns_zone_servicebus_id
+  value = data.terraform_remote_state.layer0.outputs.private_dns_zone_servicebus_id 
 }
 
 output "private_dns_zone_queue_id" {
-  value = local.private_dns_zone_queue_id
+  value = data.terraform_remote_state.layer0.outputs.private_dns_zone_queue_id 
 }
 
 output "private_dns_zone_blob_id" {
-  value = local.private_dns_zone_blob_id
+  value = data.terraform_remote_state.layer0.outputs.private_dns_zone_blob_id 
 }
 
+output "private_dns_zone_dfs_id" {
+  value = data.terraform_remote_state.layer0.outputs.private_dns_zone_dfs_id 
+}
+
+
 output "private_dns_zone_purview_id" {
-  value = local.private_dns_zone_purview_id
+  value = data.terraform_remote_state.layer0.outputs.private_dns_zone_purview_id 
 }
 
 output "private_dns_zone_purview_studio_id" {
-  value = local.private_dns_zone_purview_studio_id
-}
-
-output "azurerm_purview_account_purview_name" {
-  value = var.deploy_purview ? azurerm_purview_account.purview[0].name : ""
+  value = data.terraform_remote_state.layer0.outputs.private_dns_zone_purview_studio_id 
 }
 
 output "plink_subnet_id" {
-  value = local.plink_subnet_id
+  value = data.terraform_remote_state.layer0.outputs.plink_subnet_id 
+}
+
+output "azurerm_virtual_network_vnet_name" {
+  value = data.terraform_remote_state.layer0.outputs.azurerm_virtual_network_vnet_name 
 }

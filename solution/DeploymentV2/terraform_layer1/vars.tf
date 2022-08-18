@@ -63,6 +63,14 @@ variable "app_name" {
   type        = string
 }
 
+variable "naming_unique_seed" {
+  description = "The unique seed value to use for naming"
+  default     = ""
+  type        = string
+}
+
+
+
 #---------------------------------------------------------------
 # Override individual resource names
 #---------------------------------------------------------------
