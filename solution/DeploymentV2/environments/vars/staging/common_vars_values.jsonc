@@ -55,6 +55,7 @@
     "synapse_git_repository_name": "testLockbox",
     "synapse_git_repository_root_folder": "/Synapse",
     "synapse_git_use_pat": false,
-    "layer0_state": "remote"
+    "layer0_state": "remote",
+    "delay_private_access": false
   }
 }
