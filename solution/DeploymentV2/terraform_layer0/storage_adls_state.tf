@@ -4,6 +4,7 @@ locals {
 
 #note: Swapped from native tf due to https://github.com/hashicorp/terraform-provider-azurerm/issues/16335
 resource "azapi_resource" "adls_state" {
+  count     = var.deploy_state_storage_account ? 1 : 0
   type      = "Microsoft.Storage/storageAccounts@2022-05-01"
   name      = local.stateaccountname
   parent_id = "/subscriptions/${var.subscription_id}/resourceGroups/${var.resource_group_name}"
@@ -27,15 +28,16 @@ resource "azapi_resource" "adls_state" {
   })
 }
 
-
-
 resource "azurerm_role_assignment" "adls_state_deployment_agents" {
   for_each = {
     for ro in var.resource_owners : ro => ro
   }    
-  scope                = azapi_resource.adls_state.id
+  scope                = azapi_resource.adls_state[0].id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = each.value
+  depends_on = [
+    azapi_resource.adls_state
+  ]
 }
 
 resource "azurerm_private_endpoint" "adls_state_storage_private_endpoint_with_dns" {

@@ -19,3 +19,4 @@ resource "azurerm_purview_account" "purview" {
 }
 
 
+

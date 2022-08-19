@@ -796,6 +796,13 @@ variable "existing_synapse_private_link_hub_id" {
   type        = string
 }
 
+variable "existing_vnet_id" {
+  description = "An existing virtual network."
+  default     = ""
+  type        = string
+}
+
+
 variable "custom_vm_plan_name" {
   description = "An Azure vm plan name to be referenced for a custom vm image."
   default     = ""
@@ -893,5 +900,19 @@ variable "resource_owners" {
   description = "A web app Azure security group used for admin access."
   default     = []
   type        = list(string)
+}
+
+
+/*Toggles for Layer0 */
+variable "deploy_cicd_vm" {
+  description = "Set to true if you want to deploy a vm to host the github runnner."
+  default     = true
+  type        = bool
+}
+
+variable "deploy_state_storage_account" {
+  description = "Set to true if you want to deploy a the state storage account."
+  default     = true
+  type        = bool
 }
 

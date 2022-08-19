@@ -1,9 +1,3 @@
-locals {
-  common_vars = jsondecode(file("../../../bin/environments/{@environment}/common_vars_for_hcl.json"))
-}
-
-
-
 # These inputs are provided to the terraform variables when deploying the environment
 # If you are deploying using pipelines, these can be overridden from environment variables
 # using TF_VAR_variablename
