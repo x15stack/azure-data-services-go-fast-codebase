@@ -93,7 +93,7 @@ jobs:
       - name: Terragrunt Install
         id: terragrunt_install
         working-directory: ./solution/DeploymentV2/terraform_layer2
-        if: env.installTerragrunt
+        if: ${{ env.installTerragrunt }}
         run: |
           brew install terragrunt    
           
