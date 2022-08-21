@@ -1,6 +1,6 @@
 resource "azurerm_network_interface" "cicd_vm_nic" {
   count               = var.is_vnet_isolated && var.deploy_cicd_vm ? 1 : 0
-  name                = local.jumphost_nic_name
+  name                = local.cicdagent_nic_name
   location            = var.resource_location
   resource_group_name = var.resource_group_name
 

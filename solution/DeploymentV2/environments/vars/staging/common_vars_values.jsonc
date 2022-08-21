@@ -46,7 +46,7 @@
   "is_private_network": true,
   "FeatureTemplateOverrides": {
     "is_onprem_datafactory_ir_registered": false,
-    "deployment_layer3_complete": false,
+    "deployment_layer3_complete": true,
     "synapse_git_toggle": false,
     "adf_git_toggle": false,
     "deploy_sentinel": false,

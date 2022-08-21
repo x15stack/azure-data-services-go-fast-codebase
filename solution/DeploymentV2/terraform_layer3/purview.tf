@@ -66,7 +66,7 @@ module "purview_ingestion_private_endpoints" {
   source                      = "./modules/purview_ingestion_private_endpoints"
   count                       = var.is_vnet_isolated && var.deploy_purview ? 1 : 0
   resource_group_name         = var.resource_group_name
-  purview_account_name        = data.terraform_remote_state.layer2.outputs.azurerm_purview_account_purview_name
+  purview_account_name        = data.terraform_remote_state.layer2.outputs.purview_name
   resource_location           = var.resource_location
   queue_privatelink_name      = "${local.purview_name}-queue-plink"
   storage_privatelink_name    = "${local.purview_name}-storage-plink"

@@ -35,6 +35,9 @@ locals {
   jumphost_vm_name             = module.naming.virtual_machine.name
   jumphost_nic_name            = "${module.naming.virtual_machine.name}-jumphost_nic"
   jumphost_password            = ((var.is_vnet_isolated && var.jumphost_password == null) ? "" : var.jumphost_password)
+  cicdagent_vm_name            = replace(module.naming.virtual_machine.name,"-vm-ads","-vm-cicd")
+  cicdagent_nic_name           = "${replace(module.naming.virtual_machine.name,"-vm-ads","-vm-cicd")}-jumphost_nic"
+  cicdagent_password           = ((var.is_vnet_isolated && var.jumphost_password == null) ? "" : var.jumphost_password)
   synapse_data_lake_name       = (var.synapse_data_lake_name != "" ? var.synapse_data_lake_name : module.naming.data_lake_store.name_unique)
   synapse_workspace_name       = (var.synapse_workspace_name != "" ? var.synapse_workspace_name : "${var.prefix}${var.environment_tag}synw${var.app_name}${element(split("-", module.naming.data_factory.name_unique), length(split("-", module.naming.data_factory.name_unique)) - 1)}")
   synapse_dwpool_name          = (var.synapse_dwpool_name != "" ? var.synapse_dwpool_name : "${var.prefix}${var.environment_tag}syndp${var.app_name}")
