@@ -75,10 +75,69 @@ The configuration for this environment creation is read from the following locat
   -  ```/azure-data-services-go-fast-codebase/solution/DeploymentV2/environment/vars/{selected_environment}/terragrunt.hcl```
 
 ## :green_circle: PART 3. Deployment Details
-### Deployment Layers
+### Deployment Layers - Summary
 Layer | Description | Permissions Required when using Service Principal | Permissions Required when using User Principal
 | --- | --- | --- | --- |
 Terraform Layer Zero | - Deploys the spoke VNET with subnets, dns zones, bastion & a VM for the CICD agent | - Resouce Group Owner <br /> - Blob Contributor on Terraform's State Storage Account | - Resouce Group Owner <br /> - Blob Contributor on Terraform's State Storage Account
 Terraform Layer One | - Register AAD Enterprise Applications & Service Principals | - Application.ReadWrite.OwnedBy <br /> - Blob Contributor on Terraform's State Storage Account| - Application Administrator (Role) <br /> - Blob Contributor on Terraform's State Storage Account
 Terraform Layer Two | - Core IAC deployment for approx. 70 ADS Go fast resources | - Resource Group Owner <br /> - Blob Contributor on Terraform's State Storage Account| - Resource Group Owner <br /> - Blob Contributor on Terraform's State Storage Account
 Terraform Layer Three | - Update AAD Enterprise Applications by granting required roles and permissions to managed service identities created in Layer Two <br /> - Create Private Endpoints for Purview | - Application.ReadWrite.OwnedBy <br /> (Must be same identity as that which was used to run Layer One) <br /> - Blob Contributor on Terraform's State Storage Account | - Application Administrator (Role), <br /> - Network Contributor <br /> - Blob Contributor on Terraform's State Storage Account
+
+
+Provider | Resources | 
+| --- | --- |
+azurerm_network_security_group|- app_service_nsg <br/> - bastion_nsg <br/> - plink_nsg <br/> - vm_nsg
+azurerm_bastion_host | bastion
+azurerm_network_security_rule|app_service_in_deny_all[0]
+azurerm_network_security_rule|bastion_inbound_control_plane[0]
+azurerm_network_security_rule|bastion_inbound_data_plane[0]
+azurerm_network_security_rule|bastion_inbound_internet[0]
+azurerm_network_security_rule|bastion_inbound_load_balancer[0]
+azurerm_network_security_rule|bastion_outbound_azure[0]
+azurerm_network_security_rule|bastion_outbound_bastion_vms[0]
+azurerm_network_security_rule|bastion_outbound_dataplane[0]
+azurerm_network_security_rule|bastion_outbound_internet[0]
+azurerm_network_security_rule|plink_out_deny_all[0]
+azurerm_network_security_rule|vm_inbound_bastion[0]
+
+Layer | Description | 
+| --- | --- |
+data.azurerm_client_config.current
+azurerm_bastion_host.bastion[0]
+
+
+azurerm_private_dns_zone.private_dns_zone_blob[0]
+azurerm_private_dns_zone.private_dns_zone_db[0]
+azurerm_private_dns_zone.private_dns_zone_dfs[0]
+azurerm_private_dns_zone.private_dns_zone_kv[0]
+azurerm_private_dns_zone.private_dns_zone_purview[0]
+azurerm_private_dns_zone.private_dns_zone_purview_studio[0]
+azurerm_private_dns_zone.private_dns_zone_queue[0]
+azurerm_private_dns_zone.private_dns_zone_servicebus[0]
+azurerm_private_dns_zone.synapse_gateway[0]
+azurerm_private_dns_zone.synapse_sql[0]
+azurerm_private_dns_zone.synapse_studio[0]
+azurerm_private_dns_zone_virtual_network_link.blob[0]
+azurerm_private_dns_zone_virtual_network_link.database[0]
+azurerm_private_dns_zone_virtual_network_link.dfs[0]
+azurerm_private_dns_zone_virtual_network_link.purview[0]
+azurerm_private_dns_zone_virtual_network_link.purview_studio[0]
+azurerm_private_dns_zone_virtual_network_link.queue[0]
+azurerm_private_dns_zone_virtual_network_link.servicebus[0]
+azurerm_private_dns_zone_virtual_network_link.synapse_gateway[0]
+azurerm_private_dns_zone_virtual_network_link.synapse_sql[0]
+azurerm_private_dns_zone_virtual_network_link.synapse_studio[0]
+azurerm_private_dns_zone_virtual_network_link.vaultcore[0]
+azurerm_public_ip.bastion_pip[0]
+azurerm_subnet.app_service_subnet[0]
+azurerm_subnet.bastion_subnet[0]
+azurerm_subnet.plink_subnet[0]
+azurerm_subnet.vm_subnet[0]
+azurerm_subnet_network_security_group_association.app_service_nsg[0]
+azurerm_subnet_network_security_group_association.bastion_nsg[0]
+azurerm_subnet_network_security_group_association.plink_nsg[0]
+azurerm_subnet_network_security_group_association.vm_nsg[0]
+azurerm_virtual_network.vnet[0]
+random_id.rg_deployment_unique
+module.naming.random_string.first_letter
+module.naming.random_string.main
