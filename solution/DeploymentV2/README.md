@@ -74,7 +74,7 @@ The configuration for this environment creation is read from the following locat
 - The environment configuration file (*where {selected_environment} is the name of the environment that you selected during execution of prepare.ps1):
   -  ```/azure-data-services-go-fast-codebase/solution/DeploymentV2/environment/vars/{selected_environment}/terragrunt.hcl```
 
-
+## :green_circle: PART 3. Deployment Details
 ### Deployment Layers
 Layer | Description | Permissions Required when using Service Principal | Permissions Required when using User Principal
 | --- | --- | --- | --- |
