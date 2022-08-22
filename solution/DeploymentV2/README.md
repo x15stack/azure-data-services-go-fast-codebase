@@ -33,6 +33,8 @@ When you execute the script it will ask you for a number of inputs:
 ![image](https://user-images.githubusercontent.com/11702150/184566884-89671236-cbb6-441d-a6b5-f7390a44b78c.png)
 - **Resource Provider Registration**: Select '1' (YES) to ensure that the pre-requisite resource providers have been enabled on your Azure subscription. 
 ![image](https://user-images.githubusercontent.com/11702150/184566915-ad311bf1-59fc-4c1d-a94c-6d51c3b82101.png)
+- **Network Isolation Level**: Select the level of network isolation that you would like for your deployed resources. 'Public' enables public IP access from anywhere. 'Isolated' enables private networking components while allowing tightly controlled public IP based access for a small number of whitelisted IP addresses. This is the most common deployment method which allows a cloud hosted, dynamically provisioned CICD agent to carry out the deployment. 'Private' networking  is an advanced deployment option which will block all public traffic. 
+![image](https://user-images.githubusercontent.com/11702150/185845690-e0b64a24-1322-4934-b569-c6faf8f7d153.png)
 - **Resource Owner**: Insert the object id of the Azure identity or group that you would like to have ownership of the resource group.  If you are planning to deploy the solution using a CICD agent, it is suggested that you enter the Agent Service Principal's object id here. If you will be deploying from the command line using an interactive session then leave this field blank.
 - **SQL Server AAD Admin**: Insert the object id of the Azure identity or group that you would like to be the AAD administrator of any SQL Server instances deployed.  If you are planning to deploy the solution using a CICD agent, then it is suggested that you use an AAD group here. If you will be deploying from the command line using an interactive session then leave this field blank.
 - **Press any key to continue**: The script will now evaluate your system to gather required information. A summary of that information will be presented to you (similar to the screen capture below). Review the information and press any key to continue.
@@ -72,8 +74,8 @@ The configuration for this environment creation is read from the following locat
 - The environment configuration file (*where {selected_environment} is the name of the environment that you selected during execution of prepare.ps1):
   -  ```/azure-data-services-go-fast-codebase/solution/DeploymentV2/environment/vars/{selected_environment}/terragrunt.hcl```
 
-
-### Deployment Layers
+## :green_circle: PART 3. Deployment Details
+### Deployment Layers - Summary
 Layer | Description | Permissions Required when using Service Principal | Permissions Required when using User Principal
 | --- | --- | --- | --- |
 [Terraform Layer Zero](./terraform_layer0/tformdocs.md) |  Deploys the spoke VNET with subnets, dns zones, bastion & a VM for the CICD agent |  Resouce Group Owner <br /> <br />  Blob Contributor on Terraform's State Storage Account |  Resouce Group Owner <br /> <br /> Blob Contributor on Terraform's State Storage Account
