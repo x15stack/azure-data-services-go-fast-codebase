@@ -1,4 +1,5 @@
 [
+    //IAC Feature Toggles
     {"Name":"deploy_web_app","Value":true},
     {"Name":"deploy_function_app","Value":true},
     {"Name":"deploy_custom_terraform","Value":false},
@@ -9,6 +10,12 @@
     {"Name":"deploy_synapse","Value":true},
     {"Name":"deploy_metadata_database","Value":true},
     {"Name":"is_vnet_isolated","Value":true},
+    {"Name":"deploy_selfhostedsql","Value":false},
+    
+    //Sample Toggles 
+    {"Name":"publish_sif_database","Value":true},
+
+    //Post IAC Publish Toggles
     {"Name":"publish_web_app","Value":true},
     {"Name":"publish_function_app","Value":true},
     {"Name":"publish_sample_files","Value":true},
@@ -16,8 +23,10 @@
     {"Name":"configure_networking","Value":true},
     {"Name":"publish_datafactory_pipelines","Value":true},
     {"Name":"publish_web_app_addcurrentuserasadmin","Value":true},
-    {"Name":"deploy_selfhostedsql","Value":false},
+    
+    //Deployment Lifecycle Toggles
     {"Name":"is_onprem_datafactory_ir_registered","Value":false},
-    {"Name":"publish_sif_database","Value":true},
+    {"Name":"delay_private_access","Value":true},
+    {"Name":"layer0_state","Value":"remote"},    
     {"Name":"deployment_layer3_complete","Value":false}
 ]

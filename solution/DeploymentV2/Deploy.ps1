@@ -25,6 +25,11 @@
 $PathToReturnTo = (Get-Location).Path
 $deploymentFolderPath = (Get-Location).Path 
 
+Set-Location $deploymentFolderPath 
+Set-Location ./terraform_layer0
+./00-deploy.ps1
+
+Set-Location $deploymentFolderPath 
 Set-Location ./terraform_layer1
 ./01-deploy.ps1
 

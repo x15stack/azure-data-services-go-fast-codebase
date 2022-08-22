@@ -22,17 +22,7 @@
 # Once this script has finished, you then run Deploy.ps1 to create your environment
 # ------------------------------------------------------------------------------------------------------------
 
-Function Sleep-Progress($seconds) {
-    $s = 0;
-    Do {
-        $p = [math]::Round(100 - (($seconds - $s) / $seconds * 100));
-        Write-Progress -Activity "Waiting..." -Status "$p% Complete:" -SecondsRemaining ($seconds - $s) -PercentComplete $p;
-        [System.Threading.Thread]::Sleep(1000)
-        $s++;
-    }
-    While($s -lt $seconds);
-    
-}
+
 
 #by default $gitDeploy will not be true, only being set by the git environment - meaning if not using a runner it will default to a standard execution.
 $gitDeploy = ([System.Environment]::GetEnvironmentVariable('gitDeploy')  -eq 'true')
@@ -164,33 +154,40 @@ else
     if([string]::IsNullOrEmpty($env:TF_VAR_resource_group_name) -eq $false) {
         $rg = az group create -n $env:TF_VAR_resource_group_name -l australiaeast --only-show-errors
 
-        if([string]::IsNullOrEmpty($env:TF_VAR_state_storage_account_name) -eq $false) {
-            Write-Host "Creating storage account"
-            #Public 
+        if([string]::IsNullOrEmpty($env:TF_VAR_state_storage_account_name) -eq $false) {            
+            $delay_private_access = $false
+            $layer0_state = "remote"
+            $deploy_state_storage_account = $false
+            $deploy_cicd_vm = $false
             $uinput = Get-SelectionFromUser -Options ('Public','Isolated', 'Private') -Prompt "Please select Network Isolation Level"
             if($uinput -eq "Public")
             {
-                $delay_private_access = true
+                $delay_private_access = $true
                 Write-Host "Creating Public Storage"
                 $storageId = az storage account create --resource-group $env:TF_VAR_resource_group_name --name $env:TF_VAR_state_storage_account_name --sku Standard_LRS --allow-blob-public-access false --public-network-access Enabled --default-action Allow --https-only true --min-tls-version TLS1_2 --query id -o tsv --only-show-errors           
             }
 
             if($uinput -eq "Isolated")
             {
-                $delay_private_access = true
-                Write-Host "Creating Isolated Storage"      
+                $delay_private_access = $true
+                Write-Host "Creating Isolated Storage. In this deployment mode private networking will be established but the CICD agent will open firewalls to allow targeted public internet access to facilitate deployment. "      
                 #Isolated 
                 $storageId = az storage account create --resource-group $env:TF_VAR_resource_group_name --name $env:TF_VAR_state_storage_account_name --sku Standard_LRS --allow-blob-public-access false --public-network-access Enabled --default-action Deny --https-only true --min-tls-version TLS1_2 --query id -o tsv --only-show-errors
                 $hiddenoutput =az storage account network-rule add --resource-group $env:TF_VAR_resource_group_name --account-name $env:TF_VAR_state_storage_account_name --ip-address $env:TF_VAR_ip_address --only-show-errors
                 #wait for network rule 
-                Sleep-Progress 7
+                [System.Threading.Thread]::Sleep(5000)
             }
             if($uinput -eq "Private")
             {
-                $delay_private_access = false
-                #Private
-                #Now run Layer 0 terraform 
+                
+                Write-Host "Configuring for fully private storage. In this deployment mode private networking will be established from the onset."      
+                Write-Warning "This is a more complex deployment and will require appropriate connectivity to be established between deployment agent and all deployed resources."
 
+                
+                $delay_private_access = $false
+                $layer0_state = "local"
+                $deploy_state_storage_account = $true
+                $deploy_cicd_vm =$ true
                 #$storageId = az storage account create --resource-group $env:TF_VAR_resource_group_name --name $env:TF_VAR_state_storage_account_name --sku Standard_LRS --pr  --allow-blob-public-access false --public-network-access Disabled --https-only true --min-tls-version TLS1_2 --query id -o tsv --only-show-errors
                 #$DeploymentVnet =  Read-Host "Please input the name of the spoke vnet for the deployment. If you leave it blank it will default to 'ads-stg-vnet-ads'"
                 #if([string]::IsNullOrEmpty($DeploymentVnet))
@@ -215,12 +212,16 @@ else
                 #az network private-dns record-set a create -g $env:TF_VAR_resource_group_name -z "privatelink.dfs.core.windows.net" -n "$env:TF_VAR_state_storage_account_name" --ttl 10
                 #$output = az network private-dns record-set a add-record -g $env:TF_VAR_resource_group_name  -z "privatelink.dfs.core.windows.net" -n "$env:TF_VAR_state_storage_account_name" -a $storageip
             }
-            Write-Host "Creating Role Assignment"        
-            $userObjectId = az ad signed-in-user show --query id -o tsv --only-show-errors            
-            $assignment = az role assignment create --role "Storage Blob Data Contributor" --assignee-object-id $userObjectId --assignee-principal-type User --only-show-errors
-            Write-Host "Creating State Container"        
-            $container = az storage container create --name $CONTAINER_NAME --account-name $env:TF_VAR_state_storage_account_name --auth-mode login --only-show-errors
-       
+            
+            
+            if($uinput -ne "Private")
+            {
+                Write-Host "Creating Role Assignment"        
+                $userObjectId = az ad signed-in-user show --query id -o tsv --only-show-errors            
+                $assignment = az role assignment create --role "Storage Blob Data Contributor" --assignee-object-id $userObjectId --assignee-principal-type User --only-show-errors
+                Write-Host "Creating State Container"        
+                $container = az storage container create --name $CONTAINER_NAME --account-name $env:TF_VAR_state_storage_account_name --auth-mode login --only-show-errors
+            }
         }
 
     }
@@ -309,6 +310,10 @@ else
         $foundUser = $false
         $common_vars_values.resource_owners =  @()  
         $common_vars_values.synapse_administrators = @{}  
+
+        $common_vars_values.FeatureTemplateOverrides.layer0_state = $layer0_state
+        $common_vars_values.deploy_state_storage_account = $deploy_state_storage_account
+        $common_vars_values.deploy_cicd_vm = $deploy_cicd_vm
         
         if([string]::IsNullOrEmpty($assigneeobject) -eq $false)
         {

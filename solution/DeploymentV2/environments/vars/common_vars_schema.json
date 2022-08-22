@@ -381,22 +381,87 @@
           "test@test.com"            
         ],
         "options": {
-          "category": "Target Azure Environment"
+          "category": "Git Integration"
         }
     },
+    "deploy_state_storage_account": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true then Layer Zero will deploy the state storage account. Generally set to false unless using full private networking.",
+      "examples": [
+          true, false          
+        ],
+        "options": {
+          "category": "Terraform Layer 0 Options"
+        }
+    },
+    "deploy_cicd_vm": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true then Layer Zero will deploy a VM to host a CICD agent. Generally set to false unless using full private networking.",
+      "examples": [
+          true, false                  
+        ],
+        "options": {
+          "category": "Terraform Layer 0 Options"
+        }
+    },   
     "FeatureTemplateOverrides": {
       "type": "object",
       "description": "Each deployment references a feature template (eg. basic_deployment, full_deployment etc). This collection of objects allows you to override the default feature template values.",
-      "required": [],
+      "required": ["is_onprem_datafactory_ir_registered", "delay_private_access", "layer0_state", "deployment_layer3_complete"],
       "properties": 
       {
-
+        "is_onprem_datafactory_ir_registered": {
+          "type": "boolean",
+          "default": false,
+          "description": "Flag that controls creation of self hosted Azure Data Factory IR related artefacts. On initial deployment of a new environment set this to false. Once you have completed initial deployment, install all Self_hosted ADF IRs then set this flag to true and re-deploy.",
+          "examples": [
+              true, false           
+            ],
+            "options": {
+              "category": "Deployment Lifecycle Toggles"
+            }
+        },
+        "delay_private_access": {
+          "type": "boolean",
+          "default": true,
+          "description": "Set to true to allow firewall based access to public IP's. Often used to allow cloud-hosted CICD agents access to the environment.",
+          "examples": [
+            true, false                  
+            ],
+            "options": {
+              "category": "Deployment Lifecycle Toggles"
+            }
+        },
+        "layer0_state": {
+          "type": "string",
+          "default": "remote",
+          "description": "Determines if layer 0 state file will be local or remote. Useful for initial deployment in fully private network environment's as the CICD agent will not be able to access the state account until networking elements are establlished.",
+          "examples": [
+              "remote", "local"            
+            ],
+            "options": {
+              "category": "Deployment Lifecycle Toggles"
+            }
+        },
+        "deployment_layer3_complete": {
+          "type": "boolean",
+          "default": false,
+          "description": "The build and publishing of the FunctionApp (layer2) must not occur until deployment layer3 has set certain permissions. This flag defaults to false to prevent publishing of source code binaries on initial deployment. Once layer 3 is confirmed complete flip this flag to true and re-deploy. ",
+          "examples": [
+            true, false               
+            ],
+            "options": {
+              "category": "Deployment Lifecycle Toggles"
+            }
+        }
       },
       "examples": [
         {"is_onprem_datafactory_ir_registered":true}
       ],
       "options": {
-        "category": "Target Azure Environment"
+        "category": "Feature Template Overrides"
       }
     }
 

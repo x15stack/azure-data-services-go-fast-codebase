@@ -27,10 +27,7 @@ generate "backend.tf" {
   %{ endif }
   EOF 
   
-}
-
-
-# These inputs are provided to the terraform variables when deploying the environment
+}# These inputs are provided to the terraform variables when deploying the environment
 # If you are deploying using pipelines, these can be overridden from environment variables
 # using TF_VAR_variablename
 inputs = {
@@ -44,9 +41,9 @@ inputs = {
   environment_tag                       = "${local.common_vars.environment_tag}"                                  # This is used on Azure tags as well as all resource names
   ip_address                            = "${local.common_vars.ip_address}"                      # This is the ip address of the agent/current IP. Used to create firewall exemptions.
   azure_sql_aad_administrators          = "${local.common_vars.azure_sql_aad_administrators}"
-  azure_purview_data_curators           = "${local.common_vars.azure_purview_data_curators}"                                                         
+  azure_purview_data_curators          = "${local.common_vars.azure_purview_data_curators}"                                                         
   synapse_administrators                = "${local.common_vars.synapse_administrators}"  
-  resource_owners                       = "${local.common_vars.resource_owners}"    
+  resource_owners                       = "${local.common_vars.resource_owners}"  
   deploy_web_app                        = true
   deploy_function_app                   = true
   deploy_custom_terraform               = false # This is whether the infrastructure located in the terraform_custom folder is deployed or not.
@@ -69,3 +66,4 @@ inputs = {
   publish_sif_database                  = true
   deployment_principal_layers1and3      = "${local.common_vars.deployment_principal_layers1and3}"
 }
+

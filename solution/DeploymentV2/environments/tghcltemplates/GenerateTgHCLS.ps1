@@ -7,7 +7,8 @@ function GenerateTgHCLS (
     [String]$PathToReturnTo = ""
 ) 
 {
-    $layers = @(0,1,2,3)
+    #$layers = @(0,1,2,3)
+    $layers = @(0)
     $envlist = (Get-ChildItem -Directory -Path ./../vars | Select-Object -Property Name).Name
     
     foreach ($l in $layers)
@@ -19,7 +20,9 @@ function GenerateTgHCLS (
             $inputs_t = (Get-Content "inputs.hcl" -Raw)
             $template = $layer_t + $inputs_t 
             $template = $template.Replace("<@environment>", $e)
-            $template
+            $tgt_path = Convert-Path ("../../terraform_layer$($l.ToString())/vars/$e/")
+            Set-Content -Path ($tgt_path+"terragrunt.hcl") -Value $template
+
         }
     }
 }

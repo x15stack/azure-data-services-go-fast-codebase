@@ -2,8 +2,32 @@ locals {
   common_vars = jsondecode(file("../../../bin/environments/uat/common_vars_for_hcl.json"))
 }
 
-
-# These inputs are provided to the terraform variables when deploying the environment
+/*If performing a private networking deployment Prepare.ps1 will initially set TF_VAR_layer0_state to 'local' after initial deployment this should be set to 'remote'*/
+generate "backend.tf" {
+  
+  path      = "backend.tf"
+  if_exists = "overwrite_terragrunt"
+  contents  = <<EOF
+  %{ if get_env("TF_VAR_layer0_state") == "local"}
+  terraform {
+    backend "local" {                       
+      path                  = "./terraform_layer0.tfstate"      
+    }
+  }
+  %{ endif }
+  %{ if get_env("TF_VAR_layer0_state","local") == "remote"}
+  terraform {
+    backend "azurerm" {                 
+      container_name       = "tstate"
+      key                  = "terraform_layer0.tfstate"
+      resource_group_name  = "${local.common_vars.resource_group_name}"
+      storage_account_name = "${local.common_vars.state_storage_account_name}"      
+    }
+  }
+  %{ endif }
+  EOF 
+  
+}# These inputs are provided to the terraform variables when deploying the environment
 # If you are deploying using pipelines, these can be overridden from environment variables
 # using TF_VAR_variablename
 inputs = {
@@ -19,7 +43,7 @@ inputs = {
   azure_sql_aad_administrators          = "${local.common_vars.azure_sql_aad_administrators}"
   azure_purview_data_curators          = "${local.common_vars.azure_purview_data_curators}"                                                         
   synapse_administrators                = "${local.common_vars.synapse_administrators}"  
-  resource_owners                       = "${local.common_vars.resource_owners}"    
+  resource_owners                       = "${local.common_vars.resource_owners}"  
   deploy_web_app                        = true
   deploy_function_app                   = true
   deploy_custom_terraform               = false # This is whether the infrastructure located in the terraform_custom folder is deployed or not.
@@ -42,3 +66,4 @@ inputs = {
   publish_sif_database                  = true
   deployment_principal_layers1and3      = "${local.common_vars.deployment_principal_layers1and3}"
 }
+

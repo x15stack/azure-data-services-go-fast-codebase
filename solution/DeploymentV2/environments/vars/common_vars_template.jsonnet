@@ -369,6 +369,22 @@ local AllVariables = [
             "Value":  locals[environment].is_private_network,
             "Sensitive": false,
             "DoNotReplaceDuringAgentDeployment":false
+        },
+        {
+            "CICDSecretName": "",
+            "EnvVarName": "TF_VAR_deploy_state_storage_account",
+            "HCLName": "deploy_state_storage_account",
+            "Value":  locals[environment].deploy_state_storage_account,
+            "Sensitive": false,
+            "DoNotReplaceDuringAgentDeployment":false
+        },
+        {
+            "CICDSecretName": "",
+            "EnvVarName": "TF_VAR_deploy_cicd_vm",
+            "HCLName": "deploy_cicd_vm",
+            "Value":  locals[environment].deploy_cicd_vm,
+            "Sensitive": false,
+            "DoNotReplaceDuringAgentDeployment":false
         }
     ]+featuretemplate;
 
@@ -404,6 +420,56 @@ local SecretFileSensitiveVars =     {  // Object comprehension.
     "ForSecretFile": SecretFileVars,
     "ForSecretFileSensitive": SecretFileSensitiveVars
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
