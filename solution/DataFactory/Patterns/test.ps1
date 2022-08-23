@@ -4,7 +4,7 @@ $newfolder = "./output/"
 
 if (!(Test-Path "./output"))
 {
-    New-Item -itemType Directory -Name "output"
+    New-Item -itemType Directory -Name -Force "output"
 }
 else
 {

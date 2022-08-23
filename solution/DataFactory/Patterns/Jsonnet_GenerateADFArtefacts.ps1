@@ -1,5 +1,8 @@
-Import-Module .\GatherOutputsFromTerraform.psm1 -force
-$tout = GatherOutputsFromTerraform
+
+
+Import-Module ./GatherOutputsFromTerraform_DataFactoryFolder.psm1 -Force
+$tout = GatherOutputsFromTerraform_DataFactoryFolder
+
 $newfolder = "./output/"
 
 
@@ -187,11 +190,11 @@ foreach ($patternFolder in $patternFolders)
         Write-Verbose "_____________________________"
         
         $newfolder = ($folder + "/output")
-        $hiddenoutput = !(Test-Path $newfolder) ? ($F = New-Item -itemType Directory -Name $newfolder) : ($F = "")
+        $hiddenoutput = !(Test-Path $newfolder) ? ($F = New-Item -itemType Directory -Force -Name $newfolder) : ($F = "")
         $newfolder = ($newfolder + "/schemas")
-        $hiddenoutput = !(Test-Path $newfolder) ? ($F = New-Item -itemType Directory -Name $newfolder) : ($F = "")
+        $hiddenoutput = !(Test-Path $newfolder) ? ($F = New-Item -itemType Directory -Force -Name $newfolder) : ($F = "")
         $newfolder = ($newfolder + "/taskmasterjson/")
-        $hiddenoutput = !(Test-Path $newfolder) ? ($F = New-Item -itemType Directory -Name $newfolder) : ($F = "")
+        $hiddenoutput = !(Test-Path $newfolder) ? ($F = New-Item -itemType Directory -Force -Name $newfolder) : ($F = "")
         
         $schemafile = (Get-ChildItem -Path ($folder+"/jsonschema/") -Filter "Main.libsonnet")
         #foreach ($schemafile in $schemafiles)

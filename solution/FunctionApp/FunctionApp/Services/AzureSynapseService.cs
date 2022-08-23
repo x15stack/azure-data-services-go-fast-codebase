@@ -156,7 +156,7 @@ namespace FunctionApp.Services
                 }
                 logging.LogWarning($"Task Named {taskName} Failed To Start. Result status was '{sneh.Sner.StatementResult}' Attempt Number {tryCount.ToString()}");
                 tryCount++;
-                await Task.Delay(45000);
+                await Task.Delay(20000);
             }
             if (success)
             {

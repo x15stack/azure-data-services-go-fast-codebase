@@ -1,5 +1,6 @@
-Import-Module .\GatherOutputsFromTerraform.psm1 -force
-$tout = GatherOutputsFromTerraform
+
+Import-Module ./GatherOutputsFromTerraform_DataFactoryFolder.psm1 -Force
+$tout = GatherOutputsFromTerraform_DataFactoryFolder
 
 function RemoveRepetitiveChars ($string, $char) {
     $string = $string.Split($char).where{$_} -join $char

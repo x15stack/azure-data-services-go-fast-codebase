@@ -1,5 +1,8 @@
-Import-Module .\GatherOutputsFromTerraform.psm1 -force
-$tout = GatherOutputsFromTerraform
+
+Write-Host $PWD
+Import-Module ./GatherOutputsFromTerraform_DataFactoryFolder.psm1 -Force
+$tout = GatherOutputsFromTerraform_DataFactoryFolder
+
 $sqlserver_name=$tout.sqlserver_name
 $stagingdb_name=$tout.stagingdb_name
 $metadatadb_name=$tout.metadatadb_name
