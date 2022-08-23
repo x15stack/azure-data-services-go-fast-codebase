@@ -7,8 +7,8 @@ function GenerateTgHCLS (
     [String]$PathToReturnTo = ""
 ) 
 {
-    #$layers = @(0,1,2,3)
-    $layers = @(0)
+    $layers = @(0,1,2,3)
+    #$layers = @(0)
     $envlist = (Get-ChildItem -Directory -Path ./../vars | Select-Object -Property Name).Name
     
     foreach ($l in $layers)
