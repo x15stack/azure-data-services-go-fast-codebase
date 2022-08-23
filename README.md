@@ -47,7 +47,7 @@ You will also need some development tools to edit and run the deployment scripts
 >- A windows based computer (local or cloud)
 >- [Visual Studio Code](https://visualstudio.microsoft.com/downloads/)
 >- [Docker Desktop](https://www.docker.com/products/docker-desktop)
->- [Windows Store Ubuntu 18.04 LTS](https://www.microsoft.com/store/productId/9N9TNGVNDL3Q)
+>- [Windows Store Ubuntu 18.04 LTS](https://apps.microsoft.com/store/detail/ubuntu-1804-on-windows/9N9TNGVNDL3Q)
 
 The deployment uses a concept of **Developing inside a Container** to containerize all the necessary pre-requisite components without requiring them to be installed on the local machine. Follow our [Configuring your System for Development Containers](https://code.visualstudio.com/docs/remote/containers) guide.
 
