@@ -28,7 +28,8 @@ namespace WebApplication.Controllers
         // GET: IntegrationRuntimeMappingController
         public async Task<IActionResult> Index()
         {
-            var adsGoFastContext = _context.IntegrationRuntimeMapping.Include(t => t.SourceAndTargetSystem);
+            //var adsGoFastContext = _context.IntegrationRuntimeMapping.Include(t => t.SourceAndTargetSystem);
+            var adsGoFastContext = _context.IntegrationRuntimeMapping;
             return View(await adsGoFastContext.ToListAsync());
         }
 
@@ -56,7 +57,8 @@ namespace WebApplication.Controllers
         // GET: TaskTypeMapping/Create
         public IActionResult Create()
         {
-            ViewData["SystemId"] = new SelectList(_context.SourceAndTargetSystems.OrderBy(x => x.SystemName), "SystemId", "SystemName");
+            ViewData["SystemIds"] = new SelectList(_context.SourceAndTargetSystems.OrderBy(x => x.SystemId), "SystemId", "SystemName");
+            ViewData["IntegrationRuntimeNames"] = new SelectList(_context.IntegrationRuntime.OrderBy(x => x.IntegrationRuntimeName), "IntegrationRuntimeName", "IntegrationRuntimeName");
             IntegrationRuntimeMapping integrationRuntimeMapping = new IntegrationRuntimeMapping();
             integrationRuntimeMapping.ActiveYn = true;
             return View(integrationRuntimeMapping);
@@ -68,7 +70,7 @@ namespace WebApplication.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ChecksUserAccess]
-        public async Task<IActionResult> Create([Bind("IntegrationRuntimeMappingId,IntegrationRuntimeId,IntegrationRuntimeName,SystemId,ActiveYN")] IntegrationRuntimeMapping integrationRuntimeMapping)
+        public async Task<IActionResult> Create([Bind("IntegrationRuntimeMappingId,IntegrationRuntimeId,IntegrationRuntimeName,SystemId,ActiveYn")] IntegrationRuntimeMapping integrationRuntimeMapping)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +82,8 @@ namespace WebApplication.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(IndexDataTable));
             }
-            ViewData["SystemId"] = new SelectList(_context.SourceAndTargetSystems.OrderBy(x => x.SystemName), "SystemId", "SystemName", integrationRuntimeMapping.SystemId);
+            ViewData["SystemIds"] = new SelectList(_context.SourceAndTargetSystems.OrderBy(x => x.SystemId), "SystemId", "SystemName");
+            ViewData["IntegrationRuntimeNames"] = new SelectList(_context.IntegrationRuntime.OrderBy(x => x.IntegrationRuntimeName), "IntegrationRuntimeName", "IntegrationRuntimeName");
             return View(integrationRuntimeMapping);
         }
 
@@ -99,7 +102,8 @@ namespace WebApplication.Controllers
 
             if (!await CanPerformCurrentActionOnRecord(integrationRuntimeMapping))
                 return new ForbidResult();
-            ViewData["SystemId"] = new SelectList(_context.SourceAndTargetSystems.OrderBy(x => x.SystemName), "SystemId", "SystemName", integrationRuntimeMapping.SystemId);
+            ViewData["SystemIds"] = new SelectList(_context.SourceAndTargetSystems.OrderBy(x => x.SystemId), "SystemId", "SystemName");
+            ViewData["IntegrationRuntimeNames"] = new SelectList(_context.IntegrationRuntime.OrderBy(x => x.IntegrationRuntimeName), "IntegrationRuntimeName", "IntegrationRuntimeName");
             return View(integrationRuntimeMapping);
         }
 
@@ -109,7 +113,7 @@ namespace WebApplication.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ChecksUserAccess]
-        public async Task<IActionResult> Edit(int id, [Bind("IntegrationRuntimeMappingId,IntegrationRuntimeId,IntegrationRuntimeName,SystemId,ActiveYN")] IntegrationRuntimeMapping integrationRuntimeMapping)
+        public async Task<IActionResult> Edit(int id, [Bind("IntegrationRuntimeMappingId,IntegrationRuntimeId,IntegrationRuntimeName,SystemId,ActiveYn")] IntegrationRuntimeMapping integrationRuntimeMapping)
         {
             if (id != integrationRuntimeMapping.IntegrationRuntimeMappingId)
             {
@@ -140,7 +144,8 @@ namespace WebApplication.Controllers
                 }
                 return RedirectToAction(nameof(IndexDataTable));
             }
-            ViewData["SystemId"] = new SelectList(_context.SourceAndTargetSystems.OrderBy(x => x.SystemName), "SystemId", "SystemName", integrationRuntimeMapping.SystemId);
+            ViewData["SystemIds"] = new SelectList(_context.SourceAndTargetSystems.OrderBy(x => x.SystemId), "SystemId", "SystemName");
+            ViewData["IntegrationRuntimeNames"] = new SelectList(_context.IntegrationRuntime.OrderBy(x => x.IntegrationRuntimeName), "IntegrationRuntimeName", "IntegrationRuntimeName");
             return View(integrationRuntimeMapping);
         }
 
@@ -197,10 +202,11 @@ namespace WebApplication.Controllers
             JObject GridOptions = new JObject();
             JArray cols = new JArray();
             cols.Add(JObject.Parse("{ 'data':'IntegrationRuntimeMappingId', 'name':'IntegrationRuntimeMappingId', 'autoWidth':true }"));
-            cols.Add(JObject.Parse("{ 'data':'SourceAndTargetSystems.SystemName', 'name':'SystemName', 'autoWidth':true }"));
+            //cols.Add(JObject.Parse("{ 'data':'SourceAndTargetSystems.SystemName', 'name':'SystemName', 'autoWidth':true }"));
             cols.Add(JObject.Parse("{ 'data':'IntegrationRuntimeId', 'name':'IntegrationRuntimeId', 'autoWidth':true }"));
             cols.Add(JObject.Parse("{ 'data':'IntegrationRuntimeName', 'name':'IntegrationRuntimeName', 'autoWidth':true }"));
             cols.Add(JObject.Parse("{ 'data':'SystemId', 'name':'SystemId', 'autoWidth':true }"));
+            cols.Add(JObject.Parse("{ 'data':'ActiveYn', 'name':'Is Active', 'autoWidth':true, 'ads_format':'bool'}"));
 
 
             HumanizeColumns(cols);
