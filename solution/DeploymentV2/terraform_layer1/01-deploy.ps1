@@ -43,7 +43,7 @@ PrepareDeployment -gitDeploy $gitDeploy -deploymentFolderPath $deploymentFolderP
 #------------------------------------------------------------------------------------------------------------
 # Main Terraform - Layer1
 #------------------------------------------------------------------------------------------------------------
-Write-Host "Starting Terraform Deployment- Layer 1"
+"Starting Terraform Deployment: Layer 1" | boxes -d ada-box | lolcat
 Write-Host "Note this usually takes a few minutes to complete."
 $output = terragrunt init --terragrunt-config vars/$env:environmentName/terragrunt.hcl -reconfigure
 $output = terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl -json 

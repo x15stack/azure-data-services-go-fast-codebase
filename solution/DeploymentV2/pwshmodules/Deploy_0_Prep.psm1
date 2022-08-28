@@ -147,7 +147,7 @@ function PrepareDeployment (
              #Synapse
              $resourcecheck = ( (az synapse workspace list --resource-group $env:TF_VAR_resource_group_name | convertfrom-json -depth 10) | Where-Object {$_.name -eq $env:ARM_SYNAPSE_WORKSPACE_NAME}).count
              if($resourcecheck -gt 0) {
-                 $hiddenoutput = az synapse workspace firewall-rule create --name CICDAgent --resource-group $env:TF_VAR_resource_group_name --start-ip-address $env:TF_VAR_ip_address2 --end-ip-address $env:TF_VAR_ip_address2 --workspace-name $env:ARM_SYNAPSE_WORKSPACE_NAME --only-show-errors
+                 $hiddenoutput = az synapse workspace firewall-rule create --name CICDUser --resource-group $env:TF_VAR_resource_group_name --start-ip-address $env:TF_VAR_ip_address2 --end-ip-address $env:TF_VAR_ip_address2 --workspace-name $env:ARM_SYNAPSE_WORKSPACE_NAME --only-show-errors
              }
         }
         catch {

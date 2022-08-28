@@ -43,7 +43,7 @@ PrepareDeployment -gitDeploy $gitDeploy -deploymentFolderPath $deploymentFolderP
 #------------------------------------------------------------------------------------------------------------
 # Main Terraform - Layer1
 #------------------------------------------------------------------------------------------------------------
-Write-Host "Starting Terraform Deployment- Layer 2"
+"Starting Terraform Deployment: Layer 2" | boxes -d ada-box | lolcat
 Write-Host "Expect this to take twenty to thirty minutes to complete the first time it is run. Subsequent, incremental builds should only take a few minutes."
 if([string]::IsNullOrEmpty($env:TF_VAR_jumphost_password) -and ($gitDeploy -eq $false -or $null -eq $gitdeploy))
 {

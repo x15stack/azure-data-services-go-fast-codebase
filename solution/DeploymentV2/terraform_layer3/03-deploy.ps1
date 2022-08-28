@@ -58,7 +58,7 @@ PrepareDeployment -gitDeploy $gitDeploy -deploymentFolderPath $deploymentFolderP
 #------------------------------------------------------------------------------------------------------------
 # Main Terraform - Layer1
 #------------------------------------------------------------------------------------------------------------
-"Starting Terraform Deployment- Layer 3" | boxes -d ada-box | lolcat
+"Starting Terraform Deployment: Layer 3" | boxes -d ada-box | lolcat
 $output = terragrunt init --terragrunt-config vars/$env:environmentName/terragrunt.hcl -reconfigure
 $output = terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl -json
 ProcessTerraformApply -output $output -gitDeploy $gitDeploy
