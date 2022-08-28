@@ -20,6 +20,10 @@ sudo chmod u+x terragrunt && \
 sudo mv terragrunt /usr/local/bin/terragrunt && \
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
+#Boxes, Figlet and LolCat
+sudo apt-get install figlet lolcat boxes 
+
+
 #Github Runner Software
 mkdir actions-runner && cd actions-runner# Download the latest runner package && \
 curl -o actions-runner-linux-x64-2.296.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.296.0/actions-runner-linux-x64-2.296.0.tar.gz && \

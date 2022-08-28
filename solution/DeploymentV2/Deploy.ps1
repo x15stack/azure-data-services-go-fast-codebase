@@ -22,6 +22,11 @@
 # 
 #----------------------------------------------------------------------------------------------------------------
 
+
+#Cool Branding :-)
+figlet Azure Data Services -t | lolcat &&  figlet Go Fast -t | lolcat
+
+
 $PathToReturnTo = (Get-Location).Path
 $deploymentFolderPath = (Get-Location).Path 
 
