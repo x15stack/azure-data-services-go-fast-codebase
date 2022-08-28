@@ -33,6 +33,7 @@ function PrepareDeployment (
 
 
     if ($gitDeploy) {
+        Write-Host "GitDeploy is true"
         $resourceGroupName = [System.Environment]::GetEnvironmentVariable('ARM_RESOURCE_GROUP_NAME')
         $synapseWorkspaceName = [System.Environment]::GetEnvironmentVariable('ARM_RESOURCE_SYNAPSE_WORKSPACE_NAME')
         $env:TF_VAR_ip_address = (Invoke-WebRequest ifconfig.me/ip).Content 
