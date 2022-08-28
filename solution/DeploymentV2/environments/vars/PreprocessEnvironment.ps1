@@ -31,6 +31,7 @@ foreach($ft in $fts)
 }
 $str = $str + "/*DONOTREMOVETHISCOMMENT:SOFTS*/"
 ($cvjnss[0] + $Str + $cvjnss[2]) | Set-Content "./common_vars_template.jsonnet"
+
 #Environments
 $cvjns = Get-Content "./common_vars_template.jsonnet" -raw
 $cvjnss = $cvjns.Split("/*DONOTREMOVETHISCOMMENT:ENVS*/")
@@ -42,6 +43,10 @@ foreach($ft in $fts)
 }
 $str = $str + "/*DONOTREMOVETHISCOMMENT:ENVS*/"
 ($cvjnss[0] + $Str + $cvjnss[2]) | Set-Content "./common_vars_template.jsonnet"
+
+#strip extra lines
+$cvjns = Get-Content "./common_vars_template.jsonnet" -raw
+($cvjns.replace([System.Environment]::NewLine+[System.Environment]::NewLine,"")) | Set-Content "./common_vars_template.jsonnet"
 
 
 Write-Debug "Preparing Environment: $Environment Using $FeatureTemplate Template"
