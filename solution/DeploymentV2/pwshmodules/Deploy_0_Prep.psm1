@@ -104,13 +104,13 @@ function PrepareDeployment (
             }
 
             #Key Vault
-            $resourcecheck = ( (az keyvault list --resource-group gft7 | convertfrom-json -depth 10) | Where-Object {$_.name -eq $env:keyVaultName}).count
+            $resourcecheck = ( (az keyvault list --resource-group $env:TF_VAR_resource_group_name | convertfrom-json -depth 10) | Where-Object {$_.name -eq $env:keyVaultName}).count
             if($resourcecheck -gt 0) {
                 $hiddenoutput = az keyvault network-rule add -g $env:TF_VAR_resource_group_name --name $env:keyVaultName --ip-address $env:TF_VAR_ip_address/32 --only-show-errors
             }
               
             #Synapse
-            $resourcecheck = ( (az synapse workspace list --resource-group gft7 | convertfrom-json -depth 10) | Where-Object {$_.name -eq $env:ARM_SYNAPSE_WORKSPACE_NAME}).count
+            $resourcecheck = ( (az synapse workspace list --resource-group $env:TF_VAR_resource_group_name | convertfrom-json -depth 10) | Where-Object {$_.name -eq $env:ARM_SYNAPSE_WORKSPACE_NAME}).count
             if($resourcecheck -gt 0) {
                 $hiddenoutput = az synapse workspace firewall-rule create --name CICDAgent --resource-group $env:TF_VAR_resource_group_name --start-ip-address $env:TF_VAR_ip_address --end-ip-address $env:TF_VAR_ip_address --workspace-name $env:ARM_SYNAPSE_WORKSPACE_NAME --only-show-errors
             }
@@ -138,13 +138,13 @@ function PrepareDeployment (
              }
  
              #Key Vault
-             $resourcecheck = ( (az keyvault list --resource-group gft7 | convertfrom-json -depth 10) | Where-Object {$_.name -eq $env:keyVaultName}).count
+             $resourcecheck = ( (az keyvault list --resource-group $env:TF_VAR_resource_group_name | convertfrom-json -depth 10) | Where-Object {$_.name -eq $env:keyVaultName}).count
              if($resourcecheck -gt 0) {
                  $hiddenoutput = az keyvault network-rule add -g $env:TF_VAR_resource_group_name --name $env:keyVaultName --ip-address $env:TF_VAR_ip_address2/32 --only-show-errors
              }
                
              #Synapse
-             $resourcecheck = ( (az synapse workspace list --resource-group gft7 | convertfrom-json -depth 10) | Where-Object {$_.name -eq $env:ARM_SYNAPSE_WORKSPACE_NAME}).count
+             $resourcecheck = ( (az synapse workspace list --resource-group $env:TF_VAR_resource_group_name | convertfrom-json -depth 10) | Where-Object {$_.name -eq $env:ARM_SYNAPSE_WORKSPACE_NAME}).count
              if($resourcecheck -gt 0) {
                  $hiddenoutput = az synapse workspace firewall-rule create --name CICDAgent --resource-group $env:TF_VAR_resource_group_name --start-ip-address $env:TF_VAR_ip_address2 --end-ip-address $env:TF_VAR_ip_address2 --workspace-name $env:ARM_SYNAPSE_WORKSPACE_NAME --only-show-errors
              }

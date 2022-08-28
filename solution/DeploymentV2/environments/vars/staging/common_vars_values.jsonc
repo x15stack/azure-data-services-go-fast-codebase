@@ -6,14 +6,15 @@
   "domain": "microsoft.com",
   "subscription_id": "035a1364-f00d-48e2-b582-4fe125905ee3",
   "prefix": "ads",
-  "resource_group_name": "gft7",
-  "state_storage_account_name": "gft7state",
-  "ip_address": "144.138.148.220",
-  "ip_address2": "144.138.148.220",
+  "resource_group_name": "gfstg1",
+  "state_storage_account_name": "gfstg1state",
+  "ip_address": "118.99.96.250",
+  "ip_address2": "118.99.96.250",
   "tenant_id": "72f988bf-86f1-41af-91ab-2d7cd011db47",
   "deployment_principal_layers1and3": "",
   "resource_owners": [
-    "ccbdbba4-669c-48d6-86b8-75c9ab2ee578"
+    "ccbdbba4-669c-48d6-86b8-75c9ab2ee578",
+    "4c732d19-4076-4a76-87f3-6fbfd77f007d"
   ],
   "synapse_administrators": {},
   "azure_sql_aad_administrators": {
@@ -42,10 +43,10 @@
   "GIT_ADF_EMAIL_ADDRESS": "#####",
   "is_private_network": true,
   "deploy_state_storage_account": false,
-  "deploy_cicd_vm": false,
+  "deploy_cicd_vm": true,
   "FeatureTemplateOverrides": {
-    "is_onprem_datafactory_ir_registered": true,
-    "deployment_layer3_complete": true,
+    "is_onprem_datafactory_ir_registered": false,
+    "deployment_layer3_complete": false,
     "layer0_state": "remote",
     "delay_private_access": true,
     "synapse_git_toggle": false,
