@@ -54,7 +54,7 @@ if([string]::IsNullOrEmpty($env:TF_VAR_synapse_sql_password) -and ($gitDeploy -e
 {
     $env:TF_VAR_synapse_sql_password = Read-Host "Enter the Synapse SQL Admin Password"
 }
-
+terraform init -upgrade
 $output = terragrunt init --terragrunt-config vars/$env:environmentName/terragrunt.hcl -reconfigure 
 $output = terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl -json #-var synapse_sql_password=$env:TF_VAR_synapse_sql_password  
 
