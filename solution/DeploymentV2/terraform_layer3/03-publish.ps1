@@ -38,6 +38,9 @@ $skipTerraformDeployment = ([System.Environment]::GetEnvironmentVariable('skipTe
 $ipaddress = $env:TF_VAR_ip_address
 $ipaddress2 = $env:TF_VAR_ip_address2
 
+
+"Starting Publish: Layer 3" | boxes -d ada-box | lolcat
+
 PrepareDeployment -gitDeploy $gitDeploy -deploymentFolderPath $deploymentFolderPath -FeatureTemplate $FeatureTemplate -PathToReturnTo $PathToReturnTo
 
 #------------------------------------------------------------------------------------------------------------

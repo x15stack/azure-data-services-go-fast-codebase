@@ -4,7 +4,24 @@ function ProcessTerraformApply (
     [Parameter(Mandatory = $true)]
     [System.Object]$output
 ) {
+    $output_validated = @()
     
+    Write-Host "---------------------Terraform Non-Json Outputs-----------------------------------------------------------"
+    foreach ($o in $output) 
+    {
+        $test = $o.ToString().StartsWith('{')
+        if ($test) 
+        {
+            $output_validated += $o
+        }
+        else 
+        {
+            Write-Warning $o
+        }
+    }
+
+    $output = $output_validated
+
     $warnings = ($output | ConvertFrom-Json -Depth 20) | Where-Object {$_."@level" -eq "warn"}              
     $errors = ($output | ConvertFrom-Json -Depth 20) | Where-Object {$_."@level" -eq "error"}              
     if($warnings.count -gt 0)

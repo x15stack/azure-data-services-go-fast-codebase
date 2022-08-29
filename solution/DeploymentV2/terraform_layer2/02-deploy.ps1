@@ -28,6 +28,7 @@ param (
 import-Module ./../pwshmodules/GatherOutputsFromTerraform.psm1 -force
 import-Module ./../pwshmodules/Deploy_0_Prep.psm1 -force
 import-Module ./../pwshmodules/ProcessTerraformApply.psm1 -force
+Import-Module ./../pwshmodules/GetSelectionFromUser.psm1 -Force
 #------------------------------------------------------------------------------------------------------------
 # Preparation #Mandatory
 #------------------------------------------------------------------------------------------------------------
@@ -43,7 +44,7 @@ PrepareDeployment -gitDeploy $gitDeploy -deploymentFolderPath $deploymentFolderP
 #------------------------------------------------------------------------------------------------------------
 # Main Terraform - Layer1
 #------------------------------------------------------------------------------------------------------------
-Write-Host "Starting Terraform Deployment- Layer 2"
+"Starting Terraform Deployment: Layer 2" | boxes -d ada-box | lolcat
 Write-Host "Expect this to take twenty to thirty minutes to complete the first time it is run. Subsequent, incremental builds should only take a few minutes."
 if([string]::IsNullOrEmpty($env:TF_VAR_jumphost_password) -and ($gitDeploy -eq $false -or $null -eq $gitdeploy))
 {
@@ -55,10 +56,20 @@ if([string]::IsNullOrEmpty($env:TF_VAR_synapse_sql_password) -and ($gitDeploy -e
     $env:TF_VAR_synapse_sql_password = Read-Host "Enter the Synapse SQL Admin Password"
 }
 
-$output = terragrunt init --terragrunt-config vars/$env:environmentName/terragrunt.hcl -reconfigure 
-$output = terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl -json #-var synapse_sql_password=$env:TF_VAR_synapse_sql_password  
+#Uncomment below if you upgrade modules
+#terraform init -upgrade
 
-ProcessTerraformApply -output $output -gitDeploy $gitDeploy
+$output = terragrunt init --terragrunt-config vars/$env:environmentName/terragrunt.hcl -reconfigure 
+if($env:TF_VAR_Summarise_Terraform_Apply -eq "true")
+{
+
+    $output = terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl -json 
+    ProcessTerraformApply -output $output -gitDeploy $gitDeploy
+}
+else 
+{
+    terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl
+}  
 
 
 #Update Values for variables in Environment
