@@ -47,5 +47,7 @@ $apps = (az ad app list --show-mine | ConvertFrom-Json | Where-Object {$_.displa
 foreach($app in $apps) {az ad app delete --id $app}
 
 
+$tbd = Get-AzureADDeletedApplication -all 1 | Where-Object { ($_.DisplayName.StartsWith('ADS GoFas') -and $_.DisplayName -ne "AdsGoFastDeployerjkcgkaibkungm")}
+foreach ($t in $tbd) {Remove-AzureADdeletedApplication -ObjectId $t.ObjectId}
 
- #>
+#>

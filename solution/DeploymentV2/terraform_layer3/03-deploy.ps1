@@ -27,6 +27,8 @@ param (
 #------------------------------------------------------------------------------------------------------------
 import-Module ./../pwshmodules/GatherOutputsFromTerraform.psm1 -force
 import-Module ./../pwshmodules/Deploy_0_Prep.psm1 -force
+import-Module ./../pwshmodules/ProcessTerraformApply.psm1 -force
+Import-Module ./../pwshmodules/GetSelectionFromUser.psm1 -Force
 #------------------------------------------------------------------------------------------------------------
 # Preparation #Mandatory
 #------------------------------------------------------------------------------------------------------------
@@ -59,7 +61,16 @@ PrepareDeployment -gitDeploy $gitDeploy -deploymentFolderPath $deploymentFolderP
 # Main Terraform - Layer1
 #------------------------------------------------------------------------------------------------------------
 "Starting Terraform Deployment: Layer 3" | boxes -d ada-box | lolcat
-$output = terragrunt init --terragrunt-config vars/$env:environmentName/terragrunt.hcl -reconfigure
-$output = terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl -json
-ProcessTerraformApply -output $output -gitDeploy $gitDeploy
+$output = terragrunt init --terragrunt-config vars/$env:environmentName/terragrunt.hcl -reconfigure 
+if($env:TF_VAR_Summarise_Terraform_Apply -eq "true")
+{
+
+    $output = terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl -json 
+    ProcessTerraformApply -output $output -gitDeploy $gitDeploy
+}
+else 
+{
+    terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl
+}  
+
 

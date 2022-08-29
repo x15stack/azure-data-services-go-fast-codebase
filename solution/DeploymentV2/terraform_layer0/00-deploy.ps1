@@ -28,6 +28,7 @@ param (
 import-Module ./../pwshmodules/GatherOutputsFromTerraform.psm1 -force
 import-Module ./../pwshmodules/Deploy_0_Prep.psm1 -force
 import-Module ./../pwshmodules/ProcessTerraformApply.psm1 -force
+Import-Module ./../pwshmodules/GetSelectionFromUser.psm1 -Force
 #------------------------------------------------------------------------------------------------------------
 # Preparation #Mandatory
 #------------------------------------------------------------------------------------------------------------
@@ -57,8 +58,14 @@ if([string]::IsNullOrEmpty($env:TF_VAR_synapse_sql_password) -and ($gitDeploy -e
 
 
 $output = terragrunt init --terragrunt-config vars/$env:environmentName/terragrunt.hcl -reconfigure 
-$output = terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl -json #-var synapse_sql_password=$env:TF_VAR_synapse_sql_password  
 
-ProcessTerraformApply -output $output -gitDeploy $gitDeploy
+if($env:TF_VAR_Summarise_Terraform_Apply -eq "true")
+{
 
-        
+    $output = terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl -json 
+    ProcessTerraformApply -output $output -gitDeploy $gitDeploy
+}
+else 
+{
+    terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl
+}        
