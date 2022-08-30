@@ -37,7 +37,9 @@ RUN bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "$
     && mv terragrunt_linux_amd64 terragrunt \
     && chmod u+x terragrunt \
     && mv terragrunt /usr/local/bin/terragrunt \
-    && sudo apt-get install -y figlet lolcat boxes 
+    && sudo apt-get install -y figlet \
+    && sudo gem install lolcat \
+    && sudo apt-get install -y boxes 
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
