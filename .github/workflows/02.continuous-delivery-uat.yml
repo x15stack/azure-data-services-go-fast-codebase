@@ -2,8 +2,8 @@ name: Continuous Delivery - Uat
 
 on:
   workflow_dispatch:
-  push:
-    branches: main #feature-1.0.4
+  #push:
+  #  branches: main #feature-1.0.4
 
 jobs:
     deploy-to-env-one:
@@ -56,6 +56,8 @@ jobs:
       steps:      
       - name: PrintInfo
         run: |
+          sudo apt-get install -y figlet boxes lolcat
+          figlet Azure Data Services -t | lolcat &&  figlet Go Fast -t | lolcat
           echo "Deploying to Resource Group:  ${{ env.TF_VAR_resource_group_name }} "
           echo  "echo Hcl file name:  ${{ env.environmentName}} "
 

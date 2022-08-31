@@ -3,18 +3,18 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=3.12.0"
+      version = "=3.20.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "=2.22.0"
+      version = "=2.28.0"
     }
     azapi = {
       source  = "Azure/azapi"
     }
     random = {
       source  = "hashicorp/random"
-      version = "=3.3.0"
+      version = "=3.3.2"
     }
   }
 }
@@ -43,7 +43,7 @@ data "azurerm_client_config" "current" {
 
 module "naming" {
   source  = "Azure/naming/azurerm"
-  version = "0.1.1"
+  version = "0.2.0"
   #unique-seed = data.terraform_remote_state.layer1.outputs.naming_unique_seed
   prefix = [
     var.prefix,
