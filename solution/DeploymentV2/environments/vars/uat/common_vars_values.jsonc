@@ -6,8 +6,8 @@
   "domain": "microsoft.com",
   "subscription_id": "035a1364-f00d-48e2-b582-4fe125905ee3",
   "prefix": "ads",
-  "resource_group_name": "gfuat1",
-  "state_storage_account_name": "gfuat1state",
+  "resource_group_name": "gfuat2",
+  "state_storage_account_name": "gfuat2state",
   "ip_address": "144.138.148.220",
   "ip_address2": "144.138.148.220",
   "tenant_id": "72f988bf-86f1-41af-91ab-2d7cd011db47",
@@ -45,7 +45,7 @@
   "deploy_cicd_vm": false,
   "FeatureTemplateOverrides": {
     "is_onprem_datafactory_ir_registered": false,
-    "deployment_layer3_complete": true,
+    "deployment_layer3_complete": false,
     "layer0_state": "remote",
     "delay_private_access": true
   }
