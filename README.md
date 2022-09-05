@@ -47,7 +47,7 @@ You will also need some development tools to edit and run the deployment scripts
 >- A windows based computer (local or cloud)
 >- [Visual Studio Code](https://visualstudio.microsoft.com/downloads/)
 >- [Docker Desktop](https://www.docker.com/products/docker-desktop)
->- [Windows Store Ubuntu 18.04 LTS](https://www.microsoft.com/store/productId/9N9TNGVNDL3Q)
+>- [Windows Store Ubuntu 18.04 LTS](https://apps.microsoft.com/store/detail/ubuntu-1804-on-windows/9N9TNGVNDL3Q)
 
 The deployment uses a concept of **Developing inside a Container** to containerize all the necessary pre-requisite components without requiring them to be installed on the local machine. Follow our [Configuring your System for Development Containers](https://code.visualstudio.com/docs/remote/containers) guide.
 
@@ -56,7 +56,7 @@ Once you have set up these pre-requisites you will then need to [Clone](https://
 :triangular_flag_on_post: If you want a stable deployment it is highly recommended that you checkout one of the official release tags. For example, if you wish to deploy v1.0.2 run the line below from within the directory into which you cloned the repository.
 
 ```bash 
-git checkout tags/v1.0.4
+git checkout tags/v2.0.0
 ```
 
 ## Deployment
