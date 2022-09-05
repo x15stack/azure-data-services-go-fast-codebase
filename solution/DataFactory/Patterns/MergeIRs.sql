@@ -1,6 +1,73 @@
             Merge dbo.IntegrationRuntime Tgt
             using (
-            Select * from OPENJSON('null') WITH 
+            Select * from OPENJSON('[
+  {
+    "is_azure": true,
+    "is_managed_vnet": true,
+    "name": "Azure-Integration-Runtime",
+    "short_name": "Azure",
+    "valid_pipeline_patterns": [
+      {
+        "Folder": "*",
+        "SourceFormat": "*",
+        "SourceType": "*",
+        "TargetFormat": "*",
+        "TargetType": "*",
+        "TaskTypeId": "*"
+      }
+    ],
+    "valid_source_systems": [
+      "*"
+    ]
+  },
+  {
+    "is_azure": false,
+    "is_managed_vnet": false,
+    "name": "Onprem-Integration-Runtime",
+    "short_name": "OnPrem",
+    "valid_pipeline_patterns": [
+      {
+        "Folder": "Azure-Storage-to-Azure-Storage",
+        "SourceFormat": "*",
+        "SourceType": "*",
+        "TargetFormat": "*",
+        "TargetType": "*",
+        "TaskTypeId": "*"
+      },
+      {
+        "Folder": "Execute-SQL-Statement",
+        "SourceFormat": "*",
+        "SourceType": "*",
+        "TargetFormat": "*",
+        "TargetType": "*",
+        "TaskTypeId": "*"
+      },
+      {
+        "Folder": "SQL-Database-to-Azure-Storage",
+        "SourceFormat": "*",
+        "SourceType": "*",
+        "TargetFormat": "*",
+        "TargetType": "*",
+        "TaskTypeId": "*"
+      },
+      {
+        "Folder": "SQL-Database-to-Azure-Storage-CDC",
+        "SourceFormat": "*",
+        "SourceType": "*",
+        "TargetFormat": "*",
+        "TargetType": "*",
+        "TaskTypeId": "*"
+      }
+    ],
+    "valid_source_systems": [
+      "-14",
+      "-15",
+      "-9",
+      "-3",
+      "-4"
+    ]
+  }
+]') WITH 
             (
                 name varchar(200), 
                 short_name varchar(20), 
@@ -18,7 +85,74 @@
             into #tempIntegrationRuntimeMapping
             from 
             (
-            Select IR.*, Patterns.[Value] from OPENJSON('null') A 
+            Select IR.*, Patterns.[Value] from OPENJSON('[
+  {
+    "is_azure": true,
+    "is_managed_vnet": true,
+    "name": "Azure-Integration-Runtime",
+    "short_name": "Azure",
+    "valid_pipeline_patterns": [
+      {
+        "Folder": "*",
+        "SourceFormat": "*",
+        "SourceType": "*",
+        "TargetFormat": "*",
+        "TargetType": "*",
+        "TaskTypeId": "*"
+      }
+    ],
+    "valid_source_systems": [
+      "*"
+    ]
+  },
+  {
+    "is_azure": false,
+    "is_managed_vnet": false,
+    "name": "Onprem-Integration-Runtime",
+    "short_name": "OnPrem",
+    "valid_pipeline_patterns": [
+      {
+        "Folder": "Azure-Storage-to-Azure-Storage",
+        "SourceFormat": "*",
+        "SourceType": "*",
+        "TargetFormat": "*",
+        "TargetType": "*",
+        "TaskTypeId": "*"
+      },
+      {
+        "Folder": "Execute-SQL-Statement",
+        "SourceFormat": "*",
+        "SourceType": "*",
+        "TargetFormat": "*",
+        "TargetType": "*",
+        "TaskTypeId": "*"
+      },
+      {
+        "Folder": "SQL-Database-to-Azure-Storage",
+        "SourceFormat": "*",
+        "SourceType": "*",
+        "TargetFormat": "*",
+        "TargetType": "*",
+        "TaskTypeId": "*"
+      },
+      {
+        "Folder": "SQL-Database-to-Azure-Storage-CDC",
+        "SourceFormat": "*",
+        "SourceType": "*",
+        "TargetFormat": "*",
+        "TargetType": "*",
+        "TaskTypeId": "*"
+      }
+    ],
+    "valid_source_systems": [
+      "-14",
+      "-15",
+      "-9",
+      "-3",
+      "-4"
+    ]
+  }
+]') A 
            CROSS APPLY OPENJSON(A.[value]) Patterns 
            CROSS APPLY OPENJSON(A.[value]) with (short_name varchar(max)) IR 
            where Patterns.[key] = 'valid_source_systems'
