@@ -30,20 +30,27 @@ figlet Azure Data Services -t | lolcat &&  figlet Go Fast -t | lolcat
 $PathToReturnTo = (Get-Location).Path
 $deploymentFolderPath = (Get-Location).Path 
 
+
+
+
 Set-Location $deploymentFolderPath 
 Set-Location ./terraform_layer0
+terragrunt init -reconfigure --terragrunt-config vars/$env:environmentName/terragrunt.hcl
 ./00-deploy.ps1
 
 Set-Location $deploymentFolderPath 
 Set-Location ./terraform_layer1
+terragrunt init -reconfigure --terragrunt-config vars/$env:environmentName/terragrunt.hcl
 ./01-deploy.ps1
 
 Set-Location $deploymentFolderPath
 Set-Location ./terraform_layer2
+terragrunt init -reconfigure --terragrunt-config vars/$env:environmentName/terragrunt.hcl
 ./02-deploy.ps1
 
 Set-Location $deploymentFolderPath
 Set-Location ./terraform_layer3
+terragrunt init -reconfigure --terragrunt-config vars/$env:environmentName/terragrunt.hcl
 ./03-deploy.ps1
 ./03-publish.ps1
 
