@@ -25,15 +25,15 @@ param (
 #------------------------------------------------------------------------------------------------------------
 # Module Imports #Mandatory
 #------------------------------------------------------------------------------------------------------------
-import-Module ./../pwshmodules/GatherOutputsFromTerraform.psm1 -force
-import-Module ./../pwshmodules/Deploy_0_Prep.psm1 -force
-import-Module ./../pwshmodules/ProcessTerraformApply.psm1 -force
-Import-Module ./../pwshmodules/GetSelectionFromUser.psm1 -Force
+import-Module ./../../pwshmodules/GatherOutputsFromTerraform.psm1 -force
+import-Module ./../../pwshmodules/Deploy_0_Prep.psm1 -force
+import-Module ./../../pwshmodules/ProcessTerraformApply.psm1 -force
+Import-Module ./../../pwshmodules/GetSelectionFromUser.psm1 -Force
 #------------------------------------------------------------------------------------------------------------
 # Preparation #Mandatory
 #------------------------------------------------------------------------------------------------------------
 $PathToReturnTo = (Get-Location).Path
-$deploymentFolderPath = (Get-Location).Path + './../'
+$deploymentFolderPath = (Get-Location).Path + './../../'
 $gitDeploy = ([System.Environment]::GetEnvironmentVariable('gitDeploy')  -eq 'true')
 $skipTerraformDeployment = ([System.Environment]::GetEnvironmentVariable('skipTerraformDeployment')  -eq 'true')
 $ipaddress = $env:TF_VAR_ip_address

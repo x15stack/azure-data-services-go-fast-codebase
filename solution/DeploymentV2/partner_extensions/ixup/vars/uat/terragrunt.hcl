@@ -2,6 +2,26 @@ locals {
   common_vars = jsondecode(file("../../../../bin/environments/uat/common_vars_for_hcl.json"))
 }
 
+
+generate "layer0.tf" {
+  path      = "layer0.tf"
+  if_exists = "overwrite_terragrunt"
+  contents  = <<EOF
+    data "terraform_remote_state" "layer0" {
+      # The settings here should match the "backend" settings in the
+      # configuration that manages the network resources.
+      backend = "azurerm"
+      
+      config = {
+        container_name       = "tstate"
+        key                  = "terraform_layer0.tfstate"
+        resource_group_name  = "${local.common_vars.resource_group_name}"
+        storage_account_name = "${local.common_vars.state_storage_account_name}"
+      }
+    }
+  EOF
+}
+
 generate "layer2.tf" {
   path      = "layer2.tf"
   if_exists = "overwrite_terragrunt"

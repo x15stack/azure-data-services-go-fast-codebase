@@ -9,7 +9,7 @@ resource "azurerm_network_interface" "ixup_egw_nic" {
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_subnet.vm_subnet[0].id
+    subnet_id                     = local.vm_subnet_id
     private_ip_address_allocation = "Dynamic"
 
   }
