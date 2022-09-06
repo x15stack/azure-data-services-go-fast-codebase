@@ -28,9 +28,9 @@
   "synapse_contributors": {},
   "WEB_APP_ADMIN_USER": "ccbdbba4-669c-48d6-86b8-75c9ab2ee578",
   "WEB_APP_ADMIN_SECURITY_GROUP": "#####",
-  "ARM_SYNAPSE_WORKSPACE_NAME": "adsstgsynwadsv5pc",
-  "ARM_KEYVAULT_NAME": "ads-stg-kv-ads-v5pc",
-  "ARM_DATALAKE_NAME": "adsstgdlsadsv5pcadsl",
+  "ARM_SYNAPSE_WORKSPACE_NAME": "adsstgsynwadsr6p7",
+  "ARM_KEYVAULT_NAME": "ads-stg-kv-ads-r6p7",
+  "ARM_DATALAKE_NAME": "adsstgdlsadsr6p7adsl",
   "ARM_PAL_PARTNER_ID": "0",
   "GIT_REPOSITORY_NAME": "#####",
   "GIT_SYNAPSE_REPOSITORY_BRANCH_NAME": "#####",
@@ -45,7 +45,7 @@
   "deploy_cicd_vm": false,
   "FeatureTemplateOverrides": {
     "is_onprem_datafactory_ir_registered": false,
-    "deployment_layer3_complete": false,
+    "deployment_layer3_complete": true,
     "layer0_state": "remote",
     "delay_private_access": true
   }
