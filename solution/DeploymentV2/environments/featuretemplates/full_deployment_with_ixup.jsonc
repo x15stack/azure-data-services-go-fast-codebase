@@ -13,7 +13,7 @@
     {"Name":"deploy_selfhostedsql","Value":false},
     
     //Third Party Toggles
-    {"Name":"deploy_ixup_encryption_gw","Value":true},
+    {"Name":"deploy_ixup_encryption_gw","Value":false},
 
     //Sample Toggles 
     {"Name":"publish_sif_database","Value":true},
@@ -33,3 +33,4 @@
     {"Name":"layer0_state","Value":"remote"},    
     {"Name":"deployment_layer3_complete","Value":false}
 ]
+

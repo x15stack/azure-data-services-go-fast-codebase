@@ -66,6 +66,7 @@ locals {
     CreatedDate = timestamp()
   }
 
+  //Integration runtimes - there must be at least one defined. Note that the first IR is used by the static (non-generic) ADF artefacts 
   integration_runtimes = [
     {
       name                 = "Azure-Integration-Runtime"

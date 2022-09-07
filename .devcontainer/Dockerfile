@@ -1,5 +1,5 @@
 # You can pick any Debian/Ubuntu-based image. 😊
-FROM mcr.microsoft.com/vscode/devcontainers/base:0-buster
+FROM mcr.microsoft.com/vscode/devcontainers/base:0-jammy
 
 # [Option] Install zsh
 ARG INSTALL_ZSH="true"
@@ -18,15 +18,12 @@ RUN bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "$
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts \
     && apt-get update  \
     && sudo apt-get install -y wget apt-transport-https software-properties-common  \
-    && wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb  \
+    && wget -q https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb  \
     && sudo dpkg -i packages-microsoft-prod.deb  \
     && sudo apt-get update  \
     && sudo apt-get install -y powershell  \
     && rm ./packages-microsoft-prod.deb  \
-    && sudo apt install -y dotnet-sdk-3.1  \
-    && sudo apt install -y dotnet-sdk-6.0  \
-    && curl -fsSL https://deb.nodesource.com/setup_17.x | sudo -E bash -  \
-    && apt-get install -y nodejs \
+    && sudo apt install -y aspnetcore-runtime-6.0=6.0.8-1 dotnet-apphost-pack-6.0=6.0.8-1 dotnet-host=6.0.8-1 dotnet-hostfxr-6.0=6.0.8-1 dotnet-runtime-6.0=6.0.8-1 dotnet-sdk-6.0=6.0.400-1 dotnet-targeting-pack-6.0=6.0.8-1 --allow-downgrades \
     && wget https://github.com/google/go-jsonnet/releases/download/v0.17.0/jsonnet-go_0.17.0_linux_amd64.deb  \
     && sudo dpkg -i jsonnet-go_0.17.0_linux_amd64.deb \
     && sudo rm jsonnet-go_0.17.0_linux_amd64.deb \
@@ -37,7 +34,10 @@ RUN bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "$
     && mv terragrunt_linux_amd64 terragrunt \
     && chmod u+x terragrunt \
     && mv terragrunt /usr/local/bin/terragrunt \
-    && sudo apt-get install -y figlet lolcat boxes 
+    && sudo apt-get install -y figlet \
+    && sudo apt-get install -y lolcat \
+    && sudo gem install lolcat \
+    && sudo apt-get install -y boxes 
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \

@@ -33,9 +33,9 @@ resource "azurerm_windows_virtual_machine" "jumphost" {
   }
 
   source_image_reference {
-    publisher = "MicrosoftWindowsServer"
-    offer     = "WindowsServer"
-    sku       = "2016-Datacenter"
+    publisher = "MicrosoftWindowsDesktop"
+    offer     = "Windows-10"
+    sku       = "win10-21h2-ent-ltsc-g2"
     version   = "latest"
   }
   lifecycle {

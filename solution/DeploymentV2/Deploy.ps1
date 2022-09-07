@@ -26,24 +26,32 @@
 #Cool Branding :-)
 figlet Azure Data Services -t | lolcat &&  figlet Go Fast -t | lolcat
 
+import-Module ./pwshmodules/Deploy_0_Prep.psm1 -force
 
 $PathToReturnTo = (Get-Location).Path
 $deploymentFolderPath = (Get-Location).Path 
+$gitDeploy = ([System.Environment]::GetEnvironmentVariable('gitDeploy')  -eq 'true')
+
+PrepareDeployment -gitDeploy $gitDeploy -deploymentFolderPath $deploymentFolderPath -FeatureTemplate "" -PathToReturnTo $PathToReturnTo
 
 Set-Location $deploymentFolderPath 
 Set-Location ./terraform_layer0
+terragrunt init -reconfigure --terragrunt-config vars/$env:environmentName/terragrunt.hcl
 ./00-deploy.ps1
 
 Set-Location $deploymentFolderPath 
 Set-Location ./terraform_layer1
+terragrunt init -reconfigure --terragrunt-config vars/$env:environmentName/terragrunt.hcl
 ./01-deploy.ps1
 
 Set-Location $deploymentFolderPath
 Set-Location ./terraform_layer2
+terragrunt init -reconfigure --terragrunt-config vars/$env:environmentName/terragrunt.hcl
 ./02-deploy.ps1
 
 Set-Location $deploymentFolderPath
 Set-Location ./terraform_layer3
+terragrunt init -reconfigure --terragrunt-config vars/$env:environmentName/terragrunt.hcl
 ./03-deploy.ps1
 ./03-publish.ps1
 

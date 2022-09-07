@@ -134,21 +134,25 @@ namespace FunctionApp.Functions
                 DateTimeOffset? nextUtc;
                 if (row.ScheduleCronExpression.ToString() == "N/A")
                 {
-                    nextUtc = DateTime.UtcNow.AddMinutes(-1);
+                    nextUtc = DateTimeOffset.Now.AddMinutes(-1); 
                 }
                 else
                 {
                     CronExpression cronExpression = CronExpression.Parse(row.ScheduleCronExpression.ToString(), CronFormat.IncludeSeconds);
-                    nextUtc = cronExpression.GetNextOccurrence(row.MaxScheduledDateTimeOffset, TimeZoneInfo.Utc);
+                    
+                    nextUtc = cronExpression.GetNextOccurrence(row.MaxScheduledDateTimeOffset);
+                    
                 }
-
-                if (nextUtc?.DateTime <= DateTime.UtcNow)
+                
+                if (nextUtc?.DateTime <= date)
                 {
+                    DateTimeOffset SetDate = nextUtc ?? date;
+
                     DataRow dr = dtScheduleInstance.NewRow();
 
                     dr["ScheduleMasterId"] = row.ScheduleMasterId;
-                    dr["ScheduledDateUtc"] = date.Date;
-                    dr["ScheduledDateTimeOffset"] = date;
+                    dr["ScheduledDateUtc"] = SetDate.Date;
+                    dr["ScheduledDateTimeOffset"] = SetDate;
                     dr["ActiveYN"] = true;
 
                     dtScheduleInstance.Rows.Add(dr);

@@ -25,15 +25,15 @@ param (
 #------------------------------------------------------------------------------------------------------------
 # Module Imports #Mandatory
 #------------------------------------------------------------------------------------------------------------
-import-Module ./../pwshmodules/GatherOutputsFromTerraform.psm1 -force
-import-Module ./../pwshmodules/Deploy_0_Prep.psm1 -force
-import-Module ./../pwshmodules/ProcessTerraformApply.psm1 -force
-Import-Module ./../pwshmodules/GetSelectionFromUser.psm1 -Force
+import-Module ./../../pwshmodules/GatherOutputsFromTerraform.psm1 -force
+import-Module ./../../pwshmodules/Deploy_0_Prep.psm1 -force
+import-Module ./../../pwshmodules/ProcessTerraformApply.psm1 -force
+Import-Module ./../../pwshmodules/GetSelectionFromUser.psm1 -Force
 #------------------------------------------------------------------------------------------------------------
 # Preparation #Mandatory
 #------------------------------------------------------------------------------------------------------------
 $PathToReturnTo = (Get-Location).Path
-$deploymentFolderPath = Convert-Path -Path ((Get-Location).tostring() + './../')
+$deploymentFolderPath = (Get-Location).Path + './../../'
 $gitDeploy = ([System.Environment]::GetEnvironmentVariable('gitDeploy')  -eq 'true')
 $skipTerraformDeployment = ([System.Environment]::GetEnvironmentVariable('skipTerraformDeployment')  -eq 'true')
 $ipaddress = $env:TF_VAR_ip_address
@@ -41,24 +41,12 @@ $ipaddress2 = $env:TF_VAR_ip_address2
 
 PrepareDeployment -gitDeploy $gitDeploy -deploymentFolderPath $deploymentFolderPath -FeatureTemplate $FeatureTemplate -PathToReturnTo $PathToReturnTo
 
+
 #------------------------------------------------------------------------------------------------------------
-# Main Terraform - Layer1
+# Main Terraform 
 #------------------------------------------------------------------------------------------------------------
-"Starting Terraform Deployment: Layer 0" | boxes -d ada-box | lolcat
-Write-Host "Note that the first time this runs it will take around 10 minutes to complete."
-if([string]::IsNullOrEmpty($env:TF_VAR_jumphost_password) -and ($gitDeploy -eq $false -or $null -eq $gitdeploy))
-{
-    $env:TF_VAR_jumphost_password = Read-Host "Enter the Jumphost Password"
-}
-
-if([string]::IsNullOrEmpty($env:TF_VAR_synapse_sql_password) -and ($gitDeploy -eq $false -or $null -eq $gitdeploy))
-{
-    $env:TF_VAR_synapse_sql_password = Read-Host "Enter the Synapse SQL Admin Password"
-}
-
-
+"Starting Terraform Deployment: IXUP Encryption Gateway" | boxes -d ada-box | lolcat
 $output = terragrunt init --terragrunt-config vars/$env:environmentName/terragrunt.hcl -reconfigure 
-
 if($env:TF_VAR_Summarise_Terraform_Apply -eq "true")
 {
 
@@ -68,4 +56,6 @@ if($env:TF_VAR_Summarise_Terraform_Apply -eq "true")
 else 
 {
     terragrunt apply -auto-approve --terragrunt-config vars/$env:environmentName/terragrunt.hcl
-}        
+}  
+
+
