@@ -120,10 +120,13 @@ Folder/File | Description
 --- | ---
 solution/ | Primary source code folder with sub-directories for each core technology
 solution/Database | Contains source code for the meta-data database and sample databases
-solution/Deployment | Contains CICD code 
+solution/DataFactory | Contains source code for Azure Data Factory artefacts (eg. Pipelines)
+solution/DeploymentV2 | Contains CICD code 
 solution/Diagrams | Contains a Structurizr diagramming project used for creation of architectural diagrams
 solution/FunctionApp | Contains source code for the ADS Go Fast Orchestration Functions
 solution/PowerBi | Contains source code for the Power BI files that can be used to provide reporting
+solution/SampleFiles | Contains sample data files used in functional tests
+solution/Synapse | Contains source code for Synapse Workspace artefacts (eg. Pipelines, Notebooks etc)
 solution/WebApplication | Contains source code for the ADS Go Fast web front end
 ---
 
