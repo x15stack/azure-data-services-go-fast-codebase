@@ -1,0 +1,43 @@
+name: DBT
+on:
+  workflow_dispatch:
+
+jobs:
+    dbt-test:
+      name: RunDbt
+      concurrency: terraform
+      environment: 
+        name: staging
+      env:        
+        environmentName: staging 
+        gitDeploy : true
+        skipTerraformDeployment: false
+
+        #TF_LOG : TRACE
+      
+      runs-on: self-hosted
+      steps:      
+      - name: PrintInfo 
+        run: |          
+          figlet Azure Data Services -t | lolcat &&  figlet Go Fast -t | lolcat
+
+      - name: Checkout
+        uses: actions/checkout@v3.0.0
+
+      - name: Get public IP
+        id: ip
+        uses: haythem/public-ip@v1.2
+
+      - name: Login via Az module
+        uses: azure/login@v1
+        with:
+          creds: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}","clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}","subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.ARM_TENANT_ID }}"}'
+          enable-AzPSSession: false 
+
+      - name: DBT Install
+        id: dbt_install
+        working-directory: ./solution/Dbt    
+        run: |
+          tgcheck=$(command -v dbt) 
+          if [ -z "$tgcheck" ]; then tgcheck="NotInstalled";fi
+          if [ $tgcheck == "NotInstalled" ];then echo "DBT Not Installed. Installing"; pip install dbt-core; else  echo "DBT Installed"; fi         
