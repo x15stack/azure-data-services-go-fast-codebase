@@ -1,0 +1,67 @@
+name: DBTTest
+
+on:
+  workflow_dispatch:
+    inputs:
+      DbtCommand:
+        description: 'Dbt command'     
+        required: true
+        default: 'dbt debug'
+      DatabaseServer:
+        description: 'Database Server'     
+        required: true
+        default: 'ads-stg-sql-ads-vvv9.database.windows.net'
+      DatabaseName:
+        description: 'Database Name'     
+        required: true
+        default: 'staging'
+
+jobs:
+    dbt-test:
+      name: RunDbt
+      concurrency: terraform
+      environment: 
+        name: staging
+      env:        
+        environmentName: staging 
+        gitDeploy : true
+        skipTerraformDeployment: false
+        DBT_DatabaseServer: ${{ github.event.inputs.DatabaseServer }}
+        DBT_DatabaseName: ${{ github.event.inputs.DatabaseName }}
+        DBT_Command: ${{ github.event.inputs.DbtCommand }}
+
+        #TF_LOG : TRACE
+      
+      runs-on: self-hosted
+      steps:      
+      - name: PrintInfo 
+        run: |          
+          figlet Azure Data Services -t | lolcat &&  figlet Go Fast -t | lolcat
+
+      - name: Checkout
+        uses: actions/checkout@v3.0.0
+
+      - name: Get public IP
+        id: ip
+        uses: haythem/public-ip@v1.2
+
+      - name: Login via Az module
+        uses: azure/login@v1
+        with:
+          creds: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}","clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}","subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.ARM_TENANT_ID }}"}'
+          enable-AzPSSession: false 
+
+      - name: DBT Install
+        id: dbt_install
+        working-directory: ./solution/Dbt    
+        run: |         
+          chmod +x dbt_init.sh
+          python3 -m venv .dbtenv
+          source .dbtenv/bin/activate
+
+          pip install dbt-core --quiet 
+          pip install dbt-sqlserver --quiet 
+
+          echo '.dbtenv/' > .gitignore         
+          export DBT_PROFILES_DIR=./.dbt/
+          ${{ env.DBT_Command }}
