@@ -1,7 +1,7 @@
 name: DBT Test
 
 on:
-  workflow_dispatch:
+  branches: feature-2.0.2
 
 jobs:
     dbt-test:
