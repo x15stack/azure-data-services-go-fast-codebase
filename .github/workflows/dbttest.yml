@@ -1,7 +1,7 @@
 name: DBTTest
 
 on:
-  pull_request:
+  push:    
     branches: [feature-2.0.2]
 
 jobs:
