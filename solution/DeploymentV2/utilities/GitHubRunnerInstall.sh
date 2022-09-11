@@ -25,6 +25,10 @@ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash && \
 #Boxes, Figlet and LolCat
 sudo apt-get install figlet lolcat boxes 
 
+#DBT (Optional)
+sudo apt install python3-pip -y
+
+
 
 #Github Runner Software
 mkdir actions-runner && cd actions-runner# Download the latest runner package && \
