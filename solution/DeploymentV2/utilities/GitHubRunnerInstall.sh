@@ -27,7 +27,7 @@ sudo apt-get install figlet lolcat boxes
 
 #DBT (Optional)
 sudo apt install python3-pip -y
-
+sudo apt install python3.10-venv -y
 
 
 #Github Runner Software

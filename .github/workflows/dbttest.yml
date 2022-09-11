@@ -39,5 +39,11 @@ jobs:
       - name: DBT Install
         id: dbt_install
         working-directory: ./solution/Dbt    
-        run: |
-          pip install dbt-core --quiet         
+        run: |         
+          python3 -m venv .dbtenv
+          source .dbtenv/bin/activate
+          
+          pip install dbt-core --quiet
+          pip install dbt-sqlserver
+          
+          echo '.dbtenv/' > .gitignore         
