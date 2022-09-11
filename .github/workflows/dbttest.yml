@@ -1,8 +1,20 @@
 name: DBTTest
 
 on:
-  push:    
-    branches: [feature-2.0.2]
+  workflow_dispatch:
+    inputs:
+      DbtCommand:
+        description: 'Dbt command'     
+        required: true
+        default: 'dbt debug'
+      DatabaseServer:
+        description: 'Database Server'     
+        required: true
+        default: 'ads-stg-sql-ads-vvv9.database.windows.net'
+      DatabaseName:
+        description: 'Database Name'     
+        required: true
+        default: 'staging'
 
 jobs:
     dbt-test:
@@ -14,6 +26,9 @@ jobs:
         environmentName: staging 
         gitDeploy : true
         skipTerraformDeployment: false
+        DBT_DatabaseServer: ${{ github.event.inputs.DatabaseServer }}
+        DBT_DatabaseName: ${{ github.event.inputs.DatabaseName }}
+        DBT_Command: ${{ github.event.inputs.DbtCommand }}
 
         #TF_LOG : TRACE
       
@@ -40,10 +55,13 @@ jobs:
         id: dbt_install
         working-directory: ./solution/Dbt    
         run: |         
+          chmod +x dbt_init.sh
           python3 -m venv .dbtenv
           source .dbtenv/bin/activate
-          
-          pip install dbt-core --quiet
-          pip install dbt-sqlserver
-          
+
+          pip install dbt-core --quiet 
+          pip install dbt-sqlserver --quiet 
+
           echo '.dbtenv/' > .gitignore         
+          export DBT_PROFILES_DIR=./.dbt/
+          ${{ env.DBT_Command }}
