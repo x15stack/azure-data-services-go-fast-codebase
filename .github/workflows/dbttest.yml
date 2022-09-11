@@ -40,6 +40,4 @@ jobs:
         id: dbt_install
         working-directory: ./solution/Dbt    
         run: |
-          tgcheck=$(command -v dbt) 
-          if [ -z "$tgcheck" ]; then tgcheck="NotInstalled";fi
-          if [ $tgcheck == "NotInstalled" ];then echo "DBT Not Installed. Installing"; pip install dbt-core; else  echo "DBT Installed"; fi         
+          pip install dbt-core --quiet         
