@@ -1,7 +1,8 @@
-name: DBT Test
+name: DBTTest
 
 on:
-  branches: feature-2.0.2
+  pull_request:
+    branches: [feature-2.0.2]
 
 jobs:
     dbt-test:
