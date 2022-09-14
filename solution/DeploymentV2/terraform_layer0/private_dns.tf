@@ -21,9 +21,9 @@ locals {
   private_dns_zone_purview_id = (var.is_vnet_isolated && var.existing_private_dns_zone_purview_id ==  "" ? azurerm_private_dns_zone.private_dns_zone_purview[0].id : var.existing_private_dns_zone_purview_id)
   private_dns_zone_purview_studio_id = (var.is_vnet_isolated && var.existing_private_dns_zone_purview_studio_id ==  "" ? azurerm_private_dns_zone.private_dns_zone_purview_studio[0].id : var.existing_private_dns_zone_purview_studio_id)
   private_dns_zone_servicebus_id = (var.is_vnet_isolated && var.existing_private_dns_zone_servicebus_id ==  "" ? azurerm_private_dns_zone.private_dns_zone_servicebus[0].id : var.existing_private_dns_zone_servicebus_id)
-  private_dns_zone_synapse_gateway_id = (var.is_vnet_isolated && var.deploy_synapse && var.existing_private_dns_zone_synapse_gateway_id ==  "" ? azurerm_private_dns_zone.synapse_gateway[0].id : var.existing_private_dns_zone_synapse_gateway_id)
-  private_dns_zone_synapse_studio_id = (var.is_vnet_isolated && var.deploy_synapse && var.existing_private_dns_zone_synapse_studio_id ==  "" ? azurerm_private_dns_zone.synapse_studio[0].id : var.existing_private_dns_zone_synapse_studio_id)
-  private_dns_zone_synapse_sql_id = (var.is_vnet_isolated && var.deploy_synapse && var.existing_private_dns_zone_synapse_sql_id ==  "" ? azurerm_private_dns_zone.synapse_sql[0].id : var.existing_private_dns_zone_synapse_sql_id)
+  private_dns_zone_synapse_gateway_id = (var.is_vnet_isolated && var.existing_private_dns_zone_synapse_gateway_id ==  "" ? azurerm_private_dns_zone.synapse_gateway[0].id : var.existing_private_dns_zone_synapse_gateway_id)
+  private_dns_zone_synapse_studio_id = (var.is_vnet_isolated && var.existing_private_dns_zone_synapse_studio_id ==  "" ? azurerm_private_dns_zone.synapse_studio[0].id : var.existing_private_dns_zone_synapse_studio_id)
+  private_dns_zone_synapse_sql_id = (var.is_vnet_isolated && var.existing_private_dns_zone_synapse_sql_id ==  "" ? azurerm_private_dns_zone.synapse_sql[0].id : var.existing_private_dns_zone_synapse_sql_id)
   private_dns_zone_databricks_workspace_id = (var.is_vnet_isolated && var.deploy_databricks ? azurerm_private_dns_zone.databricks_workspace[0].id : "")
 }
 
