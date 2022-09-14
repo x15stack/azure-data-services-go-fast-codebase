@@ -68,7 +68,8 @@ if ($gitDeploy)
     'Microsoft.OperationsManagement',
     'Microsoft.Synapse',
     'Microsoft.DataFactory',
-    'Microsoft.Sql')
+    'Microsoft.Sql',
+    'Microsoft.Databricks')
     
     ForEach ($provider in $providers) {
         az provider register --namespace $provider --only-show-errors
@@ -123,7 +124,8 @@ else
         'Microsoft.OperationsManagement',
         'Microsoft.Synapse',
         'Microsoft.DataFactory',
-        'Microsoft.Sql')
+        'Microsoft.Sql',
+        'Microsoft.Databricks')
 
         $progress = 0
         Write-Progress -Activity "Registering Azure Resource Providers" -Status "${progress}% Complete:" -PercentComplete $progress
