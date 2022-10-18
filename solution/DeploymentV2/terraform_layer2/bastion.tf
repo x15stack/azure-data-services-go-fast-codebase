@@ -1,5 +1,5 @@
 resource "azurerm_public_ip" "bastion_pip" {
-  count               = (var.is_vnet_isolated ? 1 : 0)
+  count               = (var.is_vnet_isolated && var.deploy_bastion ? 1 : 0)
   name                = local.bastion_ip_name
   location            = var.resource_location
   resource_group_name = var.resource_group_name
@@ -8,7 +8,7 @@ resource "azurerm_public_ip" "bastion_pip" {
 }
 
 resource "azurerm_bastion_host" "bastion" {
-  count               = (var.is_vnet_isolated && var.deploy_bastion? 1 : 0)
+  count               = (var.is_vnet_isolated && var.deploy_bastion ? 1 : 0)
   name                = local.bastion_name
   location            = var.resource_location
   resource_group_name = var.resource_group_name
