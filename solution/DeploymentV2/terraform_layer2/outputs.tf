@@ -256,6 +256,13 @@ output "azurerm_function_app_identity_principal_id" {
   value = var.deploy_function_app ? azurerm_function_app.function_app[0].identity[0].principal_id : ""
 }
 
+output "databricks_workspace_url" {
+  value = azurerm_databricks_workspace.workspace[0].workspace_url
+}
+
+output "databricks_workspace_id" {
+  value = azurerm_databricks_workspace.workspace[0].id
+}
 
 /*Variables from Previous Layer*/
 output "random_uuid_function_app_reg_role_id" {
