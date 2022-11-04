@@ -46,8 +46,8 @@ local tests =
         "SparkTableDBName": "",
         "SparkTableName": "",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate": "Disabled"
-
+        "ModifiedDate": "Disabled",
+        "PrimaryKeyOverride": ""
        
     },
 
@@ -93,7 +93,8 @@ local tests =
         "SparkTableDBName": "TestDB",
         "SparkTableName": "TestTable",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate": "Disabled"
+        "ModifiedDate": "Disabled",
+        "PrimaryKeyOverride": ""
 
        
     },
@@ -139,7 +140,8 @@ local tests =
         "SparkTableDBName": "",
         "SparkTableName": "",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate": "Disabled"
+        "ModifiedDate": "Disabled",
+        "PrimaryKeyOverride": ""
 
        
     },
@@ -185,7 +187,8 @@ local tests =
         "SparkTableDBName": "",
         "SparkTableName": "",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate": "Disabled"
+        "ModifiedDate": "Disabled",
+        "PrimaryKeyOverride": ""
 
        
     },
@@ -231,7 +234,8 @@ local tests =
         "SparkTableDBName": "TestDB",
         "SparkTableName": "TestTable2",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate": "Disabled"
+        "ModifiedDate": "Disabled",
+        "PrimaryKeyOverride": ""
 
        
     },
@@ -277,7 +281,8 @@ local tests =
         "SparkTableDBName": "TestDB",
         "SparkTableName": "TestTable3",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate": "Disabled"
+        "ModifiedDate": "Disabled",
+        "PrimaryKeyOverride": ""
 
        
     },
@@ -323,7 +328,8 @@ local tests =
         "SparkTableDBName": "",
         "SparkTableName": "",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate": "Disabled"
+        "ModifiedDate": "Disabled",
+        "PrimaryKeyOverride": ""
 
        
     },
@@ -369,7 +375,8 @@ local tests =
         "SparkTableDBName": "TestDB",
         "SparkTableName": "TestTable4",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate": "Disabled"
+        "ModifiedDate": "Disabled",
+        "PrimaryKeyOverride": ""
 
        
     },
@@ -417,7 +424,8 @@ local tests =
         "SparkTableDBName": "",
         "SparkTableName": "",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate": "Disabled"
+        "ModifiedDate": "Disabled",
+        "PrimaryKeyOverride": ""
        
     },
 
@@ -463,7 +471,8 @@ local tests =
         "SparkTableDBName": "",
         "SparkTableName": "",
         "UseNotebookActivity": "Disabled",
-        "ModifiedDate": "Disabled"
+        "ModifiedDate": "Disabled",
+        "PrimaryKeyOverride": ""
        
     }
 
@@ -508,7 +517,8 @@ template(
     t.SparkTableDBName,
     t.SparkTableName,
     t.UseNotebookActivity,
-    t.ModifiedDate
+    t.ModifiedDate,
+    t.PrimaryKeyOverride
 );
 
 

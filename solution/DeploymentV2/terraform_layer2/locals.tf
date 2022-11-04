@@ -10,7 +10,7 @@ locals {
   functionapp_url              = "https://${local.functionapp_name}.azurewebsites.net"
   aad_webapp_name              = data.terraform_remote_state.layer1.outputs.aad_webapp_name
   aad_functionapp_name         = data.terraform_remote_state.layer1.outputs.aad_functionapp_name
-  vnet_name                    = (var.vnet_name != "" ? var.vnet_name : module.naming.virtual_network.name)
+  vnet_name                    = (var.existing_vnet_name != "" && var.is_vnet_isolated ? var.existing_vnet_name : var.vnet_name != "" ? var.vnet_name : module.naming.virtual_network.name)
   plink_subnet_name            = (var.plink_subnet_name != "" ? var.plink_subnet_name : "${module.naming.subnet.name}-plink")
   app_service_subnet_name      = (var.app_service_subnet_name != "" ? var.plink_subnet_name : "${module.naming.subnet.name}-appservice")
   vm_subnet_name               = (var.vm_subnet_name != "" ? var.vm_subnet_name : "${module.naming.subnet.name}-vm")

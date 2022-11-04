@@ -36,7 +36,8 @@ function(
     SparkTableName = "",
     SparkTableDBName = "",
     UseNotebookActivity = "Disabled",
-    ModifiedDate = "Disabled"
+    ModifiedDate = "Disabled",
+    PrimaryKeyOverride = ""
     )
 {
     local TaskMasterJson =     
@@ -49,6 +50,7 @@ function(
         "SparkTableName": SparkTableName,
         "UseNotebookActivity": UseNotebookActivity,
         "ModifiedDate": ModifiedDate,
+        "PrimaryKeyOverride": PrimaryKeyOverride,
         "Source":{
             "Type": SourceFormat,                       
             "RelativePath": "samples/SalesLT_Customer_CDC/",

@@ -1,6 +1,6 @@
 {
   "$schema": "./../common_vars_schema.json",
-  "owner_tag": "Contoso",
+  "owner_tag": "arkahna",
   "resource_location": "australiaeast",
   "environment_tag": "stg",
   "domain": "arkahna.io",
@@ -13,29 +13,29 @@
   "tenant_id": "0fee3d31-b963-4a1c-8f4a-ca367205aa65",
   "deployment_principal_layers1and3": "",
   "resource_owners": [
-    "ccbdbba4-669c-48d6-86b8-75c9ab2ee578"
+    "ed0568a1-1ee0-46ee-b7e8-0540c4660de2"
   ],
   "synapse_administrators": {},
   "azure_sql_aad_administrators": {
-    "sql_aad_admin": "ccbdbba4-669c-48d6-86b8-75c9ab2ee578"
+    "sql_aad_admin": "ed0568a1-1ee0-46ee-b7e8-0540c4660de2"
   },
   "azure_purview_data_curators": {
-    "john": "ccbdbba4-669c-48d6-86b8-75c9ab2ee578"
+    "john": "ed0568a1-1ee0-46ee-b7e8-0540c4660de2"
   },
   "synapse_publishers": {},
   "synapse_contributors": {},
-  "WEB_APP_ADMIN_USER": "ccbdbba4-669c-48d6-86b8-75c9ab2ee578",
+  "WEB_APP_ADMIN_USER": "ed0568a1-1ee0-46ee-b7e8-0540c4660de2",
   "WEB_APP_ADMIN_SECURITY_GROUP": "#####",
-  "ARM_SYNAPSE_WORKSPACE_NAME": "arkstgsynwadspxqg",
-  "ARM_KEYVAULT_NAME": "ark-stg-kv-ads-pxqg",
-  "ARM_DATALAKE_NAME": "arkstgdlsadspxqgadsl",
+  "ARM_SYNAPSE_WORKSPACE_NAME": "arkstgsynwadsm3lr",
+  "ARM_KEYVAULT_NAME": "ark-stg-kv-ads-m3lr",
+  "ARM_DATALAKE_NAME": "arkstgdlsadsm3lradsl",
   "ARM_PAL_PARTNER_ID": "0",
-  "GIT_REPOSITORY_NAME": "testLockbox",
-  "GIT_SYNAPSE_REPOSITORY_BRANCH_NAME": "featuretest2",
-  "GIT_USER_NAME": "h-sha",
+  "GIT_REPOSITORY_NAME": "#####",
+  "GIT_SYNAPSE_REPOSITORY_BRANCH_NAME": "#####",
+  "GIT_USER_NAME": "#####",
   "GIT_EMAIL_ADDRESS": "#####",
   "GIT_ADF_REPOSITORY_NAME": "#####",
-  "GIT_ADF_REPOSITORY_BRANCH_NAME": "featuretest2",
+  "GIT_ADF_REPOSITORY_BRANCH_NAME": "#####",
   "GIT_ADF_USER_NAME": "#####",
   "GIT_ADF_EMAIL_ADDRESS": "#####",
   "FeatureTemplateOverrides": {
@@ -43,16 +43,7 @@
     "deployment_layer3_complete": true,
     "synapse_git_toggle": false,
     "adf_git_toggle": false,
-    "deploy_sentinel": false,    
-    "synapse_git_toggle_integration": false,
-    "synapse_git_repository_owner": "h-sha",
-    "synapse_git_repository_name": "testLockbox",
-    "synapse_git_repository_root_folder": "/Synapse",
-    "synapse_git_use_pat": false,
-    "adf_git_toggle_integration": true,
-    "adf_git_repository_owner": "h-sha",
-    "adf_git_repository_name":"testLockbox",
-    "adf_git_repository_root_folder": "/ADF",
-    "adf_git_use_pat": false
+    "deploy_sentinel": false,
+    "synapse_git_toggle_integration": false
   }
 }

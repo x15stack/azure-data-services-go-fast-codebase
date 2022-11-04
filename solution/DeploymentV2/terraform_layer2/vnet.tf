@@ -1,7 +1,6 @@
 
 locals {
   vnet_id = (var.existing_vnet_id == "" && (var.is_vnet_isolated) ? azurerm_virtual_network.vnet[0].id : var.existing_vnet_id)
-  vnet_name = (var.existing_vnet_name == "" && (var.is_vnet_isolated) ? azurerm_virtual_network.vnet[0].name : var.existing_vnet_name)
 }
 
 resource "azurerm_virtual_network" "vnet" {

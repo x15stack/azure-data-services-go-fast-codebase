@@ -93,6 +93,15 @@ function(SourceType = "Parquet", SourceFormat = "Delta",TargetType = "AzureSqlTa
             "options": {
                 "infoText": "(required) This flag is used to control whether an additional column ModifiedDate is added to the output delta table. This column will only update on the output if the corresponding row has been modified or just inserted. Note: This is only used when the source is a parquet type and is not CDC."
             }
+        },
+        "PrimaryKeyOverride": {
+            "type": "string",
+            "options": {
+                "inputAttributes": {
+                    "placeholder": ""
+                },
+                "infoText": "(optional) This will allow you to override the primary key selected and used for the delta table notebook. Note: Leave this blank if you do not wish to use this functionality."
+            }
         },      
         "Source": partials[SourceFormat](),
         "Target": partials[TargetFormat]()
