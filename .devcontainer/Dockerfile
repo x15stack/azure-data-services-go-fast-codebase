@@ -32,12 +32,13 @@ RUN bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "$
     && sudo apt-get update && sudo apt-get install terraform \
     && wget https://github.com/gruntwork-io/terragrunt/releases/download/v0.35.14/terragrunt_linux_amd64 \
     && mv terragrunt_linux_amd64 terragrunt \
-    && chmod u+x terragrunt \
-    && mv terragrunt /usr/local/bin/terragrunt \
+    && sudo chmod +x terragrunt \
+    && sudo mv terragrunt /usr/local/bin/terragrunt \
     && sudo apt-get install -y figlet \
     && sudo apt-get install -y lolcat \
     && sudo gem install lolcat \
     && sudo apt-get install -y boxes 
+
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \

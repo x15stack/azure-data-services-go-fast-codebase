@@ -38,6 +38,14 @@ output "function_app_principal_id" {
   value = var.deploy_function_app ? azurerm_function_app.function_app[0].identity[0].principal_id : ""
 }
 
+output "aad_webapp_name" {
+  value = local.aad_webapp_name
+}
+
+output "aad_functionapp_name" {
+  value = local.aad_functionapp_name
+}
+
 output "azurerm_key_vault_app_vault_id" {
   value = azurerm_key_vault.app_vault.id
 }
