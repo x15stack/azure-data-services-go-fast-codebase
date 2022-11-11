@@ -12,7 +12,7 @@ GO
 
 SET IDENTITY_INSERT [dbo].[SourceAndTargetSystems] ON 
 GO
-INSERT [dbo].[SourceAndTargetSystems] ([SystemId], [SystemName], [SystemType], [SystemDescription], [SystemServer], [SystemAuthType], [SystemUserName], [SystemSecretName], [SystemKeyVaultBaseUrl], [SystemJSON], [ActiveYN], [IsExternal], [DataFactoryIR]) VALUES (-21, N'Sample - PowerBIApp SP', N'PowerBI SP', N'Sample PowerBI SP', N'(external)', N'MSI', NULL, NULL, N'https://$KeyVaultName$.vault.azure.net/', N'{         "ClientId" : "073a7c75-84de-4ace-9dbe-777617a0e3ff"  , "ClientSecretName" : "testSecret"  , "TenantId" : ""    }', 1, 1, NULL)
+INSERT [dbo].[SourceAndTargetSystems] ([SystemId], [SystemName], [SystemType], [SystemDescription], [SystemServer], [SystemAuthType], [SystemUserName], [SystemSecretName], [SystemKeyVaultBaseUrl], [SystemJSON], [ActiveYN], [IsExternal], [DataFactoryIR]) VALUES (-21, N'Sample - PowerBIApp SP', N'PowerBI SP', N'Sample PowerBI SP', N'(external)', N'MSI', NULL, NULL, N'https://$KeyVaultName$.vault.azure.net/', N'{         "ClientId" : "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"  , "ClientSecretName" : "testSecret"  , "TenantId" : ""    }', 1, 1, NULL)
 GO
 SET IDENTITY_INSERT [dbo].[SourceAndTargetSystems] OFF 
 GO
