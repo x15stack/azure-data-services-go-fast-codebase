@@ -33,12 +33,12 @@
       "TaskGroupPriority": 0,
       "TaskInstanceId": -1,
       "TaskInstanceJson": "{\n\n}",
-      "TaskMasterId": -1015,
-      "TaskMasterJson": "{\n    \"SQLPoolName\": \"adsstgsyndpads\",\n    \"SQLPoolOperation\": \"start\",\n    \"Source\": {\n        \"DataFileName\": \"\",\n        \"DeleteAfterCompletion\": \"false\",\n        \"MaxConcurrentConnections\": 0,\n        \"Recursively\": \"false\",\n        \"RelativePath\": \"\",\n        \"SchemaFileName\": \"\",\n        \"Type\": \"Not-Applicable\"\n    },\n    \"Target\": {\n        \"DataFileName\": \"\",\n        \"DeleteAfterCompletion\": \"false\",\n        \"MaxConcurrentConnections\": 0,\n        \"Recursively\": \"false\",\n        \"RelativePath\": \"\",\n        \"SchemaFileName\": \"\",\n        \"Type\": \"Not-Applicable\"\n    }\n}",
+      "TaskMasterId": -1016,
+      "TaskMasterJson": "{\n    \"SQLPoolName\": \"arkstgsyndpads\",\n    \"SQLPoolOperation\": \"start\",\n    \"Source\": {\n        \"DataFileName\": \"\",\n        \"DeleteAfterCompletion\": \"false\",\n        \"MaxConcurrentConnections\": 0,\n        \"Recursively\": \"false\",\n        \"RelativePath\": \"\",\n        \"SchemaFileName\": \"\",\n        \"Type\": \"Not-Applicable\"\n    },\n    \"Target\": {\n        \"DataFileName\": \"\",\n        \"DeleteAfterCompletion\": \"false\",\n        \"MaxConcurrentConnections\": 0,\n        \"Recursively\": \"false\",\n        \"RelativePath\": \"\",\n        \"SchemaFileName\": \"\",\n        \"Type\": \"Not-Applicable\"\n    }\n}",
       "TaskStatus": "Untried",
       "TaskType": "Synapse-SQLPool-Start-Stop",
       "TaskTypeId": -6,
-      "TestDescription": "[-1015]  SQL Dedicated Pool start execution test."
+      "TestDescription": "[-1016]  SQL Dedicated Pool start execution test."
    },
    {
       "DegreeOfCopyParallelism": 1,
@@ -74,11 +74,11 @@
       "TaskGroupPriority": 0,
       "TaskInstanceId": -1,
       "TaskInstanceJson": "{\n\n}",
-      "TaskMasterId": -1016,
-      "TaskMasterJson": "{\n    \"SQLPoolName\": \"adsstgsyndpads\",\n    \"SQLPoolOperation\": \"pause\",\n    \"Source\": {\n        \"DataFileName\": \"\",\n        \"DeleteAfterCompletion\": \"false\",\n        \"MaxConcurrentConnections\": 0,\n        \"Recursively\": \"false\",\n        \"RelativePath\": \"\",\n        \"SchemaFileName\": \"\",\n        \"Type\": \"Not-Applicable\"\n    },\n    \"Target\": {\n        \"DataFileName\": \"\",\n        \"DeleteAfterCompletion\": \"false\",\n        \"MaxConcurrentConnections\": 0,\n        \"Recursively\": \"false\",\n        \"RelativePath\": \"\",\n        \"SchemaFileName\": \"\",\n        \"Type\": \"Not-Applicable\"\n    }\n}",
+      "TaskMasterId": -1017,
+      "TaskMasterJson": "{\n    \"SQLPoolName\": \"arkstgsyndpads\",\n    \"SQLPoolOperation\": \"pause\",\n    \"Source\": {\n        \"DataFileName\": \"\",\n        \"DeleteAfterCompletion\": \"false\",\n        \"MaxConcurrentConnections\": 0,\n        \"Recursively\": \"false\",\n        \"RelativePath\": \"\",\n        \"SchemaFileName\": \"\",\n        \"Type\": \"Not-Applicable\"\n    },\n    \"Target\": {\n        \"DataFileName\": \"\",\n        \"DeleteAfterCompletion\": \"false\",\n        \"MaxConcurrentConnections\": 0,\n        \"Recursively\": \"false\",\n        \"RelativePath\": \"\",\n        \"SchemaFileName\": \"\",\n        \"Type\": \"Not-Applicable\"\n    }\n}",
       "TaskStatus": "Untried",
       "TaskType": "Synapse-SQLPool-Start-Stop",
       "TaskTypeId": -6,
-      "TestDescription": "[-1016]  SQL Dedicated Pool pause execution test."
+      "TestDescription": "[-1017]  SQL Dedicated Pool pause execution test."
    }
 ]
