@@ -34,6 +34,7 @@ RUN bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "$
     && mv terragrunt_linux_amd64 terragrunt \
     && chmod u+x terragrunt \
     && mv terragrunt /usr/local/bin/terragrunt \
+    && chown vscode:vscode /usr/local/bin/terragrunt \
     && sudo apt-get install -y figlet \
     && sudo apt-get install -y lolcat \
     && sudo gem install lolcat \
