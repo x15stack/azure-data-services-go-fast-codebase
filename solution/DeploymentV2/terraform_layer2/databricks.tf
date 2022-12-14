@@ -74,6 +74,5 @@ resource "azurerm_role_assignment" "databricks_data_factory" {
 resource "databricks_repo" "ads_repo" {
   provider  = databricks.created_workspace
   url       = "https://github.com/microsoft/azure-data-services-go-fast-codebase.git"
-  path      = "/Repos/Shared/"
-  branch    = "feature/databricks_adf_linked_service"
+  path      = "/Repos/shared/azure-data-services-go-fast-codebase"
 }
