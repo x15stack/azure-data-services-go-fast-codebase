@@ -9,6 +9,10 @@ terraform {
       source  = "hashicorp/azuread"
       version = "=2.28.0"
     }
+    databricks = {
+      source  = "databricks/databricks"
+      version = "=1.6.5"
+    }
     random = {
       source  = "hashicorp/random"
       version = "=3.3.2"
