@@ -82,6 +82,7 @@ resource "databricks_workspace_conf" "this" {
   custom_config = {
     "enableIpAccessLists" : true
   }
+  depends_on = [databricks_ip_access_list.allowed-list]
 }
 
 resource "databricks_ip_access_list" "allowed-list" {
@@ -92,5 +93,4 @@ resource "databricks_ip_access_list" "allowed-list" {
     var.ip_address, 
     var.ip_address2
   ]
-  depends_on = [databricks_workspace_conf.this]
 }
