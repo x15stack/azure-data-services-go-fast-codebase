@@ -3,34 +3,32 @@
   "owner_tag": "Contoso",
   "resource_location": "australiaeast",
   "environment_tag": "stg",
-  "domain": "microsoft.com",
-  "subscription_id": "035a1364-f00d-48e2-b582-4fe125905ee3",
+  "domain": "x15.com.au",
+  "subscription_id": "1eb4c28b-d2f9-4ef9-b2d2-6efe1cd56ed6",
   "prefix": "ads",
-  "resource_group_name": "gft7",
-  "state_storage_account_name": "gft7state",
-  "ip_address": "144.138.148.220",
-  "ip_address2": "144.138.148.220",
-  "tenant_id": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+  "resource_group_name": "cdp-lbx5-sbx-rsg",
+  "state_storage_account_name": "cdplbx5sbx",
+  "ip_address": "60.242.223.20",
+  "ip_address2": "60.242.223.20",
+  "tenant_id": "285ce709-ed71-4e45-9f9d-78fd28a59b10",
   "deployment_principal_layers1and3": "",
   "resource_owners": [
-    "ccbdbba4-669c-48d6-86b8-75c9ab2ee578"
+    "0fd37444-d087-4e96-9c62-9aaa28f73b8d"
   ],
   "synapse_administrators": {},
   "azure_sql_aad_administrators": {
-    "sql_aad_admin": "6f467924-4d92-40e3-b348-b3154d5cd437",
-    "AdsGoFastDeployerjkcgkaibkungm": "4c732d19-4076-4a76-87f3-6fbfd77f007d",
-    "jorampon@microsoft.com": "ccbdbba4-669c-48d6-86b8-75c9ab2ee578"
+    "sql_aad_admin": "0fd37444-d087-4e96-9c62-9aaa28f73b8d"
   },
   "azure_purview_data_curators": {
-    "john": "ccbdbba4-669c-48d6-86b8-75c9ab2ee578"
+    "chris": "0fd37444-d087-4e96-9c62-9aaa28f73b8d"
   },
   "synapse_publishers": {},
   "synapse_contributors": {},
-  "WEB_APP_ADMIN_USER": "ccbdbba4-669c-48d6-86b8-75c9ab2ee578",
+  "WEB_APP_ADMIN_USER": "0fd37444-d087-4e96-9c62-9aaa28f73b8d",
   "WEB_APP_ADMIN_SECURITY_GROUP": "#####",
-  "ARM_SYNAPSE_WORKSPACE_NAME": "adsstgsynwadslbzz",
-  "ARM_KEYVAULT_NAME": "ads-stg-kv-ads-lbzz",
-  "ARM_DATALAKE_NAME": "adsstgdlsadslbzzadsl",
+  "ARM_SYNAPSE_WORKSPACE_NAME": "adsstgsynwadsl4nd",
+  "ARM_KEYVAULT_NAME": "ads-stg-kv-ads-l4nd",
+  "ARM_DATALAKE_NAME": "adsstgdlsadsl4ndadsl",
   "ARM_PAL_PARTNER_ID": "0",
   "GIT_REPOSITORY_NAME": "testLockbox",
   "GIT_SYNAPSE_REPOSITORY_BRANCH_NAME": "featuretest",
@@ -44,7 +42,7 @@
   "deploy_state_storage_account": false,
   "deploy_cicd_vm": false,
   "FeatureTemplateOverrides": {
-    "is_onprem_datafactory_ir_registered": true,
+    "is_onprem_datafactory_ir_registered": false,
     "deployment_layer3_complete": true,
     "layer0_state": "remote",
     "delay_private_access": true,
